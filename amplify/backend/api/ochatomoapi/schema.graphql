@@ -1,0 +1,31 @@
+type Customer @model {
+  gender: String
+  id: ID!
+  interests: [String]
+  likes: [Like]
+  location: String
+  matches: [String]
+  name: String!
+  photo: String
+  profileText: String
+}
+
+type Like {
+  id: ID!
+  like: Boolean
+}
+
+type ChatRoom @model {
+  id: ID!
+  users: [String]
+  messages: [Message] @connection(keyName: "byChatRoom", fields: ["id"])
+}
+
+type Message @model @key(name: "byChatRoom", fields: ["chatRoomId", "createdAt"]) {
+  id: ID!
+  chatRoomId: ID!
+  content: String!
+  createdAt: String
+  sender: String
+  receiver: String
+}
