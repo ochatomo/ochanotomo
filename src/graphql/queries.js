@@ -104,11 +104,7 @@ export const getMessage = /* GraphQL */ `
   }
 `;
 export const listMessages = /* GraphQL */ `
-  query ListMessages(
-    $filter: ModelMessageFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListMessages($filter: ModelMessageFilterInput, $limit: Int, $nextToken: String) {
     listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -120,6 +116,27 @@ export const listMessages = /* GraphQL */ `
         updatedAt
       }
       nextToken
+    }
+  }
+`;
+
+export const getChatRoomData = /* GraphQL */ `
+  query MyQuery {
+    getChatRoom(id: "quiet_place") {
+      messages {
+        items {
+          content
+          createdAt
+          id
+          receiver
+          sender
+          updatedAt
+        }
+      }
+      createdAt
+      id
+      updatedAt
+      users
     }
   }
 `;
