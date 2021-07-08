@@ -72,8 +72,8 @@ export const onCreateChatRoom = /* GraphQL */ `
           chatRoomId
           content
           createdAt
-          sender
-          receiver
+          sender_id
+          receiver_id
           updatedAt
         }
         nextToken
@@ -94,8 +94,8 @@ export const onUpdateChatRoom = /* GraphQL */ `
           chatRoomId
           content
           createdAt
-          sender
-          receiver
+          sender_id
+          receiver_id
           updatedAt
         }
         nextToken
@@ -116,8 +116,8 @@ export const onDeleteChatRoom = /* GraphQL */ `
           chatRoomId
           content
           createdAt
-          sender
-          receiver
+          sender_id
+          receiver_id
           updatedAt
         }
         nextToken
@@ -134,8 +134,40 @@ export const onCreateMessage = /* GraphQL */ `
       chatRoomId
       content
       createdAt
-      sender
-      receiver
+      sender_id
+      receiver_id
+      sender {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      receiver {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -147,8 +179,40 @@ export const onUpdateMessage = /* GraphQL */ `
       chatRoomId
       content
       createdAt
-      sender
-      receiver
+      sender_id
+      receiver_id
+      sender {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      receiver {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -160,8 +224,40 @@ export const onDeleteMessage = /* GraphQL */ `
       chatRoomId
       content
       createdAt
-      sender
-      receiver
+      sender_id
+      receiver_id
+      sender {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      receiver {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }

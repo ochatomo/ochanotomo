@@ -3,14 +3,13 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createChatRoom } from "../src/graphql/mutations";
-import { getChatRoom, getChatRoomData } from "../src/graphql/queries";
+import { getChatRoom } from "../src/graphql/queries";
+import { getFullChatRoomInfo, text } from "../src/graphql/customQueries";
 
 import { UserContext } from "../contexts/UserContext";
 
-const dummie1 = "lion";
-const dummie2 = "mouse";
-
 export default function MatchList({ navigation }) {
+  console.log("Coming from customQueries", { getFullChatRoomInfo, text });
   const { userIdInfo, userDataInfo } = useContext(UserContext);
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
@@ -42,7 +41,7 @@ export default function MatchList({ navigation }) {
       // 1. check if the chatroom already exists
       console.log({ chatRoomId });
       const res = await API.graphql(
-        graphqlOperation(getChatRoom, { id: chatRoomId, sortDirection: "DESC" })
+        graphqlOperation(getFullChatRoomInfo, { id: chatRoomId, sortDirection: "DESC" })
       );
       console.log("Here is chatroomData", res);
       let chatRoomData = res.data.getChatRoom;
@@ -57,6 +56,8 @@ export default function MatchList({ navigation }) {
         chatRoomData = newChatRoomData.data.createChatRoom;
       }
       console.log({ chatRoomData });
+
+      // 3. move to Chat page
       navigation.navigate("Chat", {
         user2: match,
         chatRoomData: chatRoomData,

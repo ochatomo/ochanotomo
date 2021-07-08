@@ -59,8 +59,12 @@ export const getChatRoom = /* GraphQL */ `
           chatRoomId
           content
           createdAt
-          sender
-          receiver
+          sender {
+            name
+          }
+          receiver {
+            name
+          }
           updatedAt
         }
         nextToken
@@ -120,23 +124,23 @@ export const listMessages = /* GraphQL */ `
   }
 `;
 
-export const getChatRoomData = /* GraphQL */ `
-  query MyQuery {
-    getChatRoom(id: $id) {
-      messages {
-        items {
-          content
-          createdAt
-          id
-          receiver
-          sender
-          updatedAt
-        }
-      }
-      createdAt
-      id
-      updatedAt
-      users
-    }
-  }
-`;
+// export const getChatRoomData = /* GraphQL */ `
+//   query MyQuery {
+//     getChatRoom(id: $id) {
+//       messages {
+//         items {
+//           content
+//           createdAt
+//           id
+//           receiver
+//           sender
+//           updatedAt
+//         }
+//       }
+//       createdAt
+//       id
+//       updatedAt
+//       users
+//     }
+//   }
+// `;

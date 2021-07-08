@@ -26,6 +26,8 @@ type Message @model @key(name: "byChatRoom", fields: ["chatRoomId", "createdAt"]
   chatRoomId: ID!
   content: String!
   createdAt: String
-  sender: String
-  receiver: String
+  sender_id: ID!
+  receiver_id: ID!
+  sender: Customer @connection(fields: ["sender_id"])
+  receiver: Customer @connection(fields: ["receiver_id"])
 }
