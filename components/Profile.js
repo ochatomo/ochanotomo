@@ -21,6 +21,10 @@ export default function Profile({ setNewUser, navigation }) {
   const [profileText, setProfileText] = useState("");
   const [gender, setGender] = useState("");
 
+  useEffect(() => {
+    console.log("Profile loading");
+  }, []);
+
   const saveUserInfo = async () => {
     // databaseに保存
     const user = {
