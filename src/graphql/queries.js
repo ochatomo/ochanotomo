@@ -122,7 +122,7 @@ export const listMessages = /* GraphQL */ `
 
 export const getChatRoomData = /* GraphQL */ `
   query MyQuery {
-    getChatRoom(id: "quiet_place") {
+    getChatRoom(id: $id) {
       messages {
         items {
           content
