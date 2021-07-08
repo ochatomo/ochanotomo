@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ochatomopro-dev-152330-authRole",
+      "UnauthRoleArn": "arn:aws:iam::359591340937:role/amplify-ochatomopro-dev-152330-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::359591340937:role/amplify-ochatomopro-dev-152330-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-ochatomopro-dev-152330-deployment",
+      "UnauthRoleName": "amplify-ochatomopro-dev-152330-unauthRole",
+      "StackName": "amplify-ochatomopro-dev-152330",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:359591340937:stack/amplify-ochatomopro-dev-152330/069b2e80-dfb5-11eb-becf-066265f25571",
+      "AmplifyAppId": "d3crs4rf5moczi"
+    },
+    "categories": {
+      "auth": {
+        "ochatomopro84df2325": {}
+      }
+    }
+  }
+}
