@@ -7,17 +7,24 @@ Amplify.configure({
   },
 });
 
+import { UserProvider } from "./contexts/UserContext";
+
+import "react-native-gesture-handler";
+import { AppNavigator } from "./routes/AppNavigator";
+
 import { withAuthenticator } from "aws-amplify-react-native";
 
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+
+import { API, graphqlOperation } from "aws-amplify";
 
 function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <UserProvider>
+        <AppNavigator />
+      </UserProvider>
     </View>
   );
 }
