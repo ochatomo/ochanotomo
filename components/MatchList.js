@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createChatRoom } from "../src/graphql/mutations";
-import { getChatRoom } from "../src/graphql/queries";
 import { getFullChatRoomInfo, text } from "../src/graphql/customQueries";
 
 import { UserContext } from "../contexts/UserContext";
@@ -25,8 +24,6 @@ export default function MatchList({ navigation }) {
     },
   ]);
   useEffect(() => {}, []);
-
-  // const [chatRoom, setChatRoom] = useState();
 
   function generateChatRoomId(id1, id2) {
     const array = [id1, id2];
@@ -74,7 +71,6 @@ export default function MatchList({ navigation }) {
       </Text>
       <Button
         onPress={() => {
-          // router go back to matchpage
           navigation.navigate("MatchPage");
         }}
         title="戻る"

@@ -1,3 +1,7 @@
+// TODO
+// * data validation for textInput
+// * only update the modified field in updateCustomer
+
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, Button, SafeAreaView } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
