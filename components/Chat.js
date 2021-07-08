@@ -32,10 +32,15 @@ export default function Chat({ route, navigation }) {
       />
       <Text>{user2.name}とお話しましょう！</Text>
 
-      <FlatList data={messages} renderItem={renderItem} inverted />
+      <FlatList data={messages} renderItem={renderItem} />
 
       <Text>Input: {input}</Text>
-      <TextInput placeholder="this is text input" onChangeText={setInput} value={input} />
+      <TextInput
+        placeholder="this is text input"
+        onChangeText={setInput}
+        value={input}
+        style={styles.input}
+      />
       <Button
         title="チャット送信"
         onPress={async () => {
@@ -56,17 +61,6 @@ export default function Chat({ route, navigation }) {
               "Data from message table",
               newMessageData.data.createMessage.content
             );
-
-            // 2. add to chatroom
-            // const res = await API.graphql(
-            //   graphqlOperation(updateChatRoom, {
-            //     input: {
-            //       id: chatRoomId,
-            //       messages: [...messages, newMessage],
-            //     },
-            //   })
-            // );
-            // console.log("---------", res)
           } catch (e) {
             console.log(e);
           }
@@ -75,3 +69,11 @@ export default function Chat({ route, navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+  },
+});
