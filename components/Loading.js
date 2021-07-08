@@ -1,3 +1,6 @@
+// TODO
+// * improve styling
+
 import React from "react";
 import { View, Text, StyleSheet, TextInput, Button, SafeAreaView } from "react-native";
 

@@ -1,16 +1,20 @@
+// TODO
+// * display "** minutes ago" instead of timestamp
+// * clear inputField after user has pressed "チャットを送信"
+
 import React, { useEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, TextInput, Button, FlatList } from "react-native";
+import { UserContext } from "../contexts/UserContext";
 
 import { API, graphqlOperation } from "aws-amplify";
-
-import { createMessage, updateChatRoom } from "../src/graphql/mutations";
-import { UserContext } from "../contexts/UserContext";
+import { createMessage } from "../src/graphql/mutations";
+import { onCreateMessage } from "../src/graphql/subscriptions";
 
 export default function Chat({ route, navigation }) {
   const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
   const { user2, chatRoomData } = route.params;
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(chatRoomData.messages.items);
   const [input, setInput] = useState("");
 
   function renderItem(message) {
@@ -18,9 +22,22 @@ export default function Chat({ route, navigation }) {
   }
 
   useEffect(() => {
-    if (chatRoomData.messages) setMessages(chatRoomData.messages.items);
+    // if (chatRoomData.messages) setMessages(chatRoomData.messages.items);
+
+    const subscription = API.graphql(graphqlOperation(onCreateMessage)).subscribe({
+      next: (data) => {
+        console.log("subscribe---", data);
+        const newMessage = data.value.data.onCreateMessage;
+        console.log({ currentMessages: messages });
+        setMessages([...messages, newMessage]);
+      },
+    });
 
     console.log("this is chatroom messages", chatRoomData.messages.items);
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return (
@@ -48,7 +65,6 @@ export default function Chat({ route, navigation }) {
         title="チャット送信"
         onPress={async () => {
           try {
-            // 1. create a Message
             const newMessageData = await API.graphql(
               graphqlOperation(createMessage, {
                 input: {
