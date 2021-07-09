@@ -28,8 +28,8 @@ export default function Chat({ route, navigation }) {
       next: (data) => {
         console.log("subscribe---", data);
         const newMessage = data.value.data.onCreateMessage;
-        console.log({ currentMessages: messages });
-        setMessages([...messages, newMessage]);
+        console.log("newMessage :", newMessage);
+        setMessages((messages) => [...messages, newMessage]);
       },
     });
 
@@ -75,6 +75,7 @@ export default function Chat({ route, navigation }) {
                 },
               })
             );
+            setInput("");
 
             const newMessage = newMessageData.data.createMessage;
             console.log(
@@ -94,7 +95,7 @@ const Message = (message) => {
   const sender_name = message.message.item.sender.name;
   const content = message.message.item.content;
   const timestamp = message.message.item.createdAt;
-  console.log({ message });
+  console.log(message.message.item.content);
   return (
     <>
       <Text>
