@@ -15,6 +15,10 @@ export default function MatchList({ navigation }) {
 
   const [matches, setMatches] = useState([
     {
+      id: "e727a573-3910-489d-98f9-526258845820",
+      name: "Resty",
+    },
+    {
       id: "f83d15c9-4d43-40e8-b30a-4c97621a439f",
       name: "ゆりこ2",
     },

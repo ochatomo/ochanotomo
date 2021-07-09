@@ -22,8 +22,6 @@ export default function Chat({ route, navigation }) {
   }
 
   useEffect(() => {
-    // if (chatRoomData.messages) setMessages(chatRoomData.messages.items);
-
     const subscription = API.graphql(graphqlOperation(onCreateMessage)).subscribe({
       next: (data) => {
         console.log("subscribe---", data);
