@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect } from "react";
 import Amplify, { Auth } from "aws-amplify";
 
-import { getCustomer } from "../src/graphql/queries";
+import { getCustomer, listCustomers } from "../src/graphql/queries";
 import { API, graphqlOperation } from "aws-amplify";
 
 export const UserContext = createContext();
@@ -17,35 +17,47 @@ export function UserProvider(props) {
     likes: [],
     matches: [],
   });
+  const [allCustomers, setAllCustomers] = useState([]);
+
+  async function getCurrentAuthenticatedUser() {
+    const userInfo = await Auth.currentUserInfo();
+    const id = userInfo.username;
+    setUserId(id);
+
+    console.log(`%c user_id : ${id} `, consoleStyle2);
+    return id;
+  }
+  async function getCurrentUserInfo(userId) {
+    try {
+      // check Customer table to find the current user
+      const res = await API.graphql(graphqlOperation(getCustomer, { id: userId }));
+      const userData = res.data.getCustomer;
+      if (userData) {
+        setIsNewUser(false);
+        setUserData(userData);
+        console.log(`%c username: ${userData.name}`, consoleStyle2);
+      } else {
+        setIsNewUser(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function fetchAllCustomers() {
+    const allCustomersData = await API.graphql(graphqlOperation(listCustomers));
+    console.count(
+      "Fetching all customer info---",
+      allCustomersData.data.listCustomers.items
+    );
+    setAllCustomers(allCustomersData.data.listCustomers.items);
+  }
 
   useEffect(() => {
-    async function getCurrentAuthenticatedUser() {
-      const userInfo = await Auth.currentUserInfo();
-      const id = userInfo.username;
-      setUserId(id);
-
-      console.log(`%c user_id : ${id} `, consoleStyle2);
-      return id;
-    }
-
-    // getuserInfo from backend using Auth-id
-    async function getCurrentUserInfo(userId) {
-      try {
-        const res = await API.graphql(graphqlOperation(getCustomer, { id: userId }));
-        const userData = res.data.getCustomer;
-        if (userData) {
-          setIsNewUser(false);
-          setUserData(userData);
-        } else {
-          setIsNewUser(true);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
     getCurrentAuthenticatedUser().then((id) => {
       getCurrentUserInfo(id);
     });
+    fetchAllCustomers();
   }, []);
 
   return (
@@ -54,6 +66,7 @@ export function UserProvider(props) {
         isNewUserInfo: [isNewUser, setIsNewUser],
         userIdInfo: [userId, setUserId],
         userDataInfo: [userData, setUserData],
+        allCustomerData: [allCustomers, setAllCustomers],
       }}
     >
       {props.children}

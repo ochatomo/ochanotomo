@@ -2,7 +2,7 @@ type Customer @model {
   gender: String
   id: ID!
   interests: [String]
-  likes: [Like]
+  likes: Likes
   location: String
   matches: [String]
   name: String!

@@ -1,5 +1,3 @@
-export const text = "hellooooo";
-
 export const getFullChatRoomInfo = /* GraphQL */ `
   query GetChatRoom($id: ID!) {
     getChatRoom(id: $id) {
@@ -23,6 +21,18 @@ export const getFullChatRoomInfo = /* GraphQL */ `
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const getLikesByCustomerID = /* GraphQL */ `
+  query GetCustomer($id: ID!) {
+    getCustomer(id: $id) {
+      likes {
+        id
+        like
+      }
+      matches
     }
   }
 `;

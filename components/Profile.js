@@ -19,7 +19,7 @@ export default function Profile({ setNewUser, navigation }) {
 
   console.log("This is userData from Context", userData);
   console.log("isNewUser from Context", isNewUser);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(userData.name);
   const [interest, setInterest] = useState("");
   const [location, setLocation] = useState("");
   const [profileText, setProfileText] = useState("");
@@ -64,8 +64,9 @@ export default function Profile({ setNewUser, navigation }) {
       <TextInput
         style={styles.input}
         onChangeText={setName}
-        value={userData.name || name}
+        value={name}
         placeholder="名前（ニックネーム）"
+        required
       />
       <TextInput
         style={styles.input}
