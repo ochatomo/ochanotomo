@@ -15,7 +15,16 @@ export const createCustomer = /* GraphQL */ `
         like
       }
       location
-      matches
+      matches {
+        items {
+          id
+          owner_id
+          customer_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       name
       photo
       profileText
@@ -38,7 +47,16 @@ export const updateCustomer = /* GraphQL */ `
         like
       }
       location
-      matches
+      matches {
+        items {
+          id
+          owner_id
+          customer_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       name
       photo
       profileText
@@ -61,10 +79,115 @@ export const deleteCustomer = /* GraphQL */ `
         like
       }
       location
-      matches
+      matches {
+        items {
+          id
+          owner_id
+          customer_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       name
       photo
       profileText
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createMatch = /* GraphQL */ `
+  mutation CreateMatch(
+    $input: CreateMatchInput!
+    $condition: ModelMatchConditionInput
+  ) {
+    createMatch(input: $input, condition: $condition) {
+      id
+      owner_id
+      customer_id
+      customer {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateMatch = /* GraphQL */ `
+  mutation UpdateMatch(
+    $input: UpdateMatchInput!
+    $condition: ModelMatchConditionInput
+  ) {
+    updateMatch(input: $input, condition: $condition) {
+      id
+      owner_id
+      customer_id
+      customer {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteMatch = /* GraphQL */ `
+  mutation DeleteMatch(
+    $input: DeleteMatchInput!
+    $condition: ModelMatchConditionInput
+  ) {
+    deleteMatch(input: $input, condition: $condition) {
+      id
+      owner_id
+      customer_id
+      customer {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -166,7 +289,9 @@ export const createMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -182,7 +307,9 @@ export const createMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -214,7 +341,9 @@ export const updateMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -230,7 +359,9 @@ export const updateMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -262,7 +393,9 @@ export const deleteMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -278,7 +411,9 @@ export const deleteMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText

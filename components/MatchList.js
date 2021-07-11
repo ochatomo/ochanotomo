@@ -3,31 +3,15 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createChatRoom } from "../src/graphql/mutations";
-import { getFullChatRoomInfo, text } from "../src/graphql/customQueries";
+import { getFullChatRoomInfo } from "../src/graphql/customQueries";
 
 import { UserContext } from "../contexts/UserContext";
 
-export default function MatchList({ navigation }) {
-  console.log("Coming from customQueries", { getFullChatRoomInfo, text });
+export default function MatchList({ route, navigation }) {
   const { userIdInfo, userDataInfo } = useContext(UserContext);
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
-
-  const [matches, setMatches] = useState([
-    {
-      id: "e727a573-3910-489d-98f9-526258845820",
-      name: "Resty",
-    },
-    {
-      id: "f83d15c9-4d43-40e8-b30a-4c97621a439f",
-      name: "ゆりこ2",
-    },
-    {
-      id: "d5d4d62b-3f0e-45fb-a11f-4d0d7fc46685",
-      name: "ゆりこ1",
-    },
-  ]);
-  useEffect(() => {}, []);
+  const { matches } = route.params;
 
   function generateChatRoomId(id1, id2) {
     const array = [id1, id2];
@@ -46,7 +30,7 @@ export default function MatchList({ navigation }) {
       );
       console.log("Here is chatroomData", res);
       let chatRoomData = res.data.getChatRoom;
-      // 2. if it doesn't exist, create a new Chatroom by chatRoomId
+      // 2. if it doesn't exist, create a new Chatroom by the chatRoomId
       if (!chatRoomData) {
         const newChatRoomData = await API.graphql(
           graphqlOperation(createChatRoom, {
