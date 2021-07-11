@@ -24,7 +24,6 @@ export default function Chat({ route, navigation }) {
   useEffect(() => {
     const subscription = API.graphql(graphqlOperation(onCreateMessage)).subscribe({
       next: (data) => {
-        console.log("subscribe---", data);
         const newMessage = data.value.data.onCreateMessage;
         console.log("newMessage :", newMessage);
         setMessages((messages) => [...messages, newMessage]);
@@ -76,10 +75,6 @@ export default function Chat({ route, navigation }) {
             setInput("");
 
             const newMessage = newMessageData.data.createMessage;
-            console.log(
-              "Data from message table",
-              newMessageData.data.createMessage.content
-            );
           } catch (e) {
             console.log(e);
           }

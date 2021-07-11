@@ -12,7 +12,21 @@ export const getCustomer = /* GraphQL */ `
         like
       }
       location
-      matches
+      matches {
+        items {
+          id
+          owner_id
+          customer_id
+          createdAt
+          updatedAt
+          customer {
+            name
+            id
+            photo
+          }
+        }
+        nextToken
+      }
       name
       photo
       profileText
@@ -37,10 +51,66 @@ export const listCustomers = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getMatch = /* GraphQL */ `
+  query GetMatch($id: ID!) {
+    getMatch(id: $id) {
+      id
+      owner_id
+      customer_id
+      customer {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMatches = /* GraphQL */ `
+  query ListMatches($filter: ModelMatchFilterInput, $limit: Int, $nextToken: String) {
+    listMatches(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        owner_id
+        customer_id
+        customer {
+          gender
+          id
+          interests
+          location
+          name
+          photo
+          profileText
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -59,12 +129,8 @@ export const getChatRoom = /* GraphQL */ `
           chatRoomId
           content
           createdAt
-          sender {
-            name
-          }
-          receiver {
-            name
-          }
+          sender_id
+          receiver_id
           updatedAt
         }
         nextToken
@@ -101,8 +167,44 @@ export const getMessage = /* GraphQL */ `
       chatRoomId
       content
       createdAt
-      sender
-      receiver
+      sender_id
+      receiver_id
+      sender {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      receiver {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -115,32 +217,33 @@ export const listMessages = /* GraphQL */ `
         chatRoomId
         content
         createdAt
-        sender
-        receiver
+        sender_id
+        receiver_id
+        sender {
+          gender
+          id
+          interests
+          location
+          name
+          photo
+          profileText
+          createdAt
+          updatedAt
+        }
+        receiver {
+          gender
+          id
+          interests
+          location
+          name
+          photo
+          profileText
+          createdAt
+          updatedAt
+        }
         updatedAt
       }
       nextToken
     }
   }
 `;
-
-// export const getChatRoomData = /* GraphQL */ `
-//   query MyQuery {
-//     getChatRoom(id: $id) {
-//       messages {
-//         items {
-//           content
-//           createdAt
-//           id
-//           receiver
-//           sender
-//           updatedAt
-//         }
-//       }
-//       createdAt
-//       id
-//       updatedAt
-//       users
-//     }
-//   }
-// `;

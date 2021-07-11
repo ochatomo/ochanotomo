@@ -12,7 +12,16 @@ export const onCreateCustomer = /* GraphQL */ `
         like
       }
       location
-      matches
+      matches {
+        items {
+          id
+          owner_id
+          customer_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       name
       photo
       profileText
@@ -32,7 +41,16 @@ export const onUpdateCustomer = /* GraphQL */ `
         like
       }
       location
-      matches
+      matches {
+        items {
+          id
+          owner_id
+          customer_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       name
       photo
       profileText
@@ -52,10 +70,106 @@ export const onDeleteCustomer = /* GraphQL */ `
         like
       }
       location
-      matches
+      matches {
+        items {
+          id
+          owner_id
+          customer_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       name
       photo
       profileText
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateMatch = /* GraphQL */ `
+  subscription OnCreateMatch {
+    onCreateMatch {
+      id
+      owner_id
+      customer_id
+      customer {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMatch = /* GraphQL */ `
+  subscription OnUpdateMatch {
+    onUpdateMatch {
+      id
+      owner_id
+      customer_id
+      customer {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMatch = /* GraphQL */ `
+  subscription OnDeleteMatch {
+    onDeleteMatch {
+      id
+      owner_id
+      customer_id
+      customer {
+        gender
+        id
+        interests
+        likes {
+          id
+          like
+        }
+        location
+        matches {
+          nextToken
+        }
+        name
+        photo
+        profileText
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -145,7 +259,9 @@ export const onCreateMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -161,7 +277,9 @@ export const onCreateMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -190,7 +308,9 @@ export const onUpdateMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -206,7 +326,9 @@ export const onUpdateMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -235,7 +357,9 @@ export const onDeleteMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
@@ -251,7 +375,9 @@ export const onDeleteMessage = /* GraphQL */ `
           like
         }
         location
-        matches
+        matches {
+          nextToken
+        }
         name
         photo
         profileText
