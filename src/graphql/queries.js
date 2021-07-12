@@ -6,7 +6,10 @@ export const getCustomer = /* GraphQL */ `
     getCustomer(id: $id) {
       gender
       id
-      interests
+      interests {
+        category
+        hobby
+      }
       likes {
         id
         like
@@ -19,11 +22,6 @@ export const getCustomer = /* GraphQL */ `
           customer_id
           createdAt
           updatedAt
-          customer {
-            name
-            id
-            photo
-          }
         }
         nextToken
       }
@@ -45,7 +43,10 @@ export const listCustomers = /* GraphQL */ `
       items {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -73,7 +74,10 @@ export const getMatch = /* GraphQL */ `
       customer {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -94,7 +98,11 @@ export const getMatch = /* GraphQL */ `
   }
 `;
 export const listMatches = /* GraphQL */ `
-  query ListMatches($filter: ModelMatchFilterInput, $limit: Int, $nextToken: String) {
+  query ListMatches(
+    $filter: ModelMatchFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
     listMatches(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -103,7 +111,6 @@ export const listMatches = /* GraphQL */ `
         customer {
           gender
           id
-          interests
           location
           name
           photo
@@ -172,7 +179,10 @@ export const getMessage = /* GraphQL */ `
       sender {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -190,7 +200,10 @@ export const getMessage = /* GraphQL */ `
       receiver {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -210,7 +223,11 @@ export const getMessage = /* GraphQL */ `
   }
 `;
 export const listMessages = /* GraphQL */ `
-  query ListMessages($filter: ModelMessageFilterInput, $limit: Int, $nextToken: String) {
+  query ListMessages(
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
     listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -222,7 +239,6 @@ export const listMessages = /* GraphQL */ `
         sender {
           gender
           id
-          interests
           location
           name
           photo
@@ -233,7 +249,6 @@ export const listMessages = /* GraphQL */ `
         receiver {
           gender
           id
-          interests
           location
           name
           photo
