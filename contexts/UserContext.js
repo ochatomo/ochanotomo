@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
-import Amplify, { Auth } from "aws-amplify";
+import { Auth } from "aws-amplify";
 
 import { getCustomer, listCustomers } from "../src/graphql/queries";
 import { API, graphqlOperation } from "aws-amplify";
@@ -35,6 +35,8 @@ export function UserProvider(props) {
       if (userData) {
         setIsNewUser(false);
         setUserData(userData);
+
+        console.log("setting userdata", userData);
         console.log(`%c username: ${userData.name}`, consoleStyle2);
       } else {
         setIsNewUser(true);

@@ -11,10 +11,11 @@ import { UserContext } from "../contexts/UserContext";
 const { Navigator, Screen } = createStackNavigator();
 
 const HomeNavigator = () => {
-  const { isNewUserInfo } = useContext(UserContext);
+  const { isNewUserInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
+  const [userData] = userDataInfo;
 
-  if (isNewUser === undefined) {
+  if (isNewUser === undefined || userData.id === "") {
     return <Loading />;
   }
 

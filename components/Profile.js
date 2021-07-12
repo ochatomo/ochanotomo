@@ -3,7 +3,7 @@
 // * only update the modified field in updateCustomer
 
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, Button, SafeAreaView } from "react-native";
+import { Text, StyleSheet, TextInput, Button, SafeAreaView } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
 import { UserContext } from "../contexts/UserContext";
@@ -17,17 +17,11 @@ export default function Profile({ setNewUser, navigation }) {
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
 
-  console.log("This is userData from Context", userData);
-  console.log("isNewUser from Context", isNewUser);
   const [name, setName] = useState(userData.name);
   const [interest, setInterest] = useState("");
   const [location, setLocation] = useState("");
   const [profileText, setProfileText] = useState("");
   const [gender, setGender] = useState("");
-
-  useEffect(() => {
-    console.log("Profile loading");
-  }, []);
 
   const saveUserInfo = async () => {
     // databaseに保存
@@ -46,9 +40,7 @@ export default function Profile({ setNewUser, navigation }) {
     } else {
       // 本当は変更があるfieldのみを投げる。
       const query = { id: userId, name, location, profileText };
-      const userData = await API.graphql(
-        graphqlOperation(updateCustomer, { input: query })
-      );
+      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
     }
     navigation.navigate("MatchPage");
   };
