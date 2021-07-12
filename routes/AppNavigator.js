@@ -11,11 +11,12 @@ import { UserContext } from "../contexts/UserContext";
 const { Navigator, Screen } = createStackNavigator();
 
 const HomeNavigator = () => {
-  const { isNewUserInfo, userDataInfo } = useContext(UserContext);
+  const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
+  const [userId] = userIdInfo;
   const [userData] = userDataInfo;
 
-  if (isNewUser === undefined || userData.id === "") {
+  if (isNewUser === undefined) {
     return <Loading />;
   }
 
@@ -54,6 +55,48 @@ const HomeNavigator = () => {
       )}
     </Navigator>
   );
+
+  //   if (isNewUser) {
+  //     return (
+  //       <Navigator headerMode="float">
+  //         <>
+  //           <Screen name="Profile" component={Profile} options={{ title: "Profile" }} />
+  //           <Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
+  //           <Screen
+  //             name="MatchList"
+  //             component={MatchList}
+  //             options={{ title: "MatchList" }}
+  //           />
+  //           <Screen
+  //             name="MatchPage"
+  //             component={MatchPage}
+  //             options={{ title: "MatchPage" }}
+  //           />
+  //         </>
+  //       </Navigator>
+  //     );
+  //   }
+
+  //   if (!isNewUser || userData.id !== "") {
+  //     return (
+  //       <Navigator headerMode="float">
+  //         <>
+  //           <Screen
+  //             name="MatchPage"
+  //             component={MatchPage}
+  //             options={{ title: "MatchPage" }}
+  //           />
+  //           <Screen name="Profile" component={Profile} options={{ title: "Profile" }} />
+  //           <Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
+  //           <Screen
+  //             name="MatchList"
+  //             component={MatchList}
+  //             options={{ title: "MatchList" }}
+  //           />
+  //         </>
+  //       </Navigator>
+  //     );
+  //   }
 };
 
 export const AppNavigator = () => (
