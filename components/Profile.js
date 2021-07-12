@@ -3,7 +3,14 @@
 // * only update the modified field in updateCustomer
 
 import React, { useState, useContext, useEffect } from "react";
-import { Text, StyleSheet, TextInput, Button, SafeAreaView } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
 import { UserContext } from "../contexts/UserContext";
@@ -12,6 +19,7 @@ import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
 import { interestTable } from "../utils/helper";
+// import { BackgroundButton } from "../styles/BackgroundButton";
 
 export default function Profile({ setNewUser, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
@@ -113,6 +121,16 @@ export default function Profile({ setNewUser, navigation }) {
         placeholder="名前（ニックネーム）"
         required
       />
+      <TextInput
+        style={styles.input}
+        onChangeText={setProfileText}
+        value={userData.profileText || profileText}
+        placeholder="自己紹介しましょう！"
+      />
+      <Text style={styles.label}>hekkiii</Text>
+      <TouchableOpacity style={styles.label}>
+        <Text>hellooo</Text>
+      </TouchableOpacity>
       <RNPickerSelect
         onValueChange={setCategory}
         items={[
@@ -166,12 +184,6 @@ export default function Profile({ setNewUser, navigation }) {
         )}
       />
 
-      <TextInput
-        style={styles.input}
-        onChangeText={setProfileText}
-        value={userData.profileText || profileText}
-        placeholder="自己紹介"
-      />
       <RNPickerSelect
         onValueChange={setLocation}
         items={[
@@ -277,6 +289,12 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
+  },
+  label: {
+    color: "#fff",
+    backgroundColor: "#0094CE",
+    borderRadius: 44,
+    padding: "20px 44px",
   },
 });
 
