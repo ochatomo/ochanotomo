@@ -118,9 +118,11 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   const handleLike = async (user2Info) => {
     await saveLike(user2Info, true);
     const isMatch = await checkLike(userData.id, user2Info.id);
+    console.log({ isMatch });
 
     // if successful match, save to the database
     if (isMatch) {
+      console.log("saving match");
       await saveMatch(userData.id, user2Info.id);
     }
 
@@ -145,7 +147,8 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
     const filteredLikes = likes.filter((like) => like.id === user1ID);
     if (filteredLikes.length === 0) return false;
     else {
-      return filteredLikes.like;
+      console.log("like?", filteredLikes);
+      return filteredLikes[0].like;
     }
   };
 
@@ -162,6 +165,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
       <Button
         onPress={() => {
           // clean up matches data
+          console.log(userData.matches.items);
           const matches = userData.matches.items.map((item) => ({
             name: item.customer.name,
             id: item.customer.id,
