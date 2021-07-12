@@ -2,6 +2,7 @@ import React, { useState, createContext, useEffect } from "react";
 import { Auth } from "aws-amplify";
 
 import { getCustomer, listCustomers } from "../src/graphql/queries";
+import { getCustomerWithMatches } from "../src/graphql/customQueries";
 import { API, graphqlOperation } from "aws-amplify";
 
 export const UserContext = createContext();
@@ -29,8 +30,11 @@ export function UserProvider(props) {
   }
   async function getCurrentUserInfo(userId) {
     try {
+      console.log("exportできてるかな？", getCustomerWithMatches);
       // check Customer table to find the current user
-      const res = await API.graphql(graphqlOperation(getCustomer, { id: userId }));
+      const res = await API.graphql(
+        graphqlOperation(getCustomerWithMatches, { id: userId })
+      );
       const userData = res.data.getCustomer;
       if (userData) {
         console.log("------Context userData", userData);
