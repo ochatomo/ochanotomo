@@ -14,10 +14,8 @@ import { AppNavigator } from "./routes/AppNavigator";
 
 import { withAuthenticator } from "aws-amplify-react-native";
 
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-
-import { API, graphqlOperation } from "aws-amplify";
 
 function App() {
   return (

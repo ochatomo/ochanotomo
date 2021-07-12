@@ -32,7 +32,6 @@ export const getLikesByCustomerID = /* GraphQL */ `
         id
         like
       }
-      matches
     }
   }
 `;

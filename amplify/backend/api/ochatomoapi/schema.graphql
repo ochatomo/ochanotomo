@@ -2,17 +2,24 @@ type Customer @model {
   gender: String
   id: ID!
   interests: [String]
-  likes: Likes
+  likes: [Like]
   location: String
-  matches: [String]
+  matches: [Match] @connection(keyName: "byOwnerId", fields: ["id"])
   name: String!
   photo: String
   profileText: String
 }
 
+type Match @model @key(name: "byOwnerId", fields: ["owner_id"]) {
+  id: ID!
+  owner_id: ID!
+  customer_id: ID!
+  customer: Customer @connection(fields: ["customer_id"])
+}
+
 type Like {
   id: ID!
-  like: Boolean
+  like: Boolean!
 }
 
 type ChatRoom @model {
