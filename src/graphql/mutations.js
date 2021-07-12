@@ -9,7 +9,10 @@ export const createCustomer = /* GraphQL */ `
     createCustomer(input: $input, condition: $condition) {
       gender
       id
-      interests
+      interests {
+        category
+        hobby
+      }
       likes {
         id
         like
@@ -41,7 +44,10 @@ export const updateCustomer = /* GraphQL */ `
     updateCustomer(input: $input, condition: $condition) {
       gender
       id
-      interests
+      interests {
+        category
+        hobby
+      }
       likes {
         id
         like
@@ -73,7 +79,10 @@ export const deleteCustomer = /* GraphQL */ `
     deleteCustomer(input: $input, condition: $condition) {
       gender
       id
-      interests
+      interests {
+        category
+        hobby
+      }
       likes {
         id
         like
@@ -109,7 +118,10 @@ export const createMatch = /* GraphQL */ `
       customer {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -141,7 +153,10 @@ export const updateMatch = /* GraphQL */ `
       customer {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -173,7 +188,10 @@ export const deleteMatch = /* GraphQL */ `
       customer {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -283,7 +301,10 @@ export const createMessage = /* GraphQL */ `
       sender {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -301,7 +322,10 @@ export const createMessage = /* GraphQL */ `
       receiver {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -335,7 +359,10 @@ export const updateMessage = /* GraphQL */ `
       sender {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -353,7 +380,10 @@ export const updateMessage = /* GraphQL */ `
       receiver {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -387,7 +417,10 @@ export const deleteMessage = /* GraphQL */ `
       sender {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like
@@ -405,7 +438,10 @@ export const deleteMessage = /* GraphQL */ `
       receiver {
         gender
         id
-        interests
+        interests {
+          category
+          hobby
+        }
         likes {
           id
           like

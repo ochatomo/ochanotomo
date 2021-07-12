@@ -33,8 +33,9 @@ export function UserProvider(props) {
       const res = await API.graphql(graphqlOperation(getCustomer, { id: userId }));
       const userData = res.data.getCustomer;
       if (userData) {
-        setIsNewUser(false);
+        console.log("------Context userData", userData);
         setUserData(userData);
+        setIsNewUser(false);
 
         console.log("setting userdata", userData);
         console.log(`%c username: ${userData.name}`, consoleStyle2);
@@ -56,10 +57,10 @@ export function UserProvider(props) {
   }
 
   useEffect(() => {
-    getCurrentAuthenticatedUser().then((id) => {
-      getCurrentUserInfo(id);
+    getCurrentAuthenticatedUser().then(async (id) => {
+      await fetchAllCustomers();
+      await getCurrentUserInfo(id);
     });
-    fetchAllCustomers();
   }, []);
 
   return (

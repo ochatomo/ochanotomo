@@ -13,6 +13,9 @@ import { updateCustomer, createMatch } from "../src/graphql/mutations";
 import { getLikesByCustomerID } from "../src/graphql/customQueries";
 import { API, graphqlOperation } from "aws-amplify";
 import { useEffect } from "react/cjs/react.development";
+import { calcLocation } from "../utils/location";
+import { calcCategory } from "../utils/category ";
+import { calcHobby } from "../utils/hobby";
 
 export default function MatchPage({ userInfo, setNewUser, navigation }) {
   const { allCustomerData, userDataInfo } = useContext(UserContext);
@@ -21,25 +24,63 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   const [likes, setLikes] = useState(userData.likes);
   const [currentIdx, setIdx] = useState(0);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
+    console.log("Component loading", { allCustomers });
     // filter out customers whose id is already registered in the likes of currentUser
     // && also exclude youself
+
     const filteredCustomers = allCustomers.filter(
       (customer) =>
         !userData.likes.some((like) => like.id === customer.id) &&
         customer.id !== userData.id
     );
-    console.log(
-      { filteredCustomers },
-      userData.likes.includes("f83d15c9-4d43-40e8-b30a-4c97621a439f")
-    );
-    setFilteredCustomers(filteredCustomers);
+
+    // matching algorithmによるsorting
+    console.log({ filteredCustomers });
+    const calculatedCustomers = calcScore(filteredCustomers);
+    calculatedCustomers.sort((a, b) => b.score - a.score);
+    console.log({ calculatedCustomers });
+
+    // console.log(
+    //   { filteredCustomers },
+    //   userData.likes.includes("f83d15c9-4d43-40e8-b30a-4c97621a439f")
+    // );
+    setFilteredCustomers(calculatedCustomers);
   }, []);
+
+  const calcScore = (customers) => {
+    const myLocation = userData.location; // int
+    const myCategory = userData.interests[0].category; // int
+    const myHobby = userData.interests[0].hobby; // int
+    const customerWithScore = customers.map((customer) => {
+      console.log(customer);
+      const locationScore = calcLocation(myLocation, customer.location);
+      const customerCategory = customer.interests[0].category;
+
+      const categoryScore = calcCategory(myCategory, customerCategory);
+      const hobbyScore =
+        myCategory === customerCategory
+          ? calcHobby(myCategory, myHobby, customer.interests[0].hobby)
+          : 0;
+
+      const totalScore = locationScore + categoryScore + hobbyScore;
+      console.log({ locationScore, categoryScore, hobbyScore, totalScore });
+      customer.score = totalScore;
+      return customer;
+    });
+
+    console.log({ customerWithScore });
+    return customerWithScore;
+  };
 
   const incrementIdx = () => {
     const max = filteredCustomers.length - 1;
-    if (currentIdx >= max) return;
+    if (currentIdx >= max) {
+      setMessage("全員をスワイプしました");
+      return;
+    }
     setIdx(currentIdx + 1);
   };
 
@@ -78,11 +119,11 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
     await saveLike(user2Info, true);
     const isMatch = await checkLike(userData.id, user2Info.id);
 
-    // if unsuccessful match, do nothing
-    if (!isMatch) return;
+    // if successful match, save to the database
+    if (isMatch) {
+      await saveMatch(userData.id, user2Info.id);
+    }
 
-    // Otherwise, save the match to user1 & user2's table
-    await saveMatch(userData.id, user2Info.id);
     incrementIdx();
   };
 
@@ -101,7 +142,11 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
     const likes = res.data.getCustomer.likes;
 
     if (likes.length === 0) return false;
-    return likes.filter((like) => like.id === user1ID)[0].like;
+    const filteredLikes = likes.filter((like) => like.id === user1ID);
+    if (filteredLikes.length === 0) return false;
+    else {
+      return filteredLikes.like;
+    }
   };
 
   return (
@@ -130,6 +175,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
         color="#841584"
         accessibilityLabel="保存ボタン"
       />
+      <Text>{message !== "" && message}</Text>
       <Text>
         {filteredCustomers.length > 0
           ? filteredCustomers[currentIdx].name
