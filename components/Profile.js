@@ -1,5 +1,5 @@
 // TODO
-// * data validation for textInput
+// *  editしたプロフィールなどがリアルタイムで見れるようにする。
 // * only update the modified field in updateCustomer
 
 import React, { useState, useContext, useEffect } from "react";
@@ -11,6 +11,8 @@ import { UserContext } from "../contexts/UserContext";
 import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
+import { interestTable } from "../utils/helper";
+
 export default function Profile({ setNewUser, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
@@ -18,28 +20,75 @@ export default function Profile({ setNewUser, navigation }) {
   const [userData] = userDataInfo;
 
   const [name, setName] = useState(userData.name);
-  const [interest, setInterest] = useState("");
+  const [hobby, setHobby] = useState("");
   const [location, setLocation] = useState("");
   const [profileText, setProfileText] = useState("");
   const [gender, setGender] = useState("");
+  const [category, setCategory] = useState("");
+  const [interestList, setInterestList] = useState([{ label: "", value: "" }]);
+  const [error, setError] = useState([]);
+
+  useEffect(() => {
+    if (category === "") return;
+    let interestList = interestTable[category].map((interest, index) => {
+      if (interest === "その他") return { label: interest, value: 99 };
+      return { label: interest, value: index };
+    });
+    setInterestList(interestList);
+  }, [category]);
+
+  const validateInput = () => {
+    if (name === "") {
+      console.log("if statement with name");
+      setError((errors) => [...errors, "お名前を入力してください。"]);
+    }
+
+    if (hobby === "") setError((error) => [...error, "趣味を選んでください。"]);
+
+    if (location === "") setError((error) => [...error, "都道府県を選んでください。"]);
+    if (profileText === "")
+      setError((error) => [...error, "プロフィールを入力してください。"]);
+    else {
+      return true;
+    }
+  };
 
   const saveUserInfo = async () => {
     // databaseに保存
-    const user = {
-      id: userId,
-      name,
-      interests: [interest],
-      location,
-      profileText,
-    };
+    setError("");
+    const isValid = validateInput();
+    console.log(error);
+
+    if (!isValid) {
+      console.log(error);
+      return;
+    }
+
+    console.log("saving to database", category, hobby);
+
     if (isNewUser) {
+      const user = {
+        id: userId,
+        name: name,
+        interests: [{ category, hobby }],
+        location,
+        profileText,
+        likes: [],
+      };
       const userData = await API.graphql(
         graphqlOperation(createCustomer, { input: user })
       );
       console.log({ userData });
     } else {
       // 本当は変更があるfieldのみを投げる。
-      const query = { id: userId, name, location, profileText };
+
+      const query = {
+        id: userId,
+        name,
+        location,
+        profileText,
+        interests: [{ category, hobby }],
+      };
       await API.graphql(graphqlOperation(updateCustomer, { input: query }));
     }
     navigation.navigate("MatchPage");
@@ -47,10 +96,14 @@ export default function Profile({ setNewUser, navigation }) {
 
   return (
     <SafeAreaView>
+      {error.length > 0 &&
+        error.map((error, index) => {
+          return <Text key="index">{error}</Text>;
+        })}
       <Text>isNewUser: {String(isNewUser)}</Text>
       <Text>This is name{name}</Text>
       <Text>This is location{location}</Text>
-      <Text>This is interest{interest}</Text>
+      <Text>This is interest{hobby}</Text>
       <Text>This is profileText{profileText}</Text>
       <Text>This is gender{gender}</Text>
       <TextInput
@@ -60,12 +113,59 @@ export default function Profile({ setNewUser, navigation }) {
         placeholder="名前（ニックネーム）"
         required
       />
-      <TextInput
-        style={styles.input}
-        onChangeText={setInterest}
-        value={interest}
-        placeholder="趣味"
+      <RNPickerSelect
+        onValueChange={setCategory}
+        items={[
+          { label: "音楽系", value: 0 },
+          { label: "鑑賞系", value: 1 },
+          { label: "美容系", value: 2 },
+          { label: "旅行系", value: 3 },
+          { label: "スポーツ系", value: 4 },
+          { label: "アウトドア系", value: 5 },
+          { label: "ゲーム系", value: 6 },
+          { label: "制作系", value: 7 },
+          { label: "育成系", value: 8 },
+          { label: "飲食系", value: 9 },
+          { label: "スキル系", value: 10 },
+          { label: "乗り物系", value: 11 },
+          { label: "芸術系", value: 12 },
+        ]}
+        style={pickerSelectStyles}
+        placeholder={{ label: "趣味を教えてください", value: "" }}
+        Icon={() => (
+          <Text
+            style={{
+              position: "absolute",
+              right: 95,
+              top: 10,
+              fontSize: 18,
+              color: "#789",
+            }}
+          >
+            ▼
+          </Text>
+        )}
       />
+      <RNPickerSelect
+        onValueChange={setHobby}
+        items={interestList}
+        style={pickerSelectStyles}
+        placeholder={{ label: "趣味を教えてください", value: "" }}
+        Icon={() => (
+          <Text
+            style={{
+              position: "absolute",
+              right: 95,
+              top: 10,
+              fontSize: 18,
+              color: "#789",
+            }}
+          >
+            ▼
+          </Text>
+        )}
+      />
+
       <TextInput
         style={styles.input}
         onChangeText={setProfileText}
@@ -75,8 +175,53 @@ export default function Profile({ setNewUser, navigation }) {
       <RNPickerSelect
         onValueChange={setLocation}
         items={[
-          { label: "北海道", value: "北海道" },
-          { label: "青森県", value: "青森県" },
+          { label: "北海道", value: 1 },
+          { label: "青森県", value: 2 },
+          { label: "岩手県", value: 3 },
+          { label: "宮城県", value: 4 },
+          { label: "秋田県", value: 5 },
+          { label: "山形県", value: 6 },
+          { label: "福島県", value: 7 },
+          { label: "茨城県", value: 8 },
+          { label: "栃木県", value: 9 },
+          { label: "群馬県", value: 10 },
+          { label: "埼玉県", value: 11 },
+          { label: "千葉県", value: 12 },
+          { label: "東京都", value: 13 },
+          { label: "神奈川県", value: 14 },
+          { label: "新潟県", value: 15 },
+          { label: "富山県", value: 16 },
+          { label: "石川県", value: 17 },
+          { label: "福井県", value: 18 },
+          { label: "山梨県", value: 19 },
+          { label: "長野県", value: 20 },
+          { label: "岐阜県", value: 21 },
+          { label: "静岡県", value: 22 },
+          { label: "愛知県", value: 23 },
+          { label: "三重県", value: 24 },
+          { label: "滋賀県", value: 25 },
+          { label: "京都府", value: 26 },
+          { label: "大阪府", value: 27 },
+          { label: "兵庫県", value: 28 },
+          { label: "奈良県", value: 29 },
+          { label: "和歌山県", value: 30 },
+          { label: "鳥取県", value: 31 },
+          { label: "島根県", value: 32 },
+          { label: "岡山県", value: 33 },
+          { label: "広島県", value: 34 },
+          { label: "山口県", value: 35 },
+          { label: "徳島県", value: 36 },
+          { label: "香川県", value: 37 },
+          { label: "愛媛県", value: 38 },
+          { label: "高知県", value: 39 },
+          { label: "福岡県", value: 40 },
+          { label: "佐賀県", value: 41 },
+          { label: "長崎県", value: 42 },
+          { label: "熊本県", value: 43 },
+          { label: "大分県", value: 44 },
+          { label: "宮崎県", value: 45 },
+          { label: "鹿児島県", value: 46 },
+          { label: "沖縄県", value: 47 },
         ]}
         style={pickerSelectStyles}
         placeholder={{ label: "都道府県を選択してください", value: "" }}
@@ -123,53 +268,6 @@ export default function Profile({ setNewUser, navigation }) {
         color="#841584"
         accessibilityLabel="保存ボタン"
       />
-      {/* <option value="1">北海道</option>
-        <option value="2">青森県</option>
-        <option value="3">岩手県</option>
-        <option value="4">宮城県</option>
-        <option value="5">秋田県</option>
-        <option value="6">山形県</option>
-        <option value="7">福島県</option>
-        <option value="8">茨城県</option>
-        <option value="9">栃木県</option>
-        <option value="10">群馬県</option>
-        <option value="11">埼玉県</option>
-        <option value="12">千葉県</option>
-        <option value="13">東京都</option>
-        <option value="14">神奈川県</option>
-        <option value="15">新潟県</option>
-        <option value="16">富山県</option>
-        <option value="17">石川県</option>
-        <option value="18">福井県</option>
-        <option value="19">山梨県</option>
-        <option value="20">長野県</option>
-        <option value="21">岐阜県</option>
-        <option value="22">静岡県</option>
-        <option value="23">愛知県</option>
-        <option value="24">三重県</option>
-        <option value="25">滋賀県</option>
-        <option value="26">京都府</option>
-        <option value="27">大阪府</option>
-        <option value="28">兵庫県</option>
-        <option value="29">奈良県</option>
-        <option value="30">和歌山県</option>
-        <option value="31">鳥取県</option>
-        <option value="32">島根県</option>
-        <option value="33">岡山県</option>
-        <option value="34">広島県</option>
-        <option value="35">山口県</option>
-        <option value="36">徳島県</option>
-        <option value="37">香川県</option>
-        <option value="38">愛媛県</option>
-        <option value="39">高知県</option>
-        <option value="40">福岡県</option>
-        <option value="41">佐賀県</option>
-        <option value="42">長崎県</option>
-        <option value="43">熊本県</option>
-        <option value="44">大分県</option>
-        <option value="45">宮崎県</option>
-        <option value="46">鹿児島県</option>
-        <option value="47">沖縄県</option> */}
     </SafeAreaView>
   );
 }

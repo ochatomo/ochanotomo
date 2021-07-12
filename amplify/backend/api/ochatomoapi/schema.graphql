@@ -1,13 +1,18 @@
 type Customer @model {
   gender: String
   id: ID!
-  interests: [String]
+  interests: [Interest]
   likes: [Like]
   location: String
   matches: [Match] @connection(keyName: "byOwnerId", fields: ["id"])
   name: String!
   photo: String
   profileText: String
+}
+
+type Interest {
+  category: String!
+  hobby: String!
 }
 
 type Match @model @key(name: "byOwnerId", fields: ["owner_id"]) {
