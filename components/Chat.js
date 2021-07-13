@@ -26,7 +26,9 @@ export default function Chat({ route, navigation }) {
       next: (data) => {
         const newMessage = data.value.data.onCreateMessage;
         console.log("newMessage :", newMessage);
-        setMessages((messages) => [...messages, newMessage]);
+        if (newMessage.chatRoomId === chatRoomData.id) {
+          setMessages((messages) => [...messages, newMessage]);
+        }
       },
     });
 

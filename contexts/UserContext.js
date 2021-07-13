@@ -2,6 +2,8 @@ import React, { useState, createContext, useEffect } from "react";
 import { Auth } from "aws-amplify";
 
 import { getCustomer, listCustomers } from "../src/graphql/queries";
+import { onUpdateCustomer } from "../src/graphql/subscriptions";
+
 import { getCustomerWithMatches } from "../src/graphql/customQueries";
 import { API, graphqlOperation } from "aws-amplify";
 
@@ -59,8 +61,24 @@ export function UserProvider(props) {
     getCurrentAuthenticatedUser().then(async (id) => {
       await fetchAllCustomers();
       await getCurrentUserInfo(id);
+
+      // subscribe to realtime database, listen to onUpdateCustomer
     });
   }, []);
+
+  useEffect(() => {
+    const subscription = API.graphql(graphqlOperation(onUpdateCustomer)).subscribe({
+      next: (data) => {
+        console.log("updateCustomer", data);
+        // 直す
+        const newUserData = data.value.value.onUpdateCustomer;
+        setUserData(newUserData);
+      },
+    });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [userData]);
 
   return (
     <UserContext.Provider
