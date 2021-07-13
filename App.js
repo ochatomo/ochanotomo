@@ -15,14 +15,14 @@ import { AppNavigator } from "./routes/AppNavigator";
 import { withAuthenticator } from "aws-amplify-react-native";
 
 import React from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 function App() {
   return (
     // <View style={styles.container}>
-      <UserProvider>
-        <AppNavigator />
-      </UserProvider>
+    <UserProvider>
+      <AppNavigator />
+    </UserProvider>
     // </View>
   );
 }

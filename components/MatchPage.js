@@ -10,6 +10,7 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 
 import { updateCustomer, createMatch } from "../src/graphql/mutations";
+import { onCreateMatch } from "../src/graphql/subscriptions";
 import { getLikesByCustomerID } from "../src/graphql/customQueries";
 import { API, graphqlOperation } from "aws-amplify";
 import { useEffect } from "react/cjs/react.development";
@@ -25,6 +26,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   const [currentIdx, setIdx] = useState(0);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [message, setMessage] = useState("");
+  const [matches, setMatches] = useState([]);
 
   useEffect(() => {
     console.log("Component loading", { allCustomers });
@@ -43,11 +45,35 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
     calculatedCustomers.sort((a, b) => b.score - a.score);
     console.log({ calculatedCustomers });
 
-    // console.log(
-    //   { filteredCustomers },
-    //   userData.likes.includes("f83d15c9-4d43-40e8-b30a-4c97621a439f")
-    // );
     setFilteredCustomers(calculatedCustomers);
+  }, []);
+
+  useEffect(() => {
+    console.log("Matches", userData.matches.items);
+    const matches = userData.matches.items.map((item) => ({
+      name: item.customer.name,
+      id: item.customer.id,
+      photo: item.customer.photo,
+    }));
+    setMatches(matches);
+    const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe({
+      next: (data) => {
+        console.log("onCreateMatch", data);
+        const matchedCustomerData = data.value.data.onCreateMatch.customer;
+        const newMatch = {
+          name: matchedCustomerData.name,
+          id: matchedCustomerData.id,
+          photo: matchedCustomerData.photo,
+        };
+        setMatches((matches) => [...matches, newMatch]);
+      },
+    });
+
+    // console.log("this is chatroom messages", chatRoomData.messages.items);
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const calcScore = (customers) => {
@@ -164,14 +190,6 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
       />
       <Button
         onPress={() => {
-          // clean up matches data
-          console.log(userData.matches.items);
-          const matches = userData.matches.items.map((item) => ({
-            name: item.customer.name,
-            id: item.customer.id,
-            photo: item.customer.photo,
-          }));
-
           // pass matches to MatchList
           navigation.navigate("MatchList", { matches: matches });
         }}
