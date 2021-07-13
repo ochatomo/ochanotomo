@@ -70,9 +70,11 @@ export function UserProvider(props) {
     const subscription = API.graphql(graphqlOperation(onUpdateCustomer)).subscribe({
       next: (data) => {
         console.log("updateCustomer", data);
-        // 直す
+
         const newUserData = data.value.data.onUpdateCustomer;
-        setUserData(newUserData);
+        if (newUserData.id === userId) {
+          setUserData(newUserData);
+        }
       },
     });
     return () => {
