@@ -138,7 +138,13 @@ export default function Profile2({ route, navigation }) {
               setError([]);
               const isValid = validateInput();
               if (isValid) {
-                navigation.navigate("Profile3", { name, location, gender, location });
+                navigation.navigate("Profile3", {
+                  name,
+                  location,
+                  gender,
+                  location,
+                  profileText,
+                });
               }
             }}
           >
