@@ -64,9 +64,9 @@ export default function MatchList({ route, navigation }) {
         title="戻る"
         color="#841584"
       />
-      {matches.map((match) => {
+      {matches.map((match, index) => {
         return (
-          <View key={match.name}>
+          <View key={index}>
             <Text>{match.name}</Text>
             <Text>{match.profileText}</Text>
             <Button onPress={() => startChat(match)} title="お話をする" color="#841584" />
