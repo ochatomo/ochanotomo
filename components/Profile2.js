@@ -1,6 +1,5 @@
-// Profile1 : NAME & PROFILETEXT
-
 // TODO
+// PROFILE 2 : LOCATION & GENDER
 // *  editしたプロフィールなどがリアルタイムで見れるようにする。
 // * only update the modified field in updateCustomer
 
@@ -29,16 +28,15 @@ import { API, graphqlOperation } from "aws-amplify";
 import { interestTable } from "../utils/helper";
 // import { BackgroundButton } from "../styles/BackgroundButton";
 
-export default function Profile({ navigation }) {
+export default function Profile2({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
+  const { name, profileText } = route.params;
 
-  const [name, setName] = useState(userData.name);
-  const [hobby, setHobby] = useState("");
-  const [location, setLocation] = useState("");
-  const [profileText, setProfileText] = useState(userData.profileText);
+  const [location, setLocation] = useState(userData.location);
+  // const [hobby, setHobby] = useState("");
   const [gender, setGender] = useState("");
   const [category, setCategory] = useState("");
   const [interestList, setInterestList] = useState([{ label: "", value: "" }]);
@@ -54,10 +52,9 @@ export default function Profile({ navigation }) {
   }, [category]);
 
   const validateInput = () => {
-    if (name === "") {
-      console.log("if statement with name");
-      setError((errors) => [...errors, "お名前を入力してください。"]);
-    }
+    if (gender === "") setError((error) => [...error, "性別を教えてください。"]);
+
+    if (location === "") setError((error) => [...error, "都道府県を選んでください。"]);
     if (profileText === "")
       setError((error) => [...error, "プロフィールを入力してください。"]);
     else {
@@ -119,37 +116,71 @@ export default function Profile({ navigation }) {
           <Image style={styles.logo} source={require("../assets/profile_logo.png")} />
         </View>
 
-        <Text style={styles.header}>
-          {isNewUser ? "初めまして！" : "プロフィールを編集する"}
-        </Text>
-        <Text style={styles.inputLabel}>お名前は……</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setName}
-          value={name}
-          placeholder="名前（ニックネーム）"
-          required
+        <Text style={styles.header}>プロフィールを編集する</Text>
+
+        <Text style={styles.inputLabel}>お住まいは……</Text>
+        <RNPickerSelect
+          onValueChange={setLocation}
+          items={prefectures}
+          style={pickerSelectStyles}
+          placeholder={{ label: "都道府県を選択してください", value: "" }}
+          Icon={() => (
+            <Text
+              style={{
+                position: "absolute",
+                right: 95,
+                top: 10,
+                fontSize: 25,
+                color: "#789",
+              }}
+            >
+              ▼
+            </Text>
+          )}
+        />
+        <Text style={styles.inputLabel}>性別を教えてください。</Text>
+
+        <RNPickerSelect
+          onValueChange={setGender}
+          items={[
+            { label: "女性", value: "女性" },
+            { label: "男性", value: "男性" },
+            { label: "秘密", value: "秘密" },
+          ]}
+          style={pickerSelectStyles}
+          placeholder={{ label: "性別を教えてください", value: "" }}
+          Icon={() => (
+            <Text
+              style={{
+                position: "absolute",
+                right: 95,
+                top: 10,
+                fontSize: 18,
+                color: "#789",
+              }}
+            >
+              ▼
+            </Text>
+          )}
         />
 
-        <Text style={styles.inputLabel}>自己紹介しましょう！</Text>
-
-        <TextInput
-          style={[styles.input, styles.miltiInput]}
-          onChangeText={setProfileText}
-          value={profileText}
-          placeholder="自己紹介しましょう！"
-          multiline={true}
-        />
         <View style={styles.iconContainer}>
-          <AntDesign name="leftcircle" size={56} color="#F3B614" />
-          <Text style={styles.header}> 1 of 3 </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Profile");
+            }}
+          >
+            <AntDesign name="leftcircle" size={56} color="#F3B614" />
+          </TouchableOpacity>
+          <Text style={styles.header}> 2 of 3 </Text>
 
           <TouchableOpacity
             onPress={() => {
               setError([]);
-
               const isValid = validateInput();
-              if (isValid) navigation.navigate("Profile2", { name, profileText });
+              if (isValid) {
+                navigation.navigate("Profile3", { name, location, gender, location });
+              }
             }}
           >
             <AntDesign name="rightcircle" size={56} color="#27AE60" />

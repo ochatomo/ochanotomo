@@ -30,14 +30,12 @@ export function UserProvider(props) {
   }
   async function getCurrentUserInfo(userId) {
     try {
-      console.log("exportできてるかな？", getCustomerWithMatches);
       // check Customer table to find the current user
       const res = await API.graphql(
         graphqlOperation(getCustomerWithMatches, { id: userId })
       );
       const userData = res.data.getCustomer;
       if (userData) {
-        console.log("------Context userData", userData);
         setUserData(userData);
         setIsNewUser(false);
 
@@ -53,10 +51,6 @@ export function UserProvider(props) {
 
   async function fetchAllCustomers() {
     const allCustomersData = await API.graphql(graphqlOperation(listCustomers));
-    // console.count(
-    //   "Fetching all customer info---",
-    //   allCustomersData.data.listCustomers.items
-    // );
     setAllCustomers(allCustomersData.data.listCustomers.items);
   }
 
