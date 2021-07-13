@@ -3,7 +3,7 @@
 // *  editしたプロフィールなどがリアルタイムで見れるようにする。
 // * only update the modified field in updateCustomer
 
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   StyleSheet,
@@ -11,32 +11,27 @@ import {
   Button,
   SafeAreaView,
   TouchableOpacity,
-  FlatList,
   Image,
   View,
   ScrollView,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+
 import RNPickerSelect from "react-native-picker-select";
 
 import { AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../contexts/UserContext";
+import { label } from "aws-amplify";
 
 export default function Profile2({ route, navigation }) {
-  const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
-  const [isNewUser] = isNewUserInfo;
-  const [userId] = userIdInfo;
+  const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
   const { name, profileText } = route.params;
   console.log(userData);
 
-  // useEffect(()=>{
-
-  // }, [])
-
   const [location, setLocation] = useState(userData.location);
   const [gender, setGender] = useState("");
-  const [error, setError] = useState([]);
 
   const placeholderGender = () => {
     if (userData.gender) {
@@ -48,203 +43,130 @@ export default function Profile2({ route, navigation }) {
   };
 
   const validateInput = () => {
-    switch (true) {
-      case gender === "":
-        setError((error) => [...error, "性別を教えてください。"]);
-        break;
-
-      case location === "":
-        setError((error) => [...error, "都道府県を選んでください。"]);
-        break;
-
-      default:
-        return true;
+    const errors = [];
+    if (name === "") {
+      errors.push("* 性別を教えてください。");
     }
+    if (profileText === "") {
+      errors.push("* 都道府県を選んでください。");
+    }
+    return errors;
   };
+  console.log("this is prefecturelist", prefectureList);
 
   return (
     <SafeAreaView>
-      {error.length > 0 &&
-        error.map((error, index) => {
-          return <Text key="index">{error}</Text>;
-        })}
+      <View style={styles.imgContainer}>
+        <Image style={styles.logo} source={require("../assets/profile_logo.png")} />
+      </View>
 
-      <ScrollView>
-        <View style={styles.imgContainer}>
-          <Image style={styles.logo} source={require("../assets/profile_logo.png")} />
+      <Text>Location: {location}</Text>
+      <Text style={styles.header}>プロフィールを編集する</Text>
+
+      <Text style={styles.inputLabel}>お住まいは……</Text>
+
+      <View style={styles.container}>
+        <View style={styles.pickerContainer}>
+          <Picker style={styles.picker} selectedValue="" onValueChange={setLocation}>
+            {prefectures.map((data) => (
+              <Picker.item
+                label={data.label}
+                value={data.value}
+                color="#0094CE"
+                key={data.label}
+              />
+            ))}
+          </Picker>
         </View>
-
-        <Text style={styles.header}>プロフィールを編集する</Text>
-
-        <Text style={styles.inputLabel}>お住まいは……</Text>
-        <RNPickerSelect
-          onValueChange={setLocation}
-          items={prefectures}
-          style={pickerSelectStyles}
-          placeholder={{ label: "都道府県を選択してください", value: userData.location }}
-          Icon={() => (
-            <Text
-              style={{
-                position: "absolute",
-                right: 95,
-                top: 10,
-                fontSize: 25,
-                color: "#789",
-              }}
-            >
-              ▼
-            </Text>
-          )}
-        />
-        <Text style={styles.inputLabel}>性別を教えてください。</Text>
-
-        <RNPickerSelect
-          onValueChange={setGender}
-          items={[
-            { label: "女性", value: "女性" },
-            { label: "男性", value: "男性" },
-            { label: "秘密", value: "秘密" },
-          ]}
-          style={pickerSelectStyles}
-          placeholder={placeholderGender()}
-          // placeholder={{ label: "性別を教えてください", value: userData.gender }}
-          Icon={() => (
-            <Text
-              style={{
-                position: "absolute",
-                right: 95,
-                top: 10,
-                fontSize: 18,
-                color: "#789",
-              }}
-            >
-              ▼
-            </Text>
-          )}
-        />
-
-        <View style={styles.iconContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Profile");
+      </View>
+      <RNPickerSelect
+        onValueChange={setLocation}
+        items={prefectures}
+        style={pickerSelectStyles}
+        placeholder={{ label: "都道府県を選択してください", value: userData.location }}
+        Icon={() => (
+          <Text
+            style={{
+              position: "absolute",
+              right: 95,
+              top: 10,
+              fontSize: 25,
+              color: "#789",
             }}
           >
-            <AntDesign name="leftcircle" size={56} color="#F3B614" />
-          </TouchableOpacity>
-          <Text style={styles.header}> 2 of 4 </Text>
+            ▼
+          </Text>
+        )}
+      />
+      <Text style={styles.inputLabel}>性別を教えてください。</Text>
 
-          <TouchableOpacity
-            onPress={() => {
-              setError([]);
-              const isValid = validateInput();
-              if (isValid) {
-                navigation.navigate("Profile3", {
-                  name,
-                  location,
-                  gender,
-                  location,
-                  profileText,
-                });
-              }
+      <RNPickerSelect
+        onValueChange={setGender}
+        items={[
+          { label: "女性", value: "女性" },
+          { label: "男性", value: "男性" },
+          { label: "秘密", value: "秘密" },
+        ]}
+        style={pickerSelectStyles}
+        placeholder={placeholderGender()}
+        // placeholder={{ label: "性別を教えてください", value: userData.gender }}
+        Icon={() => (
+          <Text
+            style={{
+              position: "absolute",
+              right: 95,
+              top: 10,
+              fontSize: 18,
+              color: "#789",
             }}
           >
-            <AntDesign name="rightcircle" size={56} color="#27AE60" />
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            ▼
+          </Text>
+        )}
+      />
+
+      <View style={styles.iconContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Profile");
+          }}
+        >
+          <AntDesign name="leftcircle" size={56} color="#F3B614" />
+        </TouchableOpacity>
+        <Text style={styles.header}> 2 of 4 </Text>
+
+        <TouchableOpacity
+          onPress={() => {
+            const errors = validateInput();
+            console.log({ errors });
+
+            if (errors.length > 0) {
+              Alert.alert("入力エラー", errors.join("\n"), [
+                { text: "OK", onPress: () => console.log("alert closed") },
+              ]);
+            } else {
+              navigation.navigate("Profile3", {
+                name,
+                location,
+                gender,
+                location,
+                profileText,
+              });
+            }
+          }}
+        >
+          <AntDesign name="rightcircle" size={56} color="#27AE60" />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  imgContainer: {
-    marginVertical: 5,
-
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  iconContainer: {
-    marginHorizontal: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  header: {
-    fontSize: 28,
-    textAlign: "center",
-    color: "#004DA9",
-    fontWeight: "bold",
-    paddingVertical: 20,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginHorizontal: "auto",
-  },
-  input: {
-    height: 40,
-    marginBottom: 12,
-    marginHorizontal: 12,
-    borderWidth: 2,
-    padding: 8,
-    paddingHorizontal: 20,
-    borderColor: "#0093ED",
-    color: "#0093ED",
-    fontSize: 20,
-    borderRadius: 16,
-  },
-  inputLabel: {
-    margin: 12,
-    color: "#0094CE",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  miltiInput: {
-    height: 200,
-    // backgroundColor: "pink",
-  },
-  label: {
-    fontWeight: "bold",
-    color: "#fff",
-    backgroundColor: "#0094CE",
-    borderRadius: 10,
-    paddingBottom: 5,
-    paddingTop: 5,
-    paddingRight: 10,
-    paddingLeft: 10,
-    marginHorizontal: 3,
-    marginVertical: 5,
-  },
-});
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 100,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: "#0093ED",
-    borderRadius: 4,
-    color: "#0093ED",
-    paddingRight: 30, // to ensure the text is never behind the icon
-    width: 300,
-    marginLeft: 30,
-  },
-  inputAndroid: {
-    fontSize: 100,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#0093ED",
-    borderRadius: 8,
-    color: "#0093ED",
-    paddingRight: 30, // to ensure the text is never behind the icon
-    width: 280,
-    marginLeft: 30,
-  },
-  placeholder: { color: "#0093ED" },
-});
+const generatePickerItem = (dataList) => {
+  return dataList.map((data) => (
+    <Picker.item label={data.label} value={data.value} color="#0094CE" key={data.label} />
+  ));
+};
 
 const prefectures = [
   { label: "北海道", value: 1 },
@@ -295,3 +217,111 @@ const prefectures = [
   { label: "鹿児島県", value: 46 },
   { label: "沖縄県", value: 47 },
 ];
+
+const prefectureList = generatePickerItem(prefectures);
+// const gender = generatePickerItem(prefectures)
+
+const styles = StyleSheet.create({
+  imgContainer: {
+    marginVertical: 5,
+
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconContainer: {
+    marginHorizontal: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  header: {
+    fontSize: 28,
+    textAlign: "center",
+    color: "#004DA9",
+    fontWeight: "bold",
+    paddingVertical: 20,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginHorizontal: "auto",
+  },
+  input: {
+    height: 40,
+    marginBottom: 12,
+    marginHorizontal: 12,
+    borderWidth: 2,
+    padding: 8,
+    paddingHorizontal: 20,
+    borderColor: "#0093ED",
+    color: "#0093ED",
+    fontSize: 20,
+    borderRadius: 16,
+  },
+  inputLabel: {
+    margin: 12,
+    color: "#0094CE",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  miltiInput: {
+    height: 200,
+    // backgroundColor: "pink",
+  },
+  picker: {
+    width: "100%",
+    height: 50,
+  },
+  pickerContainer: {
+    width: 280,
+    borderWidth: 2,
+    borderColor: "#0094CE",
+    alignItems: "center",
+    borderRadius: 16,
+    paddingHorizontal: 10,
+  },
+  container: {
+    alignItems: "center",
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#0094CE",
+    borderRadius: 10,
+    paddingBottom: 5,
+    paddingTop: 5,
+    paddingRight: 10,
+    paddingLeft: 10,
+    marginHorizontal: 3,
+    marginVertical: 5,
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 100,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#0093ED",
+    borderRadius: 4,
+    color: "#0093ED",
+    paddingRight: 30, // to ensure the text is never behind the icon
+    width: 300,
+    marginLeft: 30,
+  },
+  inputAndroid: {
+    fontSize: 100,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 4,
+    borderColor: "#0093ED",
+    borderRadius: 8,
+    color: "#0093ED",
+    paddingRight: 30, // to ensure the text is never behind the icon
+    width: 280,
+    marginLeft: 30,
+  },
+  placeholder: { color: "#0093ED" },
+});
