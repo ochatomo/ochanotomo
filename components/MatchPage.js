@@ -60,13 +60,20 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
     const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe({
       next: (data) => {
         console.log("onCreateMatch", data);
-        const matchedCustomerData = data.value.data.onCreateMatch.customer;
-        const newMatch = {
-          name: matchedCustomerData.name,
-          id: matchedCustomerData.id,
-          photo: matchedCustomerData.photo,
-        };
-        setMatches((matches) => [...matches, newMatch]);
+        const owner_id = data.value.data.onCreateMatch.owner_id;
+        console.log("newMatch firing with", data);
+        console.log("currentState of matches", userData.matches);
+        if (owner_id === userData.id) {
+          console.log("updating matches");
+          const matchedCustomerData = data.value.data.onCreateMatch.customer;
+
+          const newMatch = {
+            name: matchedCustomerData.name,
+            id: matchedCustomerData.id,
+            photo: matchedCustomerData.photo,
+          };
+          setMatches((matches) => [...matches, newMatch]);
+        }
       },
     });
 
@@ -173,7 +180,19 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   const handleDislike = async (user2Info) => {
     const max = filteredCustomers.length - 1;
 
-    if (currentIdx >= max) return;
+    if (currentIdx >= max) {
+      Alert.alert(
+        "新しいユーザーがいません。",
+        "すべてのユーザーをチェックしました。現在のお茶トモと話してみましょう。",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("MatchList", { matches: matches }),
+          },
+        ]
+      );
+      return;
+    }
     await saveLike(user2Info, false);
     incrementIdx();
   };
