@@ -105,7 +105,15 @@ export default function Profile3({ route, navigation }) {
     }
     navigation.navigate("MatchPage");
   };
-  const handleCategory = (value) => {};
+  const handleCategory = (value) => {
+    let interestList = interestTable[value].map((interest, index) => {
+      if (interest === "その他") return { label: interest, value: 99 };
+      return { label: interest, value: index };
+    });
+    setInterestList(interestList);
+    console.log("setting interest with", interestList);
+    setCategory(value);
+  };
 
   return (
     <SafeAreaView>
@@ -114,106 +122,106 @@ export default function Profile3({ route, navigation }) {
           return <Text key="index">{error}</Text>;
         })}
 
-      <ScrollView>
-        <View style={styles.imgContainer}>
-          <Image style={styles.logo} source={require("../assets/active_icon.png")} />
+      <View style={styles.imgContainer}>
+        <Image style={styles.logo} source={require("../assets/active_icon.png")} />
+      </View>
+      <Text style={styles.header}>
+        {isNewUser ? "趣味を教えてください" : "趣味を編集する"}
+      </Text>
+
+      {category === "" ? (
+        <View>
+          <FlatList
+            numColumns={3}
+            data={categories}
+            keyExtractor={(item) => item.value}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleCategory(item.value)}>
+                <Text style={styles.categoryLabel}>{item.label}</Text>
+              </TouchableOpacity>
+            )}
+          />
         </View>
-
-        <Text style={styles.header}>
-          {isNewUser ? "趣味を教えてください。" : "趣味を編集する。"}
-        </Text>
-
-        <FlatList
-          numColumns={4}
-          data={[
-            { label: "音楽系", value: 0 },
-            { label: "鑑賞系", value: 1 },
-            { label: "美容系", value: 2 },
-            { label: "旅行系", value: 3 },
-            { label: "スポーツ系", value: 4 },
-            { label: "アウトドア系", value: 5 },
-            { label: "ゲーム系", value: 6 },
-            { label: "制作系", value: 7 },
-            { label: "育成系", value: 8 },
-            { label: "飲食系", value: 9 },
-            { label: "スキル系", value: 10 },
-            { label: "乗り物系", value: 11 },
-            { label: "芸術系", value: 12 },
-          ]}
-          keyExtractor={(item) => item.value}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleCategory(item.value)}>
-              <Text style={styles.label}>{item.label}</Text>
+      ) : (
+        <View>
+          <View style={styles.iconRight}>
+            <TouchableOpacity
+              onPress={() => {
+                setCategory("");
+              }}
+            >
+              <AntDesign name="closecircle" size={56} color="#EC5E56" />
             </TouchableOpacity>
-          )}
-        />
-        <RNPickerSelect
-          onValueChange={setCategory}
-          items={[
-            { label: "音楽系", value: 0 },
-            { label: "鑑賞系", value: 1 },
-            { label: "美容系", value: 2 },
-            { label: "旅行系", value: 3 },
-            { label: "スポーツ系", value: 4 },
-            { label: "アウトドア系", value: 5 },
-            { label: "ゲーム系", value: 6 },
-            { label: "制作系", value: 7 },
-            { label: "育成系", value: 8 },
-            { label: "飲食系", value: 9 },
-            { label: "スキル系", value: 10 },
-            { label: "乗り物系", value: 11 },
-            { label: "芸術系", value: 12 },
-          ]}
-          style={pickerSelectStyles}
-          placeholder={{ label: "趣味を教えてください", value: "" }}
-          Icon={() => (
-            <Text
-              style={{
-                position: "absolute",
-                right: 95,
-                top: 10,
-                fontSize: 18,
-                color: "#789",
-              }}
-            >
-              ▼
-            </Text>
-          )}
-        />
-        <RNPickerSelect
-          onValueChange={setHobby}
-          items={interestList}
-          style={pickerSelectStyles}
-          placeholder={{ label: "趣味を教えてください", value: "" }}
-          Icon={() => (
-            <Text
-              style={{
-                position: "absolute",
-                right: 95,
-                top: 10,
-                fontSize: 18,
-                color: "#789",
-              }}
-            >
-              ▼
-            </Text>
-          )}
-        />
-        <View style={styles.iconContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Profile2");
+          </View>
+          <FlatList
+            numColumns={3}
+            data={interestList}
+            keyExtractor={(item) => item.value}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleCategory(item.value)}>
+                <Text style={styles.hobbyLabel}>{item.label}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      )}
+      <RNPickerSelect
+        onValueChange={setCategory}
+        items={categories}
+        style={pickerSelectStyles}
+        placeholder={{ label: "趣味を教えてください", value: "" }}
+        Icon={() => (
+          <Text
+            style={{
+              position: "absolute",
+              right: 95,
+              top: 10,
+              fontSize: 18,
+              color: "#789",
             }}
           >
-            <AntDesign name="leftcircle" size={56} color="#F3B614" />
-          </TouchableOpacity>
-          <Text style={styles.header}> 3 of 3 </Text>
+            ▼
+          </Text>
+        )}
+      />
+      <RNPickerSelect
+        onValueChange={setHobby}
+        items={interestList}
+        style={pickerSelectStyles}
+        placeholder={{ label: "趣味を教えてください", value: "" }}
+        Icon={() => (
+          <Text
+            style={{
+              position: "absolute",
+              right: 95,
+              top: 10,
+              fontSize: 18,
+              color: "#789",
+            }}
+          >
+            ▼
+          </Text>
+        )}
+      />
+      <View style={styles.iconContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Profile2");
+          }}
+        >
+          <AntDesign name="leftcircle" size={56} color="#F3B614" />
+        </TouchableOpacity>
+        <Text style={styles.header}> 3 of 3 </Text>
 
-          <TouchableOpacity onPress={() => validateInput()}>
-            <AntDesign name="rightcircle" size={56} color="#27AE60" />
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+        <TouchableOpacity
+          onPress={() => {
+            // validateInput()
+            navigation.navigate("Photo");
+          }}
+        >
+          <AntDesign name="rightcircle" size={56} color="#27AE60" />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -231,6 +239,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  iconRight: {
+    alignItems: "flex-end",
+    marginHorizontal: 15,
   },
   header: {
     fontSize: 28,
@@ -266,15 +278,27 @@ const styles = StyleSheet.create({
     height: 200,
     // backgroundColor: "pink",
   },
-  label: {
+  categoryLabel: {
     fontWeight: "bold",
     color: "#fff",
     backgroundColor: "#0094CE",
-    borderRadius: 10,
-    paddingBottom: 5,
-    paddingTop: 5,
-    paddingRight: 10,
-    paddingLeft: 10,
+    borderRadius: 44,
+    paddingBottom: 12,
+    paddingTop: 12,
+    paddingRight: 24,
+    paddingLeft: 24,
+    marginHorizontal: 3,
+    marginVertical: 5,
+  },
+  hobbyLabel: {
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#B725D4",
+    borderRadius: 44,
+    paddingBottom: 12,
+    paddingTop: 12,
+    paddingRight: 24,
+    paddingLeft: 24,
     marginHorizontal: 3,
     marginVertical: 5,
   },
@@ -308,52 +332,18 @@ const pickerSelectStyles = StyleSheet.create({
   placeholder: { color: "#0093ED" },
 });
 
-const prefectures = [
-  { label: "北海道", value: 1 },
-  { label: "青森県", value: 2 },
-  { label: "岩手県", value: 3 },
-  { label: "宮城県", value: 4 },
-  { label: "秋田県", value: 5 },
-  { label: "山形県", value: 6 },
-  { label: "福島県", value: 7 },
-  { label: "茨城県", value: 8 },
-  { label: "栃木県", value: 9 },
-  { label: "群馬県", value: 10 },
-  { label: "埼玉県", value: 11 },
-  { label: "千葉県", value: 12 },
-  { label: "東京都", value: 13 },
-  { label: "神奈川県", value: 14 },
-  { label: "新潟県", value: 15 },
-  { label: "富山県", value: 16 },
-  { label: "石川県", value: 17 },
-  { label: "福井県", value: 18 },
-  { label: "山梨県", value: 19 },
-  { label: "長野県", value: 20 },
-  { label: "岐阜県", value: 21 },
-  { label: "静岡県", value: 22 },
-  { label: "愛知県", value: 23 },
-  { label: "三重県", value: 24 },
-  { label: "滋賀県", value: 25 },
-  { label: "京都府", value: 26 },
-  { label: "大阪府", value: 27 },
-  { label: "兵庫県", value: 28 },
-  { label: "奈良県", value: 29 },
-  { label: "和歌山県", value: 30 },
-  { label: "鳥取県", value: 31 },
-  { label: "島根県", value: 32 },
-  { label: "岡山県", value: 33 },
-  { label: "広島県", value: 34 },
-  { label: "山口県", value: 35 },
-  { label: "徳島県", value: 36 },
-  { label: "香川県", value: 37 },
-  { label: "愛媛県", value: 38 },
-  { label: "高知県", value: 39 },
-  { label: "福岡県", value: 40 },
-  { label: "佐賀県", value: 41 },
-  { label: "長崎県", value: 42 },
-  { label: "熊本県", value: 43 },
-  { label: "大分県", value: 44 },
-  { label: "宮崎県", value: 45 },
-  { label: "鹿児島県", value: 46 },
-  { label: "沖縄県", value: 47 },
+const categories = [
+  { label: "音楽系", value: 0 },
+  { label: "鑑賞系", value: 1 },
+  { label: "美容系", value: 2 },
+  { label: "旅行系", value: 3 },
+  { label: "スポーツ系", value: 4 },
+  { label: "アウトドア系", value: 5 },
+  { label: "ゲーム系", value: 6 },
+  { label: "制作系", value: 7 },
+  { label: "育成系", value: 8 },
+  { label: "飲食系", value: 9 },
+  { label: "スキル系", value: 10 },
+  { label: "乗り物系", value: 11 },
+  { label: "芸術系", value: 12 },
 ];

@@ -1,6 +1,6 @@
 {
     "identityPoolName": "ochatomopro84df2325_identitypool_84df2325",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "ochato84df2325",
     "userPoolName": "ochatomopro84df2325_userpool_84df2325",
     "autoVerifiedAttributes": [
