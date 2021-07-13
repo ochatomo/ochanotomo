@@ -28,16 +28,7 @@ export default function Profile2({ route, navigation }) {
   console.log(userData);
 
   const [location, setLocation] = useState(userData.location);
-  const [gender, setGender] = useState("");
-
-  const placeholderGender = () => {
-    if (userData.gender) {
-      console.log("gender", userData.gender);
-      return { label: userData.gender, value: userData.gender };
-    } else {
-      return { label: "性別を教えてください", value: "" };
-    }
-  };
+  const [gender, setGender] = useState(userData.gender);
 
   const validateInput = () => {
     const errors = [];
@@ -49,7 +40,6 @@ export default function Profile2({ route, navigation }) {
     }
     return errors;
   };
-  console.log("this is prefecturelist", prefectureList);
 
   return (
     <SafeAreaView>
@@ -57,14 +47,17 @@ export default function Profile2({ route, navigation }) {
         <Image style={styles.logo} source={require("../assets/profile_logo.png")} />
       </View>
 
-      <Text>Location: {location}</Text>
       <Text style={styles.header}>プロフィールを編集する</Text>
 
       <Text style={styles.inputLabel}>お住まいは……</Text>
 
       <View style={styles.container}>
         <View style={styles.pickerContainer}>
-          <Picker style={styles.picker} selectedValue="" onValueChange={setLocation}>
+          <Picker
+            style={styles.picker}
+            selectedValue={location || ""}
+            onValueChange={setLocation}
+          >
             {prefectures.map((data) => (
               <Picker.item
                 label={data.label}
@@ -76,51 +69,26 @@ export default function Profile2({ route, navigation }) {
           </Picker>
         </View>
       </View>
-      {/* <RNPickerSelect
-        onValueChange={setLocation}
-        items={prefectures}
-        style={pickerSelectStyles}
-        placeholder={{ label: "都道府県を選択してください", value: userData.location }}
-        Icon={() => (
-          <Text
-            style={{
-              position: "absolute",
-              right: 95,
-              top: 10,
-              fontSize: 25,
-              color: "#789",
-            }}
-          >
-            ▼
-          </Text>
-        )}
-      /> */}
       <Text style={styles.inputLabel}>性別を教えてください。</Text>
 
-      {/* <RNPickerSelect
-        onValueChange={setGender}
-        items={[
-          { label: "女性", value: "女性" },
-          { label: "男性", value: "男性" },
-          { label: "秘密", value: "秘密" },
-        ]}
-        style={pickerSelectStyles}
-        placeholder={placeholderGender()}
-        // placeholder={{ label: "性別を教えてください", value: userData.gender }}
-        Icon={() => (
-          <Text
-            style={{
-              position: "absolute",
-              right: 95,
-              top: 10,
-              fontSize: 18,
-              color: "#789",
-            }}
+      <View style={styles.container}>
+        <View style={styles.pickerContainer}>
+          <Picker
+            style={styles.picker}
+            selectedValue={gender || ""}
+            onValueChange={setGender}
           >
-            ▼
-          </Text>
-        )}
-      /> */}
+            {genderOptions.map((data) => (
+              <Picker.item
+                label={data.label}
+                value={data.value}
+                color="#0094CE"
+                key={data.label}
+              />
+            ))}
+          </Picker>
+        </View>
+      </View>
 
       <View style={styles.iconContainer}>
         <TouchableOpacity
@@ -164,7 +132,12 @@ const generatePickerItem = (dataList) => {
     <Picker.item label={data.label} value={data.value} color="#0094CE" key={data.label} />
   ));
 };
-
+const genderOptions = [
+  { label: "女性", value: "女性" },
+  { label: "男性", value: "男性" },
+  { label: "その他", value: "その他" },
+  { label: "回答しない", value: "回答しない" },
+];
 const prefectures = [
   { label: "北海道", value: 1 },
   { label: "青森県", value: 2 },
