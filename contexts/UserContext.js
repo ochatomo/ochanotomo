@@ -53,10 +53,10 @@ export function UserProvider(props) {
 
   async function fetchAllCustomers() {
     const allCustomersData = await API.graphql(graphqlOperation(listCustomers));
-    console.count(
-      "Fetching all customer info---",
-      allCustomersData.data.listCustomers.items
-    );
+    // console.count(
+    //   "Fetching all customer info---",
+    //   allCustomersData.data.listCustomers.items
+    // );
     setAllCustomers(allCustomersData.data.listCustomers.items);
   }
 
