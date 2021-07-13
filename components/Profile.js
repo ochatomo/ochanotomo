@@ -16,7 +16,6 @@ import {
   View,
   ScrollView,
 } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
 
 import { AntDesign } from "@expo/vector-icons";
 

@@ -17,12 +17,9 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-import RNPickerSelect from "react-native-picker-select";
-
 import { AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../contexts/UserContext";
-import { label } from "aws-amplify";
 
 export default function Profile2({ route, navigation }) {
   const { userDataInfo } = useContext(UserContext);
@@ -79,7 +76,7 @@ export default function Profile2({ route, navigation }) {
           </Picker>
         </View>
       </View>
-      <RNPickerSelect
+      {/* <RNPickerSelect
         onValueChange={setLocation}
         items={prefectures}
         style={pickerSelectStyles}
@@ -97,10 +94,10 @@ export default function Profile2({ route, navigation }) {
             ▼
           </Text>
         )}
-      />
+      /> */}
       <Text style={styles.inputLabel}>性別を教えてください。</Text>
 
-      <RNPickerSelect
+      {/* <RNPickerSelect
         onValueChange={setGender}
         items={[
           { label: "女性", value: "女性" },
@@ -123,7 +120,7 @@ export default function Profile2({ route, navigation }) {
             ▼
           </Text>
         )}
-      />
+      /> */}
 
       <View style={styles.iconContainer}>
         <TouchableOpacity
