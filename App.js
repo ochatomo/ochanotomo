@@ -15,23 +15,23 @@ import { AppNavigator } from "./routes/AppNavigator";
 import { withAuthenticator } from "aws-amplify-react-native";
 
 import React from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 function App() {
   return (
-    <View style={styles.container}>
-      <UserProvider>
-        <AppNavigator />
-      </UserProvider>
-    </View>
+    // <View style={styles.container}>
+    <UserProvider>
+      <AppNavigator />
+    </UserProvider>
+    // </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  todo: { marginBottom: 15 },
-  input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
-  todoName: { fontSize: 18 },
+  container: { flex: 1, justifyContent: "center" },
+  // todo: { marginBottom: 15 },
+  // input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
+  // todoName: { fontSize: 18 },
 });
 
 export default withAuthenticator(App, {

@@ -3,7 +3,17 @@
 // * only update the modified field in updateCustomer
 
 import React, { useState, useContext, useEffect } from "react";
-import { Text, StyleSheet, TextInput, Button, SafeAreaView } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  SafeAreaView,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  View,
+} from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
 import { UserContext } from "../contexts/UserContext";
@@ -12,8 +22,9 @@ import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
 import { interestTable } from "../utils/helper";
+// import { BackgroundButton } from "../styles/BackgroundButton";
 
-export default function Profile({ setNewUser, navigation }) {
+export default function Profile({ navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
@@ -93,25 +104,59 @@ export default function Profile({ setNewUser, navigation }) {
     }
     navigation.navigate("MatchPage");
   };
+  const handleCategory = (value) => {};
 
   return (
-    <SafeAreaView>
+    <SafeAreaView styles={styles.container}>
       {error.length > 0 &&
         error.map((error, index) => {
           return <Text key="index">{error}</Text>;
         })}
-      <Text>isNewUser: {String(isNewUser)}</Text>
-      <Text>This is name{name}</Text>
-      <Text>This is location{location}</Text>
-      <Text>This is interest{hobby}</Text>
-      <Text>This is profileText{profileText}</Text>
-      <Text>This is gender{gender}</Text>
+
+      <View styles={styles.container}>
+        <Image style={styles.logo} source={require("../assets/profile_logo.png")} />
+      </View>
+      <Text style={styles.header}>初めまして！</Text>
       <TextInput
         style={styles.input}
         onChangeText={setName}
         value={name}
         placeholder="名前（ニックネーム）"
         required
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setProfileText}
+        value={userData.profileText || profileText}
+        placeholder="自己紹介しましょう！"
+      />
+      <Text style={styles.label}>hekkiii</Text>
+      <TouchableOpacity style={styles.label}>
+        <Text>hellooo</Text>
+      </TouchableOpacity>
+      <FlatList
+        numColumns={4}
+        data={[
+          { label: "音楽系", value: 0 },
+          { label: "鑑賞系", value: 1 },
+          { label: "美容系", value: 2 },
+          { label: "旅行系", value: 3 },
+          { label: "スポーツ系", value: 4 },
+          { label: "アウトドア系", value: 5 },
+          { label: "ゲーム系", value: 6 },
+          { label: "制作系", value: 7 },
+          { label: "育成系", value: 8 },
+          { label: "飲食系", value: 9 },
+          { label: "スキル系", value: 10 },
+          { label: "乗り物系", value: 11 },
+          { label: "芸術系", value: 12 },
+        ]}
+        keyExtractor={(item) => item.value}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleCategory(item.value)}>
+            <Text style={styles.label}>{item.label}</Text>
+          </TouchableOpacity>
+        )}
       />
       <RNPickerSelect
         onValueChange={setCategory}
@@ -166,12 +211,6 @@ export default function Profile({ setNewUser, navigation }) {
         )}
       />
 
-      <TextInput
-        style={styles.input}
-        onChangeText={setProfileText}
-        value={userData.profileText || profileText}
-        placeholder="自己紹介"
-      />
       <RNPickerSelect
         onValueChange={setLocation}
         items={[
@@ -273,10 +312,41 @@ export default function Profile({ setNewUser, navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    justifyContent: "center",
+    width: "100%",
+    alignItems: "center",
+  },
+  header: {
+    fontSize: 28,
+    textAlign: "center",
+    color: "#004DA9",
+    fontWeight: "bold",
+    paddingVertical: 20,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginHorizontal: "auto",
+  },
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
+    padding: 8,
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#0094CE",
+    borderRadius: 10,
+    paddingBottom: 5,
+    paddingTop: 5,
+    paddingRight: 10,
+    paddingLeft: 10,
+    marginHorizontal: 3,
+    marginVertical: 5,
   },
 });
 
