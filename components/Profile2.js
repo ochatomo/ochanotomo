@@ -22,87 +22,45 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../contexts/UserContext";
 
-import { createCustomer, updateCustomer } from "../src/graphql/mutations";
-import { API, graphqlOperation } from "aws-amplify";
-
-import { interestTable } from "../utils/helper";
-// import { BackgroundButton } from "../styles/BackgroundButton";
-
 export default function Profile2({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
   const { name, profileText } = route.params;
+  console.log(userData);
+
+  // useEffect(()=>{
+
+  // }, [])
 
   const [location, setLocation] = useState(userData.location);
-  // const [hobby, setHobby] = useState("");
   const [gender, setGender] = useState("");
-  const [category, setCategory] = useState("");
-  const [interestList, setInterestList] = useState([{ label: "", value: "" }]);
   const [error, setError] = useState([]);
 
-  useEffect(() => {
-    if (category === "") return;
-    let interestList = interestTable[category].map((interest, index) => {
-      if (interest === "その他") return { label: interest, value: 99 };
-      return { label: interest, value: index };
-    });
-    setInterestList(interestList);
-  }, [category]);
+  const placeholderGender = () => {
+    if (userData.gender) {
+      console.log("gender", userData.gender);
+      return { label: userData.gender, value: userData.gender };
+    } else {
+      return { label: "性別を教えてください", value: "" };
+    }
+  };
 
   const validateInput = () => {
-    if (gender === "") setError((error) => [...error, "性別を教えてください。"]);
+    switch (true) {
+      case gender === "":
+        setError((error) => [...error, "性別を教えてください。"]);
+        break;
 
-    if (location === "") setError((error) => [...error, "都道府県を選んでください。"]);
-    if (profileText === "")
-      setError((error) => [...error, "プロフィールを入力してください。"]);
-    else {
-      return true;
+      case location === "":
+        setError((error) => [...error, "都道府県を選んでください。"]);
+        break;
+
+      default:
+        return true;
     }
   };
-
-  const saveUserInfo = async () => {
-    // databaseに保存
-    setError("");
-    const isValid = validateInput();
-    console.log(error);
-
-    if (!isValid) {
-      console.log(error);
-      return;
-    }
-
-    console.log("saving to database", category, hobby);
-
-    if (isNewUser) {
-      const user = {
-        id: userId,
-        name: name,
-        interests: [{ category, hobby }],
-        location,
-        profileText,
-        likes: [],
-      };
-      const userData = await API.graphql(
-        graphqlOperation(createCustomer, { input: user })
-      );
-      console.log({ userData });
-    } else {
-      // 本当は変更があるfieldのみを投げる。
-
-      const query = {
-        id: userId,
-        name,
-        location,
-        profileText,
-        interests: [{ category, hobby }],
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-    }
-    navigation.navigate("MatchPage");
-  };
-  const handleCategory = (value) => {};
 
   return (
     <SafeAreaView>
@@ -123,7 +81,7 @@ export default function Profile2({ route, navigation }) {
           onValueChange={setLocation}
           items={prefectures}
           style={pickerSelectStyles}
-          placeholder={{ label: "都道府県を選択してください", value: "" }}
+          placeholder={{ label: "都道府県を選択してください", value: userData.location }}
           Icon={() => (
             <Text
               style={{
@@ -148,7 +106,8 @@ export default function Profile2({ route, navigation }) {
             { label: "秘密", value: "秘密" },
           ]}
           style={pickerSelectStyles}
-          placeholder={{ label: "性別を教えてください", value: "" }}
+          placeholder={placeholderGender()}
+          // placeholder={{ label: "性別を教えてください", value: userData.gender }}
           Icon={() => (
             <Text
               style={{
@@ -172,7 +131,7 @@ export default function Profile2({ route, navigation }) {
           >
             <AntDesign name="leftcircle" size={56} color="#F3B614" />
           </TouchableOpacity>
-          <Text style={styles.header}> 2 of 3 </Text>
+          <Text style={styles.header}> 2 of 4 </Text>
 
           <TouchableOpacity
             onPress={() => {

@@ -23,11 +23,8 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../contexts/UserContext";
 
-import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
-import { interestTable } from "../utils/helper";
-// import { BackgroundButton } from "../styles/BackgroundButton";
 
 export default function Profile({ navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
@@ -45,13 +42,10 @@ export default function Profile({ navigation }) {
   const [error, setError] = useState([]);
 
   useEffect(() => {
-    if (category === "") return;
-    let interestList = interestTable[category].map((interest, index) => {
-      if (interest === "その他") return { label: interest, value: 99 };
-      return { label: interest, value: index };
-    });
-    setInterestList(interestList);
-  }, [category]);
+   
+
+
+  }, []);
 
   const validateInput = () => {
     if (name === "") {
@@ -64,48 +58,6 @@ export default function Profile({ navigation }) {
       return true;
     }
   };
-
-  const saveUserInfo = async () => {
-    // databaseに保存
-    setError("");
-    const isValid = validateInput();
-    console.log(error);
-
-    if (!isValid) {
-      console.log(error);
-      return;
-    }
-
-    console.log("saving to database", category, hobby);
-
-    if (isNewUser) {
-      const user = {
-        id: userId,
-        name: name,
-        interests: [{ category, hobby }],
-        location,
-        profileText,
-        likes: [],
-      };
-      const userData = await API.graphql(
-        graphqlOperation(createCustomer, { input: user })
-      );
-      console.log({ userData });
-    } else {
-      // 本当は変更があるfieldのみを投げる。
-
-      const query = {
-        id: userId,
-        name,
-        location,
-        profileText,
-        interests: [{ category, hobby }],
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-    }
-    navigation.navigate("MatchPage");
-  };
-  const handleCategory = (value) => {};
 
   return (
     <SafeAreaView>
@@ -142,7 +94,7 @@ export default function Profile({ navigation }) {
         />
         <View style={styles.iconContainer}>
           <AntDesign name="leftcircle" size={56} color="#F3B614" />
-          <Text style={styles.header}> 1 of 3 </Text>
+          <Text style={styles.header}> 1 of 4 </Text>
 
           <TouchableOpacity
             onPress={() => {
