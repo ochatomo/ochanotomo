@@ -1,5 +1,3 @@
-// Profile1 : NAME & PROFILETEXT
-
 // TODO
 // *  editしたプロフィールなどがリアルタイムで見れるようにする。
 // * only update the modified field in updateCustomer
@@ -29,17 +27,14 @@ import { API, graphqlOperation } from "aws-amplify";
 import { interestTable } from "../utils/helper";
 // import { BackgroundButton } from "../styles/BackgroundButton";
 
-export default function Profile({ navigation }) {
+export default function Profile3({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
+  const { name, location, profileText } = route.params;
 
-  const [name, setName] = useState(userData.name);
   const [hobby, setHobby] = useState("");
-  const [location, setLocation] = useState("");
-  const [profileText, setProfileText] = useState(userData.profileText);
-  const [gender, setGender] = useState("");
   const [category, setCategory] = useState("");
   const [interestList, setInterestList] = useState([{ label: "", value: "" }]);
   const [error, setError] = useState([]);
@@ -58,10 +53,15 @@ export default function Profile({ navigation }) {
       console.log("if statement with name");
       setError((errors) => [...errors, "お名前を入力してください。"]);
     }
+
+    // if (hobby === "") setError((error) => [...error, "趣味を選んでください。"]);
+
+    if (location === "") setError((error) => [...error, "都道府県を選んでください。"]);
     if (profileText === "")
       setError((error) => [...error, "プロフィールを入力してください。"]);
     else {
-      return true;
+      // move to profile2
+      navigation.navigate("Profile2", { name, location, profileText });
     }
   };
 
@@ -116,42 +116,100 @@ export default function Profile({ navigation }) {
 
       <ScrollView>
         <View style={styles.imgContainer}>
-          <Image style={styles.logo} source={require("../assets/profile_logo.png")} />
+          <Image style={styles.logo} source={require("../assets/active_icon.png")} />
         </View>
 
         <Text style={styles.header}>
-          {isNewUser ? "初めまして！" : "プロフィールを編集する"}
+          {isNewUser ? "趣味を教えてください。" : "趣味を編集する。"}
         </Text>
-        <Text style={styles.inputLabel}>お名前は……</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setName}
-          value={name}
-          placeholder="名前（ニックネーム）"
-          required
+
+        <FlatList
+          numColumns={4}
+          data={[
+            { label: "音楽系", value: 0 },
+            { label: "鑑賞系", value: 1 },
+            { label: "美容系", value: 2 },
+            { label: "旅行系", value: 3 },
+            { label: "スポーツ系", value: 4 },
+            { label: "アウトドア系", value: 5 },
+            { label: "ゲーム系", value: 6 },
+            { label: "制作系", value: 7 },
+            { label: "育成系", value: 8 },
+            { label: "飲食系", value: 9 },
+            { label: "スキル系", value: 10 },
+            { label: "乗り物系", value: 11 },
+            { label: "芸術系", value: 12 },
+          ]}
+          keyExtractor={(item) => item.value}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleCategory(item.value)}>
+              <Text style={styles.label}>{item.label}</Text>
+            </TouchableOpacity>
+          )}
         />
-
-        <Text style={styles.inputLabel}>自己紹介しましょう！</Text>
-
-        <TextInput
-          style={[styles.input, styles.miltiInput]}
-          onChangeText={setProfileText}
-          value={profileText}
-          placeholder="自己紹介しましょう！"
-          multiline={true}
+        <RNPickerSelect
+          onValueChange={setCategory}
+          items={[
+            { label: "音楽系", value: 0 },
+            { label: "鑑賞系", value: 1 },
+            { label: "美容系", value: 2 },
+            { label: "旅行系", value: 3 },
+            { label: "スポーツ系", value: 4 },
+            { label: "アウトドア系", value: 5 },
+            { label: "ゲーム系", value: 6 },
+            { label: "制作系", value: 7 },
+            { label: "育成系", value: 8 },
+            { label: "飲食系", value: 9 },
+            { label: "スキル系", value: 10 },
+            { label: "乗り物系", value: 11 },
+            { label: "芸術系", value: 12 },
+          ]}
+          style={pickerSelectStyles}
+          placeholder={{ label: "趣味を教えてください", value: "" }}
+          Icon={() => (
+            <Text
+              style={{
+                position: "absolute",
+                right: 95,
+                top: 10,
+                fontSize: 18,
+                color: "#789",
+              }}
+            >
+              ▼
+            </Text>
+          )}
+        />
+        <RNPickerSelect
+          onValueChange={setHobby}
+          items={interestList}
+          style={pickerSelectStyles}
+          placeholder={{ label: "趣味を教えてください", value: "" }}
+          Icon={() => (
+            <Text
+              style={{
+                position: "absolute",
+                right: 95,
+                top: 10,
+                fontSize: 18,
+                color: "#789",
+              }}
+            >
+              ▼
+            </Text>
+          )}
         />
         <View style={styles.iconContainer}>
-          <AntDesign name="leftcircle" size={56} color="#F3B614" />
-          <Text style={styles.header}> 1 of 3 </Text>
-
           <TouchableOpacity
             onPress={() => {
-              setError([]);
-
-              const isValid = validateInput();
-              if (isValid) navigation.navigate("Profile2", { name, profileText });
+              navigation.navigate("Profile2");
             }}
           >
+            <AntDesign name="leftcircle" size={56} color="#F3B614" />
+          </TouchableOpacity>
+          <Text style={styles.header}> 3 of 3 </Text>
+
+          <TouchableOpacity onPress={() => validateInput()}>
             <AntDesign name="rightcircle" size={56} color="#27AE60" />
           </TouchableOpacity>
         </View>
