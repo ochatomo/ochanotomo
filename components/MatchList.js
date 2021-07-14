@@ -28,7 +28,7 @@ export default function MatchList({ route, navigation }) {
       const res = await API.graphql(
         graphqlOperation(getFullChatRoomInfo, { id: chatRoomId, sortDirection: "DESC" })
       );
-      console.log("Here is chatroomData", res);
+      // console.log("Here is chatroomData", res);
       let chatRoomData = res.data.getChatRoom;
       // 2. if it doesn't exist, create a new Chatroom by the chatRoomId
       if (!chatRoomData) {
@@ -37,10 +37,10 @@ export default function MatchList({ route, navigation }) {
             input: { id: chatRoomId },
           })
         );
-        console.log(newChatRoomData);
+        // console.log(newChatRoomData);
         chatRoomData = newChatRoomData.data.createChatRoom;
       }
-      console.log({ chatRoomData });
+      // console.log({ chatRoomData });
 
       // 3. move to Chat page
       navigation.navigate("Chat", {

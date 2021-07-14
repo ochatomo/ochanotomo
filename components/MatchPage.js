@@ -53,7 +53,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
 
   useEffect(() => {
     if (userData.matches !== undefined) {
-      console.log("Matches", userData.matches.items);
+      // console.log("Matches", userData.matches.items);
       const matches = userData.matches.items.map((item) => ({
         name: item.customer.name,
         id: item.customer.id,
@@ -63,7 +63,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
     }
     const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe({
       next: (data) => {
-        console.log("onCreateMatch", data);
+        // console.log("onCreateMatch", data);
         const owner_id = data.value.data.onCreateMatch.owner_id;
         console.log("newMatch firing with", data);
         console.log("currentState of matches", userData.matches);
