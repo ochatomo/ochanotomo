@@ -105,7 +105,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
         customerCategory
       );
       const hobbyScore =
-        myCategory === customerCategory
+        Number(myCategory) === Number(customerCategory)
           ? calcHobby(myCategory, myHobby, customer.interests[0].hobby)
           : 0;
 
