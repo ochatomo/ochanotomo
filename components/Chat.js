@@ -1,10 +1,9 @@
 
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, StyleSheet, TextInput, Button, FlatList, StatusBar, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, Button, FlatList, StatusBar, ScrollView, TouchableOpacity, Image } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import moment from "moment";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import user from '../assets/user.png'; 
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createMessage } from "../src/graphql/mutations";
@@ -41,12 +40,12 @@ export default function Chat({ route, navigation }) {
   }, []);
   
   return (
-    <View>
-         <Text style={styles.header}>   　
-        {user2.name}とお話しましょう
+    <View style={styles.container}>
+         <Text style={styles.header}>{user2.name}とお話しましょう
         </Text>
-        <ScrollView>
-      <View style={styles.chatContainer}>
+      <ScrollView>
+        <View style={styles.chatContainer}>
+        
         <FlatList
           data={messages}
             renderItem={renderItem} />
@@ -93,7 +92,6 @@ export default function Chat({ route, navigation }) {
   );
 }
 
-
 const Message = (message) => {
   const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
@@ -116,13 +114,23 @@ const Message = (message) => {
       marginRight: isMyMessage() ? 0 : 90,
       margin: 2,
       }}>
-      
+        <View style={styles.avatar}>
+        <Image source={require("../assets/user.png")} style={styles.user, {
+          width: 40,
+          height: 40,
+          borderRadius: 30,
+          marginRight: 15,
+          marginLeft: isMyMessage() ? 5 : 0,
+          marginRight: isMyMessage() ? 0 : 5,
+        }} />
       <Text style={styles.sender, {
         fontFamily: "Roboto",
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: "700",
-        color: "#B725D4"
-      }}>{sender_name}</Text>
+            color: "#B725D4",
+        paddingLeft: 5
+          }}>{sender_name}</Text>
+           </View>
         <Text style={styles.message, {
           backgroundColor: isMyMessage() ? '#D6F5FF' : 'white',
           fontSize: 20,
@@ -130,7 +138,8 @@ const Message = (message) => {
           color: "#004DA9",
           fontWeight: "700",
           padding: 10
-      }}>{content}</Text>
+          }}>{content}</Text>
+         
       </View>
       <Text style={styles.time, {
         textAlign: isMyMessage() ? 'right' : 'left',
@@ -142,6 +151,9 @@ const Message = (message) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   header: {
     textAlign: "center",
     color: "#B725D4",
@@ -151,12 +163,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   chatContainer: {
+    flex: 1,
     flexDirection: 'row',
     padding: 10,
-    paddingBottom: 200,
-    backgroundColor: '#ddd',
-    flex: 1,
-  
+    paddingBottom: 100,
+    
   },
   inputContainer: {
     width: '100%',
@@ -164,8 +175,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 55,
-    padding: 25,
+    bottom: 0,
+    padding: 5,
   
   },
   messageBox: {
@@ -194,7 +205,8 @@ const styles = StyleSheet.create({
   time: {
   },
   user: {
-    width: 66,
-    height: 58,
+  },
+  avatar: {
+    flexDirection: 'row',
   },
 });
