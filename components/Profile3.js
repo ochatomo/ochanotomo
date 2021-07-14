@@ -48,7 +48,7 @@ export default function Profile3({ route, navigation }) {
   }, [category]);
 
   const validateInput = () => {
-    console.log("validating");
+    // console.log("validating");
     switch (true) {
       case category === "":
         setError((error) => [...error, "趣味を教えてください。"]);
@@ -64,7 +64,7 @@ export default function Profile3({ route, navigation }) {
   };
 
   const saveUserInfo = async () => {
-    console.log("saving to database", category, hobby);
+    // console.log("saving to database", category, hobby);
 
     if (isNewUser) {
       const user = {
@@ -81,7 +81,7 @@ export default function Profile3({ route, navigation }) {
       const userData = await API.graphql(
         graphqlOperation(createCustomer, { input: user })
       );
-      console.log({ userData });
+      // console.log({ userData });
     } else {
       // 本当は変更があるfieldのみを投げる。
 
@@ -106,12 +106,12 @@ export default function Profile3({ route, navigation }) {
       return { label: interest, value: index };
     });
     setInterestList(interestList);
-    console.log("setting interest with", interestList);
+    // console.log("setting interest with", interestList);
     setCategory(value);
   };
 
   const handleHobby = (hobby) => {
-    console.log("setting hobby with ", hobby);
+    // console.log("setting hobby with ", hobby);
     setHobby(hobby);
   };
 
@@ -193,7 +193,7 @@ export default function Profile3({ route, navigation }) {
               console.log("data is valid, saving to database");
               saveUserInfo();
               console.log("successfully saved the data");
-              console.log("遷移前のユーザーデータ", { userData });
+              // console.log("遷移前のユーザーデータ", { userData });
 
               navigation.navigate("MatchPage");
             }
