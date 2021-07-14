@@ -5,9 +5,10 @@
 //　全員スワイプしちゃったときの画面 or 文言
 
 import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
 
 import { UserContext } from "../contexts/UserContext";
+import { AntDesign } from "@expo/vector-icons";
 
 import { updateCustomer, createMatch } from "../src/graphql/mutations";
 import { onCreateMatch } from "../src/graphql/subscriptions";
@@ -29,7 +30,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
-    console.log("Component loading", { allCustomers });
+    // console.log("Component loading", { allCustomers });
     // filter out customers whose id is already registered in the likes of currentUser
     // && also exclude youself
 
@@ -38,34 +39,45 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
         !userData.likes.some((like) => like.id === customer.id) &&
         customer.id !== userData.id
     );
+    // console.log("before calculation", filteredCustomers);
 
     // matching algorithmによるsorting
-    console.log({ filteredCustomers });
+    // console.log({ filteredCustomers });
+
     const calculatedCustomers = calcScore(filteredCustomers);
     calculatedCustomers.sort((a, b) => b.score - a.score);
-    console.log({ calculatedCustomers });
+    // console.log("after calculation", calculatedCustomers);
 
     setFilteredCustomers(calculatedCustomers);
   }, []);
 
   useEffect(() => {
-    console.log("Matches", userData.matches.items);
-    const matches = userData.matches.items.map((item) => ({
-      name: item.customer.name,
-      id: item.customer.id,
-      photo: item.customer.photo,
-    }));
-    setMatches(matches);
+    if (userData.matches !== undefined) {
+      console.log("Matches", userData.matches.items);
+      const matches = userData.matches.items.map((item) => ({
+        name: item.customer.name,
+        id: item.customer.id,
+        photo: item.customer.photo,
+      }));
+      setMatches(matches);
+    }
     const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe({
       next: (data) => {
         console.log("onCreateMatch", data);
-        const matchedCustomerData = data.value.data.onCreateMatch.customer;
-        const newMatch = {
-          name: matchedCustomerData.name,
-          id: matchedCustomerData.id,
-          photo: matchedCustomerData.photo,
-        };
-        setMatches((matches) => [...matches, newMatch]);
+        const owner_id = data.value.data.onCreateMatch.owner_id;
+        console.log("newMatch firing with", data);
+        console.log("currentState of matches", userData.matches);
+        if (owner_id === userData.id) {
+          console.log("updating matches");
+          const matchedCustomerData = data.value.data.onCreateMatch.customer;
+
+          const newMatch = {
+            name: matchedCustomerData.name,
+            id: matchedCustomerData.id,
+            photo: matchedCustomerData.photo,
+          };
+          setMatches((matches) => [...matches, newMatch]);
+        }
       },
     });
 
@@ -77,11 +89,12 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   }, []);
 
   const calcScore = (customers) => {
-    const myLocation = userData.location; // int
-    const myCategory = userData.interests[0].category; // int
-    const myHobby = userData.interests[0].hobby; // int
+    console.log("CALC-----", userData);
+    const myLocation = Number(userData.location); // int
+    const myCategory = Number(userData.interests[0].category); // int
+    const myHobby = Number(userData.interests[0].hobby); // int
     const customerWithScore = customers.map((customer) => {
-      console.log(customer);
+      // console.log(customer);
       const locationScore = calcLocation(myLocation, customer.location);
       const customerCategory = customer.interests[0].category;
 
@@ -92,19 +105,19 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
           : 0;
 
       const totalScore = locationScore + categoryScore + hobbyScore;
-      console.log({ locationScore, categoryScore, hobbyScore, totalScore });
+      const customerName = customer.name;
+      console.log({ customerName, locationScore, categoryScore, hobbyScore, totalScore });
       customer.score = totalScore;
       return customer;
     });
 
-    console.log({ customerWithScore });
+    // console.log({ customerWithScore });
     return customerWithScore;
   };
 
   const incrementIdx = () => {
     const max = filteredCustomers.length - 1;
     if (currentIdx >= max) {
-      setMessage("全員をスワイプしました");
       return;
     }
     setIdx(currentIdx + 1);
@@ -142,6 +155,21 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   };
 
   const handleLike = async (user2Info) => {
+    const max = filteredCustomers.length - 1;
+
+    if (currentIdx >= max) {
+      Alert.alert(
+        "新しいユーザーがいません。",
+        "すべてのユーザーをチェックしました。現在のお茶トモと話してみましょう。",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("MatchList", { matches: matches }),
+          },
+        ]
+      );
+      return;
+    }
     await saveLike(user2Info, true);
     const isMatch = await checkLike(userData.id, user2Info.id);
     console.log({ isMatch });
@@ -156,6 +184,21 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   };
 
   const handleDislike = async (user2Info) => {
+    const max = filteredCustomers.length - 1;
+
+    if (currentIdx >= max) {
+      Alert.alert(
+        "新しいユーザーがいません。",
+        "すべてのユーザーをチェックしました。現在のお茶トモと話してみましょう。",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("MatchList", { matches: matches }),
+          },
+        ]
+      );
+      return;
+    }
     await saveLike(user2Info, false);
     incrementIdx();
   };
@@ -180,39 +223,177 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
 
   return (
     <View>
-      <Button
-        onPress={() => {
-          navigation.navigate("Profile");
-        }}
-        title="プロフィールを編集する"
-        color="#841584"
-        accessibilityLabel="保存ボタン"
-      />
-      <Button
-        onPress={() => {
-          // pass matches to MatchList
-          navigation.navigate("MatchList", { matches: matches });
-        }}
-        title="マッチを確認する"
-        color="#841584"
-        accessibilityLabel="保存ボタン"
-      />
+      <View style={styles.iconContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            // view my profile page
+          }}
+        >
+          <AntDesign name="leftcircle" size={50} color="#F3B614" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            // view my profile page
+            navigation.navigate("Profile");
+          }}
+        >
+          <Image source={require("../assets/edit.png")} style={styles.logo} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.rightContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            // pass matches to MatchList
+            navigation.navigate("MatchList", { matches: matches });
+          }}
+        >
+          <Text style={styles.label}>お茶トモをチェックする</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.flexRow}>
+        <View style={[styles.profileContainer, styles.flexColumn]}>
+          <Image source={require("../assets/testphoto.jpeg")} style={styles.photo} />
+          <Text style={styles.name}>
+            {filteredCustomers.length > 0
+              ? filteredCustomers[currentIdx].name
+              : "全員をスワイプしました"}{" "}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            handleDislike(filteredCustomers[currentIdx]);
+          }}
+        >
+          <Text style={[styles.textBtn, { backgroundColor: "#EC5E56" }]}>ちょっと……</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            // view my profile page
+            handleLike(filteredCustomers[currentIdx]);
+          }}
+        >
+          <Text style={[styles.textBtn, { backgroundColor: "#27AE60" }]}>
+            お茶したい！
+          </Text>
+        </TouchableOpacity>
+      </View>
+
       <Text>{message !== "" && message}</Text>
-      <Text>
-        {filteredCustomers.length > 0
-          ? filteredCustomers[currentIdx].name
-          : "全員をスワイプしました"}{" "}
-      </Text>
-      <Button
-        onPress={() => handleLike(filteredCustomers[currentIdx])}
-        title="○"
-        color="#841584"
-      />
-      <Button
-        onPress={() => handleDislike(filteredCustomers[currentIdx])}
-        title="X"
-        color="#841584"
-      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  flexRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  profileContainer: {
+    paddingVertical: 20,
+    backgroundColor: "white",
+    width: 309,
+  },
+  textBtn: {
+    borderRadius: 44,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+  },
+  name: {
+    fontSize: 24,
+    color: "#004DA9",
+    fontWeight: "bold",
+  },
+  photo: {
+    width: 236,
+    height: 195,
+  },
+  flexColumn: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imgContainer: {
+    marginVertical: 5,
+
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconContainer: {
+    marginTop: 15,
+    marginHorizontal: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    marginTop: 15,
+    marginHorizontal: 15,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  rightContainer: {
+    marginTop: 15,
+    marginHorizontal: 15,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  header: {
+    fontSize: 28,
+    textAlign: "center",
+    color: "#004DA9",
+    fontWeight: "bold",
+    paddingVertical: 20,
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    // marginHorizontal: "auto",
+  },
+  input: {
+    height: 40,
+    marginBottom: 12,
+    marginHorizontal: 12,
+    borderWidth: 2,
+    padding: 8,
+    paddingHorizontal: 20,
+    borderColor: "#0093ED",
+    color: "#0093ED",
+    fontSize: 20,
+    borderRadius: 16,
+  },
+  inputLabel: {
+    margin: 12,
+    color: "#0094CE",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  miltiInput: {
+    height: 200,
+    // backgroundColor: "pink",
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#B725D4",
+    borderRadius: 44,
+    paddingBottom: 12,
+    paddingTop: 12,
+    paddingRight: 24,
+    paddingLeft: 24,
+    marginHorizontal: 3,
+    marginVertical: 10,
+  },
+});

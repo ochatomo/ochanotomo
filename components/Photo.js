@@ -30,7 +30,7 @@ export default function Photo({ route, navigation }) {
       ACL: "public-read",
       Body: file,
       Bucket: S3_BUCKET,
-      Key: file.name,
+      Key: file.name, //user_idに変える
     };
 
     myBucket
