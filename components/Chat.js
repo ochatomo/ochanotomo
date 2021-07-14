@@ -27,7 +27,6 @@ export default function Chat({ route, navigation }) {
         console.log("subscribe---", data);
         const newMessage = data.value.data.onCreateMessage;
         console.log("newMessage :", newMessage);
-        console.log("--------", newMessage.chatRoomId, chatRoomData.id)
         if (newMessage.chatRoomId === chatRoomData.id) {
           setMessages((messages) => [...messages, newMessage]);
         }
@@ -57,6 +56,7 @@ export default function Chat({ route, navigation }) {
       <TextInput
         style={styles.inputBox}
         onChangeText={setInput}
+        multiline={true}
         value={input}
         placeholder="メッセージを入力してください。"
         />
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 40,
+    bottom: 55,
     padding: 25,
   
   },
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     width: 280,
-    height: 100,
+    height: 80,
     justifyContent: 'center',
     borderRadius: 16,
     borderStyle: "solid"  ,

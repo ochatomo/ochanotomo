@@ -563,9 +563,13 @@ const cat12 = {
 };
 
 export const calcHobby = (category, hobby1, hobby2) => {
-  if (hobby1 === hobby2) return 1;
-  if (hobby1 > hobby2) [hobby1, hobby2] = [hobby2, hobby1];
-  return eval("cat" + category)["hob" + hobby1]["hob" + hobby2] || 0;
+  let cat = Number(category);
+  let hob1 = Number(hobby1);
+  let hob2 = Number(hobby2);
+  console.log({ cat, hob1, hob2 });
+  if (hob1 === hob2) return 1;
+  if (hob1 > hob2) [hob1, hob2] = [hob2, hob1];
+  return eval("cat" + cat)["hob" + hob1]["hob" + hob2] || 0;
 };
 
 // console.log(hobby(0, 1, 3));

@@ -27,8 +27,10 @@ const locationValue = (num) => {
 };
 
 export const calcLocation = (myLocation, partnerLocation) => {
-  const myLocationValue = locationValue(myLocation);
-  const partnerLocationValue = locationValue(partnerLocation);
+  let myloc = Number(myLocation);
+  let partnerLoc = Number(partnerLocation);
+  const myLocationValue = locationValue(myloc);
+  const partnerLocationValue = locationValue(partnerLoc);
   return 1 - Math.abs(myLocationValue - partnerLocationValue) / 6;
 };
 
