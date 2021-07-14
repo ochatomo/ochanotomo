@@ -27,7 +27,10 @@ export default function Chat({ route, navigation }) {
         console.log("subscribe---", data);
         const newMessage = data.value.data.onCreateMessage;
         console.log("newMessage :", newMessage);
-        setMessages((messages) => [...messages, newMessage]);
+        console.log("--------", newMessage.chatRoomId, chatRoomData.id)
+        if (newMessage.chatRoomId === chatRoomData.id) {
+          setMessages((messages) => [...messages, newMessage]);
+        }
       },
     });
 
@@ -48,9 +51,8 @@ export default function Chat({ route, navigation }) {
           data={messages}
             renderItem={renderItem} />
         </View>
-       
-
       </ScrollView>
+
       <View style={styles.inputContainer}>
       <TextInput
         style={styles.inputBox}
@@ -83,9 +85,9 @@ export default function Chat({ route, navigation }) {
               console.log(e);
             }
             }} >
-            <MaterialCommunityIcons name="send-circle" size={70} color="#0094CE"/>
+            <MaterialCommunityIcons name="send-circle" size={80} color="#0094CE" alignItems ='center'/>
           </TouchableOpacity>
-        </View>
+          </View>
     </View>
   );
 }
@@ -149,8 +151,11 @@ const styles = StyleSheet.create({
   },
   chatContainer: {
     flexDirection: 'row',
-    padding: 20,
+    padding: 10,
+    paddingBottom: 200,
     backgroundColor: '#ddd',
+    flex: 1,
+  
   },
   inputContainer: {
     width: '100%',
@@ -158,8 +163,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 58,
-    padding: 0,
+    bottom: 40,
+    padding: 25,
+  
   },
   messageBox: {
     flexDirection: 'row',
@@ -168,12 +174,14 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     width: 280,
-    height: 82,
+    height: 100,
+    justifyContent: 'center',
     borderRadius: 16,
     borderStyle: "solid"  ,
     borderWidth: 2,
     borderColor: "rgba(0, 147, 237, 1.0)",
     fontSize: 18,
+    
   },
   sender: {
     padding: 12,
