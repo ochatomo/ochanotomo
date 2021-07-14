@@ -81,6 +81,7 @@ export default function Profile({ navigation }) {
                   { text: "OK", onPress: () => console.log("alert closed") },
                 ]);
               } else {
+                console.log({ name, profileText });
                 navigation.navigate("Profile2", { name, profileText });
               }
             }}

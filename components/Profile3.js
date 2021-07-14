@@ -30,7 +30,7 @@ export default function Profile3({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
-  const [userData] = userDataInfo;
+  const [userData, setUserData] = userDataInfo;
   const { name, location, profileText, gender } = route.params;
 
   const [hobby, setHobby] = useState("");
@@ -76,6 +76,8 @@ export default function Profile3({ route, navigation }) {
         likes: [],
         gender,
       };
+      setUserData(user);
+
       const userData = await API.graphql(
         graphqlOperation(createCustomer, { input: user })
       );
@@ -93,7 +95,10 @@ export default function Profile3({ route, navigation }) {
       };
       await API.graphql(graphqlOperation(updateCustomer, { input: query }));
     }
-    navigation.navigate("MatchPage");
+
+    // userData.interests[0].category = category; // int
+    // userData.interests[0].hobby = hobby;
+    // userData.location = location;
   };
   const handleCategory = (value) => {
     let interestList = interestTable[value].map((interest, index) => {
@@ -188,6 +193,7 @@ export default function Profile3({ route, navigation }) {
               console.log("data is valid, saving to database");
               saveUserInfo();
               console.log("successfully saved the data");
+              console.log("遷移前のユーザーデータ", { userData });
 
               navigation.navigate("MatchPage");
             }

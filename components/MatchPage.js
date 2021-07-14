@@ -30,7 +30,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
-    console.log("Component loading", { allCustomers });
+    // console.log("Component loading", { allCustomers });
     // filter out customers whose id is already registered in the likes of currentUser
     // && also exclude youself
 
@@ -39,24 +39,28 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
         !userData.likes.some((like) => like.id === customer.id) &&
         customer.id !== userData.id
     );
+    // console.log("before calculation", filteredCustomers);
 
     // matching algorithmによるsorting
-    console.log({ filteredCustomers });
+    // console.log({ filteredCustomers });
+
     const calculatedCustomers = calcScore(filteredCustomers);
     calculatedCustomers.sort((a, b) => b.score - a.score);
-    console.log({ calculatedCustomers });
+    // console.log("after calculation", calculatedCustomers);
 
     setFilteredCustomers(calculatedCustomers);
   }, []);
 
   useEffect(() => {
-    console.log("Matches", userData.matches.items);
-    const matches = userData.matches.items.map((item) => ({
-      name: item.customer.name,
-      id: item.customer.id,
-      photo: item.customer.photo,
-    }));
-    setMatches(matches);
+    if (userData.matches !== undefined) {
+      console.log("Matches", userData.matches.items);
+      const matches = userData.matches.items.map((item) => ({
+        name: item.customer.name,
+        id: item.customer.id,
+        photo: item.customer.photo,
+      }));
+      setMatches(matches);
+    }
     const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe({
       next: (data) => {
         console.log("onCreateMatch", data);
@@ -85,11 +89,12 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   }, []);
 
   const calcScore = (customers) => {
-    const myLocation = userData.location; // int
-    const myCategory = userData.interests[0].category; // int
-    const myHobby = userData.interests[0].hobby; // int
+    console.log("CALC-----", userData);
+    const myLocation = Number(userData.location); // int
+    const myCategory = Number(userData.interests[0].category); // int
+    const myHobby = Number(userData.interests[0].hobby); // int
     const customerWithScore = customers.map((customer) => {
-      console.log(customer);
+      // console.log(customer);
       const locationScore = calcLocation(myLocation, customer.location);
       const customerCategory = customer.interests[0].category;
 
@@ -100,12 +105,13 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
           : 0;
 
       const totalScore = locationScore + categoryScore + hobbyScore;
-      console.log({ locationScore, categoryScore, hobbyScore, totalScore });
+      const customerName = customer.name;
+      console.log({ customerName, locationScore, categoryScore, hobbyScore, totalScore });
       customer.score = totalScore;
       return customer;
     });
 
-    console.log({ customerWithScore });
+    // console.log({ customerWithScore });
     return customerWithScore;
   };
 
