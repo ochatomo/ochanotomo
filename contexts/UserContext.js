@@ -69,7 +69,7 @@ export function UserProvider(props) {
   useEffect(() => {
     const subscription = API.graphql(graphqlOperation(onUpdateCustomer)).subscribe({
       next: (data) => {
-        console.log("updateCustomer", data);
+        // console.log("updateCustomer", data);
 
         const newUserData = data.value.data.onUpdateCustomer;
         if (newUserData.id === userId) {
