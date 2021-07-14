@@ -83,7 +83,7 @@ export default function Profile2({ route, navigation }) {
                 label={data.label}
                 value={data.value}
                 color="#0094CE"
-                key={data.label}
+                // key={data.label}
               />
             ))}
           </Picker>
@@ -188,7 +188,7 @@ const prefectures = [
   { label: "沖縄県", value: 47 },
 ];
 
-const prefectureList = generatePickerItem(prefectures);
+// const prefectureList = generatePickerItem(prefectures);
 // const gender = generatePickerItem(prefectures)
 
 const styles = StyleSheet.create({

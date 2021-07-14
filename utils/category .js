@@ -127,7 +127,7 @@ const cat11 = {
 };
 
 export const calcCategory = (category1, category2) => {
-  console.log({ myCat: category1, customerCat: category2 });
+  // console.log({ myCat: category1, customerCat: category2 });
   let cat1 = Number(category1);
   let cat2 = Number(category2);
   if (cat1 === cat2) return 1;

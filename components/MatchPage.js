@@ -89,16 +89,21 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   }, []);
 
   const calcScore = (customers) => {
-    console.log("CALC-----", userData);
-    const myLocation = Number(userData.location); // int
-    const myCategory = Number(userData.interests[0].category); // int
-    const myHobby = Number(userData.interests[0].hobby); // int
+    // console.log("CALC-----", userData);
+    const myLocation = userData.location; // int
+    const myCategory = userData.interests[0].category; // int
+    const myHobby = userData.interests[0].hobby; // int
     const customerWithScore = customers.map((customer) => {
-      // console.log(customer);
       const locationScore = calcLocation(myLocation, customer.location);
       const customerCategory = customer.interests[0].category;
 
       const categoryScore = calcCategory(myCategory, customerCategory);
+      console.log(
+        "Bool------",
+        myCategory === customerCategory,
+        myCategory,
+        customerCategory
+      );
       const hobbyScore =
         myCategory === customerCategory
           ? calcHobby(myCategory, myHobby, customer.interests[0].hobby)
