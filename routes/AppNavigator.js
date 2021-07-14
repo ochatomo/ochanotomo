@@ -7,6 +7,7 @@ import Photo from "../components/Photo";
 import Chat from "../components/Chat";
 import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
+import ProfilePage from "../components/ProfilePage";
 import Loading from "../components/Loading";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
@@ -31,6 +32,11 @@ const HomeNavigator = () => {
           <Screen name="Profile2" component={Profile2} options={{ title: "Profile2" }} />
           <Screen name="Profile3" component={Profile3} options={{ title: "Profile3" }} />
           <Screen name="Photo" component={Photo} options={{ title: "Photo" }} />
+          <Screen
+            name="ProfilePage"
+            component={ProfilePage}
+            options={{ title: "プロフィール" }}
+          />
 
           <Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
           <Screen
@@ -47,6 +53,12 @@ const HomeNavigator = () => {
         </>
       ) : (
         <>
+          <Screen
+            name="ProfilePage"
+            component={ProfilePage}
+            options={{ title: "プロフィール" }}
+          />
+
           <Screen
             name="MatchPage"
             component={MatchPage}
