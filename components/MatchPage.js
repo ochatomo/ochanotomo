@@ -98,12 +98,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
       const customerCategory = customer.interests[0].category;
 
       const categoryScore = calcCategory(myCategory, customerCategory);
-      console.log(
-        "Bool------",
-        myCategory === customerCategory,
-        myCategory,
-        customerCategory
-      );
+
       const hobbyScore =
         Number(myCategory) === Number(customerCategory)
           ? calcHobby(myCategory, myHobby, customer.interests[0].hobby)
