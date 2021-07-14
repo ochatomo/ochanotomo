@@ -25,7 +25,7 @@ export default function Profile2({ route, navigation }) {
   const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
   const { name, profileText } = route.params;
-  console.log(userData);
+  // console.log(userData);
 
   const [location, setLocation] = useState(userData.location);
   const [gender, setGender] = useState(userData.gender);
@@ -59,7 +59,7 @@ export default function Profile2({ route, navigation }) {
             onValueChange={setLocation}
           >
             {prefectures.map((data) => (
-              <Picker.item
+              <Picker.Item
                 label={data.label}
                 value={data.value}
                 color="#0094CE"
@@ -79,12 +79,7 @@ export default function Profile2({ route, navigation }) {
             onValueChange={setGender}
           >
             {genderOptions.map((data) => (
-              <Picker.item
-                label={data.label}
-                value={data.value}
-                color="#0094CE"
-                key={data.label}
-              />
+              <Picker.Item label={data.label} value={data.value} color="#0094CE" />
             ))}
           </Picker>
         </View>
@@ -103,7 +98,7 @@ export default function Profile2({ route, navigation }) {
         <TouchableOpacity
           onPress={() => {
             const errors = validateInput();
-            console.log({ errors });
+            // console.log({ errors });
 
             if (errors.length > 0) {
               Alert.alert("入力エラー", errors.join("\n"), [
@@ -127,11 +122,6 @@ export default function Profile2({ route, navigation }) {
   );
 }
 
-const generatePickerItem = (dataList) => {
-  return dataList.map((data) => (
-    <Picker.item label={data.label} value={data.value} color="#0094CE" key={data.label} />
-  ));
-};
 const genderOptions = [
   { label: "女性", value: "女性" },
   { label: "男性", value: "男性" },
@@ -188,7 +178,7 @@ const prefectures = [
   { label: "沖縄県", value: 47 },
 ];
 
-const prefectureList = generatePickerItem(prefectures);
+// const prefectureList = generatePickerItem(prefectures);
 // const gender = generatePickerItem(prefectures)
 
 const styles = StyleSheet.create({

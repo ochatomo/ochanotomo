@@ -26,14 +26,15 @@ export default function Chat({ route, navigation }) {
       next: (data) => {
         console.log("subscribe---", data);
         const newMessage = data.value.data.onCreateMessage;
-        console.log("newMessage :", newMessage);
+        // console.log("newMessage :", newMessage);
         if (newMessage.chatRoomId === chatRoomData.id) {
           setMessages((messages) => [...messages, newMessage]);
         }
       },
     });
 
-    console.log("this is chatroom messages", chatRoomData.messages.items);
+    // console.log("this is chatroom messages", chatRoomData.messages.items);
+
     return () => {
       subscription.unsubscribe();
     };

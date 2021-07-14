@@ -53,7 +53,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
 
   useEffect(() => {
     if (userData.matches !== undefined) {
-      console.log("Matches", userData.matches.items);
+      // console.log("Matches", userData.matches.items);
       const matches = userData.matches.items.map((item) => ({
         name: item.customer.name,
         id: item.customer.id,
@@ -63,7 +63,7 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
     }
     const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe({
       next: (data) => {
-        console.log("onCreateMatch", data);
+        // console.log("onCreateMatch", data);
         const owner_id = data.value.data.onCreateMatch.owner_id;
         console.log("newMatch firing with", data);
         console.log("currentState of matches", userData.matches);
@@ -89,16 +89,21 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
   }, []);
 
   const calcScore = (customers) => {
-    console.log("CALC-----", userData);
-    const myLocation = Number(userData.location); // int
-    const myCategory = Number(userData.interests[0].category); // int
-    const myHobby = Number(userData.interests[0].hobby); // int
+    // console.log("CALC-----", userData);
+    const myLocation = userData.location; // int
+    const myCategory = userData.interests[0].category; // int
+    const myHobby = userData.interests[0].hobby; // int
     const customerWithScore = customers.map((customer) => {
-      // console.log(customer);
       const locationScore = calcLocation(myLocation, customer.location);
       const customerCategory = customer.interests[0].category;
 
       const categoryScore = calcCategory(myCategory, customerCategory);
+      console.log(
+        "Bool------",
+        myCategory === customerCategory,
+        myCategory,
+        customerCategory
+      );
       const hobbyScore =
         myCategory === customerCategory
           ? calcHobby(myCategory, myHobby, customer.interests[0].hobby)
