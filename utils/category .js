@@ -127,9 +127,12 @@ const cat11 = {
 };
 
 export const calcCategory = (category1, category2) => {
-  if (category1 === category2) return 1;
-  if (category1 > category2) [category1, category2] = [category2, category1];
-  return eval("cat" + category1)["cat" + category2] || 0;
+  console.log({ myCat: category1, customerCat: category2 });
+  let cat1 = Number(category1);
+  let cat2 = Number(category2);
+  if (cat1 === cat2) return 1;
+  if (cat1 > cat2) [cat1, cat2] = [cat2, cat1];
+  return eval("cat" + cat1)["cat" + cat2] || 0;
 };
 
 // console.log(category(0, 3));
