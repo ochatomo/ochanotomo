@@ -53,7 +53,6 @@ export function UserProvider(props) {
 
   async function fetchAllCustomers() {
     const allCustomersData = await API.graphql(graphqlOperation(listCustomers));
-
     setAllCustomers(allCustomersData.data.listCustomers.items);
   }
 
