@@ -15,7 +15,6 @@ import {
   View,
   ScrollView,
 } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -31,8 +30,8 @@ export default function Profile3({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
-  const [userData] = userDataInfo;
-  const { name, location, profileText } = route.params;
+  const [userData, setUserData] = userDataInfo;
+  const { name, location, profileText, gender } = route.params;
 
   const [hobby, setHobby] = useState("");
   const [category, setCategory] = useState("");
@@ -49,33 +48,22 @@ export default function Profile3({ route, navigation }) {
   }, [category]);
 
   const validateInput = () => {
-    if (name === "") {
-      console.log("if statement with name");
-      setError((errors) => [...errors, "お名前を入力してください。"]);
-    }
+    console.log("validating");
+    switch (true) {
+      case category === "":
+        setError((error) => [...error, "趣味を教えてください。"]);
+        break;
 
-    // if (hobby === "") setError((error) => [...error, "趣味を選んでください。"]);
+      case hobby === "":
+        setError((error) => [...error, "趣味を教えてください。"]);
+        break;
 
-    if (location === "") setError((error) => [...error, "都道府県を選んでください。"]);
-    if (profileText === "")
-      setError((error) => [...error, "プロフィールを入力してください。"]);
-    else {
-      // move to profile2
-      navigation.navigate("Profile2", { name, location, profileText });
+      default:
+        return true;
     }
   };
 
   const saveUserInfo = async () => {
-    // databaseに保存
-    setError("");
-    const isValid = validateInput();
-    console.log(error);
-
-    if (!isValid) {
-      console.log(error);
-      return;
-    }
-
     console.log("saving to database", category, hobby);
 
     if (isNewUser) {
@@ -86,7 +74,10 @@ export default function Profile3({ route, navigation }) {
         location,
         profileText,
         likes: [],
+        gender,
       };
+      setUserData(user);
+
       const userData = await API.graphql(
         graphqlOperation(createCustomer, { input: user })
       );
@@ -100,10 +91,14 @@ export default function Profile3({ route, navigation }) {
         location,
         profileText,
         interests: [{ category, hobby }],
+        gender,
       };
       await API.graphql(graphqlOperation(updateCustomer, { input: query }));
     }
-    navigation.navigate("MatchPage");
+
+    // userData.interests[0].category = category; // int
+    // userData.interests[0].hobby = hobby;
+    // userData.location = location;
   };
   const handleCategory = (value) => {
     let interestList = interestTable[value].map((interest, index) => {
@@ -113,6 +108,11 @@ export default function Profile3({ route, navigation }) {
     setInterestList(interestList);
     console.log("setting interest with", interestList);
     setCategory(value);
+  };
+
+  const handleHobby = (hobby) => {
+    console.log("setting hobby with ", hobby);
+    setHobby(hobby);
   };
 
   return (
@@ -147,6 +147,7 @@ export default function Profile3({ route, navigation }) {
           <View style={styles.iconRight}>
             <TouchableOpacity
               onPress={() => {
+                setHobby("");
                 setCategory("");
               }}
             >
@@ -158,51 +159,23 @@ export default function Profile3({ route, navigation }) {
             data={interestList}
             keyExtractor={(item) => item.value}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleCategory(item.value)}>
-                <Text style={styles.hobbyLabel}>{item.label}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  handleHobby(item.value);
+                  // saveUserInfo();
+                }}
+              >
+                <Text
+                  style={hobby === item.value ? styles.selectedLabel : styles.hobbyLabel}
+                >
+                  {item.label}
+                </Text>
               </TouchableOpacity>
             )}
           />
         </View>
       )}
-      <RNPickerSelect
-        onValueChange={setCategory}
-        items={categories}
-        style={pickerSelectStyles}
-        placeholder={{ label: "趣味を教えてください", value: "" }}
-        Icon={() => (
-          <Text
-            style={{
-              position: "absolute",
-              right: 95,
-              top: 10,
-              fontSize: 18,
-              color: "#789",
-            }}
-          >
-            ▼
-          </Text>
-        )}
-      />
-      <RNPickerSelect
-        onValueChange={setHobby}
-        items={interestList}
-        style={pickerSelectStyles}
-        placeholder={{ label: "趣味を教えてください", value: "" }}
-        Icon={() => (
-          <Text
-            style={{
-              position: "absolute",
-              right: 95,
-              top: 10,
-              fontSize: 18,
-              color: "#789",
-            }}
-          >
-            ▼
-          </Text>
-        )}
-      />
+
       <View style={styles.iconContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -211,12 +184,19 @@ export default function Profile3({ route, navigation }) {
         >
           <AntDesign name="leftcircle" size={56} color="#F3B614" />
         </TouchableOpacity>
-        <Text style={styles.header}> 3 of 3 </Text>
+        <Text style={styles.header}> 3 of 4 </Text>
 
         <TouchableOpacity
           onPress={() => {
-            // validateInput()
-            navigation.navigate("Photo");
+            const isValid = validateInput();
+            if (isValid) {
+              console.log("data is valid, saving to database");
+              saveUserInfo();
+              console.log("successfully saved the data");
+              console.log("遷移前のユーザーデータ", { userData });
+
+              navigation.navigate("MatchPage");
+            }
           }}
         >
           <AntDesign name="rightcircle" size={56} color="#27AE60" />
@@ -294,6 +274,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
     backgroundColor: "#B725D4",
+    borderRadius: 44,
+    paddingBottom: 12,
+    paddingTop: 12,
+    paddingRight: 24,
+    paddingLeft: 24,
+    marginHorizontal: 3,
+    marginVertical: 5,
+  },
+  selectedLabel: {
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#004DA9",
     borderRadius: 44,
     paddingBottom: 12,
     paddingTop: 12,
