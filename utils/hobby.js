@@ -566,7 +566,7 @@ export const calcHobby = (category, hobby1, hobby2) => {
   let cat = Number(category);
   let hob1 = Number(hobby1);
   let hob2 = Number(hobby2);
-  console.log({ cat, hob1, hob2 });
+  console.log("CATTTTTTTTTTTT", { cat, hob1, hob2 });
   if (hob1 === hob2) return 1;
   if (hob1 > hob2) [hob1, hob2] = [hob2, hob1];
   return eval("cat" + cat)["hob" + hob1]["hob" + hob2] || 0;
