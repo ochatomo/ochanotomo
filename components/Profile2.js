@@ -20,12 +20,12 @@ import { Picker } from "@react-native-picker/picker";
 import { AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../contexts/UserContext";
+import { globalStyles } from "../styles/style";
 
 export default function Profile2({ route, navigation }) {
   const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
   const { name, profileText } = route.params;
-  // console.log(userData);
 
   const [location, setLocation] = useState(userData.location);
   const [gender, setGender] = useState(userData.gender);
@@ -43,13 +43,16 @@ export default function Profile2({ route, navigation }) {
 
   return (
     <SafeAreaView>
-      <View style={styles.imgContainer}>
-        <Image style={styles.logo} source={require("../assets/profile_logo.png")} />
+      <View style={globalStyles.imgContainer}>
+        <Image
+          style={globalStyles.largeLogo}
+          source={require("../assets/profile_logo.png")}
+        />
       </View>
 
-      <Text style={styles.header}>プロフィールを編集する</Text>
+      <Text style={globalStyles.header}>プロフィールを編集する</Text>
 
-      <Text style={styles.inputLabel}>お住まいは……</Text>
+      <Text style={globalStyles.inputLabel}>お住まいは……</Text>
 
       <View style={styles.container}>
         <View style={styles.pickerContainer}>
@@ -59,17 +62,12 @@ export default function Profile2({ route, navigation }) {
             onValueChange={setLocation}
           >
             {prefectures.map((data) => (
-              <Picker.Item
-                label={data.label}
-                value={data.value}
-                color="#0094CE"
-                key={data.label}
-              />
+              <Picker.Item label={data.label} value={data.value} color="#0094CE" />
             ))}
           </Picker>
         </View>
       </View>
-      <Text style={styles.inputLabel}>性別を教えてください。</Text>
+      <Text style={globalStyles.inputLabel}>性別を教えてください。</Text>
 
       <View style={styles.container}>
         <View style={styles.pickerContainer}>
@@ -85,7 +83,7 @@ export default function Profile2({ route, navigation }) {
         </View>
       </View>
 
-      <View style={styles.iconContainer}>
+      <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Profile");
@@ -93,7 +91,7 @@ export default function Profile2({ route, navigation }) {
         >
           <AntDesign name="leftcircle" size={56} color="#F3B614" />
         </TouchableOpacity>
-        <Text style={styles.header}> 2 of 4 </Text>
+        <Text style={globalStyles.header}> 2 of 4 </Text>
 
         <TouchableOpacity
           onPress={() => {
@@ -178,57 +176,7 @@ const prefectures = [
   { label: "沖縄県", value: 47 },
 ];
 
-// const prefectureList = generatePickerItem(prefectures);
-// const gender = generatePickerItem(prefectures)
-
 const styles = StyleSheet.create({
-  imgContainer: {
-    marginVertical: 5,
-
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  iconContainer: {
-    marginHorizontal: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  header: {
-    fontSize: 28,
-    textAlign: "center",
-    color: "#004DA9",
-    fontWeight: "bold",
-    paddingVertical: 20,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginHorizontal: "auto",
-  },
-  input: {
-    height: 40,
-    marginBottom: 12,
-    marginHorizontal: 12,
-    borderWidth: 2,
-    padding: 8,
-    paddingHorizontal: 20,
-    borderColor: "#0093ED",
-    color: "#0093ED",
-    fontSize: 20,
-    borderRadius: 16,
-  },
-  inputLabel: {
-    margin: 12,
-    color: "#0094CE",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  miltiInput: {
-    height: 200,
-    // backgroundColor: "pink",
-  },
   picker: {
     width: "100%",
     height: 50,
@@ -244,44 +192,4 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
   },
-  label: {
-    fontWeight: "bold",
-    color: "#fff",
-    backgroundColor: "#0094CE",
-    borderRadius: 10,
-    paddingBottom: 5,
-    paddingTop: 5,
-    paddingRight: 10,
-    paddingLeft: 10,
-    marginHorizontal: 3,
-    marginVertical: 5,
-  },
-});
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 100,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: "#0093ED",
-    borderRadius: 4,
-    color: "#0093ED",
-    paddingRight: 30, // to ensure the text is never behind the icon
-    width: 300,
-    marginLeft: 30,
-  },
-  inputAndroid: {
-    fontSize: 100,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#0093ED",
-    borderRadius: 8,
-    color: "#0093ED",
-    paddingRight: 30, // to ensure the text is never behind the icon
-    width: 280,
-    marginLeft: 30,
-  },
-  placeholder: { color: "#0093ED" },
 });

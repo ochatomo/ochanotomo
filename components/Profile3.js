@@ -5,7 +5,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
   Text,
-  StyleSheet,
   SafeAreaView,
   TouchableOpacity,
   FlatList,
@@ -21,7 +20,7 @@ import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
 import { interestTable } from "../utils/helper";
-import s from "../styles/style.js";
+import { globalStyles } from "../styles/style.js";
 
 export default function Profile3({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
@@ -114,15 +113,13 @@ export default function Profile3({ route, navigation }) {
 
   return (
     <SafeAreaView>
-      {error.length > 0 &&
-        error.map((error, index) => {
-          return <Text key="index">{error}</Text>;
-        })}
-
-      <View style={s.imgContainer}>
-        <Image style={s.logo} source={require("../assets/active_icon.png")} />
+      <View style={globalStyles.imgContainer}>
+        <Image
+          style={globalStyles.largeLogo}
+          source={require("../assets/active_icon.png")}
+        />
       </View>
-      <Text style={s.header}>
+      <Text style={globalStyles.header}>
         {isNewUser ? "趣味を教えてください" : "趣味を編集する"}
       </Text>
 
@@ -134,14 +131,14 @@ export default function Profile3({ route, navigation }) {
             keyExtractor={(item) => item.value}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => handleCategory(item.value)}>
-                <Text style={s.categoryLabel}>{item.label}</Text>
+                <Text style={globalStyles.categoryLabel}>{item.label}</Text>
               </TouchableOpacity>
             )}
           />
         </View>
       ) : (
         <View>
-          <View style={s.iconRight}>
+          <View style={globalStyles.iconRight}>
             <TouchableOpacity
               onPress={() => {
                 setHobby("");
@@ -162,7 +159,13 @@ export default function Profile3({ route, navigation }) {
                   // saveUserInfo();
                 }}
               >
-                <Text style={hobby === item.value ? s.selectedLabel : s.hobbyLabel}>
+                <Text
+                  style={
+                    hobby === item.value
+                      ? globalStyles.selectedLabel
+                      : globalStyles.hobbyLabel
+                  }
+                >
                   {item.label}
                 </Text>
               </TouchableOpacity>
@@ -171,7 +174,7 @@ export default function Profile3({ route, navigation }) {
         </View>
       )}
 
-      <View style={s.iconContainer}>
+      <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Profile2");
@@ -179,7 +182,7 @@ export default function Profile3({ route, navigation }) {
         >
           <AntDesign name="leftcircle" size={56} color="#F3B614" />
         </TouchableOpacity>
-        <Text style={s.header}> 3 of 4 </Text>
+        <Text style={globalStyles.header}> 3 of 4 </Text>
 
         <TouchableOpacity
           onPress={() => {

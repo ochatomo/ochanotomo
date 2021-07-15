@@ -1,6 +1,19 @@
 import { StyleSheet } from "react-native";
 
-module.exports = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
+  boxShadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  text: {
+    fontFamily: "poppins",
+  },
   iconLabel: {
     fontSize: 14,
     color: "#0094CE",
@@ -80,6 +93,11 @@ module.exports = StyleSheet.create({
     marginBottom: 5,
     // marginHorizontal: "auto",
   },
+  largeLogo: {
+    width: 100,
+    height: 100,
+    marginHorizontal: "auto",
+  },
   input: {
     height: 40,
     marginBottom: 12,
@@ -131,6 +149,17 @@ module.exports = StyleSheet.create({
     marginHorizontal: 3,
     marginVertical: 5,
   },
+  smallCategoryLabel: {
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#0094CE",
+    borderRadius: 44,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    marginHorizontal: 3,
+    marginVertical: 5,
+  },
+
   hobbyLabel: {
     fontWeight: "bold",
     color: "#fff",
@@ -140,6 +169,16 @@ module.exports = StyleSheet.create({
     paddingTop: 12,
     paddingRight: 24,
     paddingLeft: 24,
+    marginHorizontal: 3,
+    marginVertical: 5,
+  },
+  smallHobbyLabel: {
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#B725D4",
+    borderRadius: 44,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     marginHorizontal: 3,
     marginVertical: 5,
   },
