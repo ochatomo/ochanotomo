@@ -10,6 +10,9 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-na
 import { UserContext } from "../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
 
+import { globalStyles } from "../styles/style";
+import { interestTable, categoryTable } from "../utils/helper";
+
 import { updateCustomer, createMatch } from "../src/graphql/mutations";
 import { onCreateMatch } from "../src/graphql/subscriptions";
 import { getLikesByCustomerID } from "../src/graphql/customQueries";
@@ -19,18 +22,17 @@ import { calcLocation } from "../utils/location";
 import { calcCategory } from "../utils/category ";
 import { calcHobby } from "../utils/hobby";
 
-export default function MatchPage({ userInfo, setNewUser, navigation }) {
+export default function MatchPage({ navigation }) {
   const { allCustomerData, userDataInfo } = useContext(UserContext);
   const [allCustomers] = allCustomerData;
   const [userData] = userDataInfo;
   const [likes, setLikes] = useState(userData.likes);
   const [currentIdx, setIdx] = useState(0);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
-  const [message, setMessage] = useState("");
+  const [message] = useState("");
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
-    // console.log("Component loading", { allCustomers });
     // filter out customers whose id is already registered in the likes of currentUser
     // && also exclude youself
 
@@ -223,13 +225,15 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
 
   return (
     <View>
-      <View style={styles.iconContainer}>
+      <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           onPress={() => {
             // view my profile page
           }}
+          style={globalStyles.flexColumn}
         >
           <AntDesign name="leftcircle" size={50} color="#F3B614" />
+          <Text style={globalStyles.iconLabel}>戻る</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -237,32 +241,28 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
             // view my profile page
             navigation.navigate("Profile");
           }}
+          style={globalStyles.flexColumn}
         >
-          <Image source={require("../assets/edit.png")} style={styles.logo} />
+          <Image source={require("../assets/edit.png")} style={globalStyles.logo} />
+          <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.rightContainer}>
+      <View style={globalStyles.rightContainer}>
         <TouchableOpacity
           onPress={() => {
             // pass matches to MatchList
             navigation.navigate("MatchList", { matches: matches });
           }}
         >
-          <Text style={styles.label}>お茶トモをチェックする</Text>
+          <Text style={globalStyles.label}>お茶トモをチェックする</Text>
         </TouchableOpacity>
       </View>
-
-      <View style={styles.flexRow}>
-        <View style={[styles.profileContainer, styles.flexColumn]}>
-          <Image source={require("../assets/testphoto.jpeg")} style={styles.photo} />
-          <Text style={styles.name}>
-            {filteredCustomers.length > 0
-              ? filteredCustomers[currentIdx].name
-              : "全員をスワイプしました"}{" "}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.buttonContainer}>
+      {filteredCustomers.length > 0 ? (
+        customerProfile(filteredCustomers[currentIdx])
+      ) : (
+        <Text>全員をスワイプしました</Text>
+      )}
+      <View style={globalStyles.buttonContainer}>
         <TouchableOpacity
           onPress={() => {
             handleDislike(filteredCustomers[currentIdx]);
@@ -282,20 +282,55 @@ export default function MatchPage({ userInfo, setNewUser, navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <Text>{message !== "" && message}</Text>
     </View>
   );
 }
 
+const customerProfile = (customer) => {
+  return (
+    <>
+      <View style={globalStyles.flexColumn}>
+        <View
+          style={[
+            styles.profileContainer,
+            globalStyles.flexColumn,
+            globalStyles.boxShadow,
+          ]}
+        >
+          <Image source={require("../assets/testphoto.jpeg")} style={styles.photo} />
+          <Text style={styles.name}>{customer.name}</Text>
+          <View style={styles.interests}>
+            {generateInterestLabel(customer.interests)}
+          </View>
+          <Text style={styles.profileText}>{customer.profileText}</Text>
+        </View>
+      </View>
+    </>
+  );
+};
+
+const generateInterestLabel = (interests) => {
+  if (interests.length === 0) return "";
+
+  return interests.map((interest, index) => (
+    <View style={globalStyles.flexRow}>
+      <Text style={globalStyles.smallCategoryLabel} key={index}>
+        {categoryTable[interest.category]}
+      </Text>
+      <Text style={globalStyles.smallHobbyLabel} key={index}>
+        {interestTable[interest.category][interest.hobby]}
+      </Text>
+    </View>
+  ));
+};
+
 const styles = StyleSheet.create({
-  flexRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+  smallLabel: {
+    width: 50,
   },
   profileContainer: {
     paddingVertical: 20,
+    paddingHorizontal: 12,
     backgroundColor: "white",
     width: 309,
   },
@@ -315,85 +350,9 @@ const styles = StyleSheet.create({
   photo: {
     width: 236,
     height: 195,
-  },
-  flexColumn: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  imgContainer: {
     marginVertical: 5,
-
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
   },
-  iconContainer: {
-    marginTop: 15,
-    marginHorizontal: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  buttonContainer: {
-    marginTop: 15,
-    marginHorizontal: 15,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  rightContainer: {
-    marginTop: 15,
-    marginHorizontal: 15,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  header: {
-    fontSize: 28,
-    textAlign: "center",
-    color: "#004DA9",
-    fontWeight: "bold",
-    paddingVertical: 20,
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    // marginHorizontal: "auto",
-  },
-  input: {
-    height: 40,
-    marginBottom: 12,
-    marginHorizontal: 12,
-    borderWidth: 2,
-    padding: 8,
-    paddingHorizontal: 20,
-    borderColor: "#0093ED",
-    color: "#0093ED",
-    fontSize: 20,
-    borderRadius: 16,
-  },
-  inputLabel: {
-    margin: 12,
-    color: "#0094CE",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  miltiInput: {
-    height: 200,
-    // backgroundColor: "pink",
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#fff",
-    backgroundColor: "#B725D4",
-    borderRadius: 44,
-    paddingBottom: 12,
-    paddingTop: 12,
-    paddingRight: 24,
-    paddingLeft: 24,
-    marginHorizontal: 3,
-    marginVertical: 10,
+  profileText: {
+    fontSize: 15,
   },
 });
