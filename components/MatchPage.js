@@ -10,8 +10,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-na
 import { UserContext } from "../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
 
-import { globalStyles } from "../styles/style";
-import { interestTable, categoryTable } from "../utils/helper";
+import { globalStyles } from "../styles/globalStyle";
+import { generateInterestLabel } from "../utils/helper";
 
 import { updateCustomer, createMatch } from "../src/graphql/mutations";
 import { onCreateMatch } from "../src/graphql/subscriptions";
@@ -307,21 +307,6 @@ const customerProfile = (customer) => {
       </View>
     </>
   );
-};
-
-const generateInterestLabel = (interests) => {
-  if (interests.length === 0) return "";
-
-  return interests.map((interest, index) => (
-    <View style={globalStyles.flexRow}>
-      <Text style={globalStyles.smallCategoryLabel} key={index}>
-        {categoryTable[interest.category]}
-      </Text>
-      <Text style={globalStyles.smallHobbyLabel} key={index}>
-        {interestTable[interest.category][interest.hobby]}
-      </Text>
-    </View>
-  ));
 };
 
 const styles = StyleSheet.create({

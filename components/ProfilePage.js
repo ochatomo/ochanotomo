@@ -10,7 +10,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-na
 import { UserContext } from "../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
-import { globalStyles } from "../styles/style";
+import { globalStyles } from "../styles/globalStyle";
+import { generateInterestLabel } from "../utils/helper";
 
 export default function ProfilePage({ navigation }) {
   const { userDataInfo } = useContext(UserContext);
@@ -49,15 +50,8 @@ export default function ProfilePage({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={globalStyles.flexRow}>
-        <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
-          <Image
-            source={require("../assets/testphoto.jpeg")}
-            style={globalStyles.photo}
-          />
-        </View>
+        <Profile userData={userData} />
       </View>
-
-      <Text style={globalStyles.header}>{userData.name}</Text>
 
       <View style={globalStyles.flexColumn}>
         <TouchableOpacity
@@ -72,3 +66,39 @@ export default function ProfilePage({ navigation }) {
     </View>
   );
 }
+
+const Profile = ({ userData }) => {
+  return (
+    <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
+      <Image source={require("../assets/testphoto.jpeg")} style={styles.profilePhoto} />
+      <Text style={globalStyles.header}>{userData.name}</Text>
+      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
+        趣味・関心事
+      </Text>
+      <View style={styles.interests}>{generateInterestLabel(userData.interests)}</View>
+      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
+        自己紹介
+      </Text>
+      <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
+        <Text style={{ fontSize: 15, fontWeight: "bold", color: "#0094CE" }}>
+          {userData.profileText}
+        </Text>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  profilePhoto: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+  },
+  profileTextContainer: {
+    width: "100%",
+    backgroundColor: "#F8F4F4",
+    borderRadius: 19,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+});
