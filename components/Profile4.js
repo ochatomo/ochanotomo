@@ -12,6 +12,7 @@ import {
   View,
   Alert,
   Button,
+  Modal,
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -38,6 +39,7 @@ export default function Profile4({ route, navigation }) {
   const { name, location, profileText, gender, category, hobby } = route.params;
   const [uri, setUri] = useState("");
   const [photoSelected, setPhotoSelected] = useState(false);
+  const [profileSaved, setProfileSaved] = useState(false);
 
   const validateInput = () => {
     //data validation あれば
@@ -61,10 +63,7 @@ export default function Profile4({ route, navigation }) {
       setUserData(user);
 
       await API.graphql(graphqlOperation(createCustomer, { input: user }));
-      // console.log({ userData });
     } else {
-      // 本当は変更があるfieldのみを投げる。
-
       const query = {
         id: userId,
         name,
@@ -85,34 +84,80 @@ export default function Profile4({ route, navigation }) {
       </View>
       <Text style={globalStyles.header}>写真をアップロードする</Text>
 
-      {photoSelected && (
-        <Image
-          style={{ width: 100, height: 100 }}
-          source={{
-            uri: `${uri}`,
-          }}
-        />
-      )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={photoSelected}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View
+          style={[globalStyles.modalContainer, { backgroundColor: "rgba(0,0,0,0.5)" }]}
+        >
+          <Text style={[globalStyles.categoryLabel, styles.prompt]}>
+            この写真でよろしいですか？
+          </Text>
+          <View style={styles.photoPreviewContainer}>
+            <View style={[globalStyles.iconRight, styles.cancelIcon]}>
+              <TouchableOpacity
+                onPress={() => {
+                  setPhotoSelected(false);
+                }}
+              >
+                <AntDesign name="closecircle" size={56} color="#EC5E56" />
+              </TouchableOpacity>
+            </View>
+            <Image
+              style={styles.photoPreview}
+              source={{
+                uri: `${uri}`,
+              }}
+            />
+          </View>
+          <View style={globalStyles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                setPhotoSelected(false);
+              }}
+            >
+              <Text style={[styles.textBtn, { backgroundColor: "#EC5E56" }]}>
+                やり直す
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={async () => {
+                if (!photoSelected) return;
+                const extension = getExtension(uri);
+                //   console.log({ extension });
+                const photoUrl = `https://photo152330-dev.s3.ap-northeast-1.amazonaws.com/${userData.id}.${extension}`;
+                //   console.log(photoUrl);
+                const res = await uploadFile(uri, userData.id, extension);
+                //   console.log("response------", res.error);
+                if (!res.error) {
+                  await saveUserInfo(photoUrl);
+                  setPhotoSelected(false);
+                  Alert.alert(
+                    "ユーザー情報が保存されました",
+                    "早速お茶トモを探しにいきましょう！",
+                    [{ text: "OK", onPress: () => navigation.navigate("MatchPage") }]
+                  );
+                }
+              }}
+            >
+              <Text style={[styles.textBtn, { backgroundColor: "#27AE60" }]}>
+                これにする！
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       <View style={globalStyles.buttonContainer}>
         <TouchableOpacity
-          onPress={async () => {
-            setPhotoSelected(false);
-            const result = await handleTakePhoto();
-
-            if (result !== undefined) {
-              setUri(result);
-              setPhotoSelected(true);
-            }
-          }}
-        >
-          <Image
-            style={globalStyles.largeLogo}
-            source={require("../assets/photo-upload.png")}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
+          style={[globalStyles.flexColumn, styles.logoContainer]}
           onPress={async () => {
             setPhotoSelected(false);
 
@@ -124,31 +169,28 @@ export default function Profile4({ route, navigation }) {
             }
           }}
         >
+          <Image style={styles.cameraLogo} source={require("../assets/cellphone.png")} />
+          <Text style={styles.label}>携帯から</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[globalStyles.flexColumn, styles.logoContainer]}
+          onPress={async () => {
+            setPhotoSelected(false);
+            const result = await handleTakePhoto();
+
+            if (result !== undefined) {
+              setUri(result);
+              setPhotoSelected(true);
+            }
+          }}
+        >
           <Image
-            style={globalStyles.largeLogo}
-            source={require("../assets/cellphone.png")}
+            style={styles.cameraLogo}
+            source={require("../assets/photo-upload.png")}
           />
+          <Text style={styles.label}>今写真を撮る</Text>
         </TouchableOpacity>
       </View>
-
-      <Button
-        onPress={async () => {
-          if (!photoSelected) return;
-          const extension = getExtension(uri);
-          console.log({ extension });
-          const photoUrl = `https://photo152330-dev.s3.ap-northeast-1.amazonaws.com/${userData.id}.${extension}`;
-          //   setUrl(
-          //     `https://photo152330-dev.s3.ap-northeast-1.amazonaws.com/${userData.id}.${extension}`
-          //   );
-          console.log(photoUrl);
-          const res = await uploadFile(uri, userData.id, extension);
-          console.log("response------", res.error);
-          if (!res.error) {
-            saveUserInfo(photoUrl);
-          }
-        }}
-        title="保存する"
-      />
 
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
@@ -173,11 +215,57 @@ export default function Profile4({ route, navigation }) {
             }
           }}
         >
-          <AntDesign name="rightcircle" size={56} color="#27AE60" />
+          <AntDesign name="rightcircle" size={56} style={{ opacity: 0 }} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  textBtn: {
+    borderRadius: 44,
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "white",
+    paddingVertical: 13,
+    paddingHorizontal: 24,
+    marginHorizontal: 10,
+  },
+  cancelIcon: {
+    position: "absolute",
+    zIndex: 1,
+    right: 5,
+    backgroundColor: "white",
+    borderRadius: 35,
+  },
+
+  photoPreview: {
+    width: "100%",
+    height: "100%",
+  },
+  photoPreviewContainer: {
+    backgroundColor: "#FFF",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    height: 350,
+    width: 350,
+  },
+  cameraLogo: {
+    width: 80,
+    height: 80,
+    marginHorizontal: "auto",
+  },
+  label: {
+    backgroundColor: "#004DA9",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 44,
+    color: "white",
+    fontWeight: "bold",
+  },
+  logoContainer: {
+    height: 150,
+    justifyContent: "space-evenly",
+  },
+});
