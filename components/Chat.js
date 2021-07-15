@@ -86,8 +86,14 @@ export default function Chat({ route, navigation }) {
             }
             }} >
             <MaterialCommunityIcons name="send-circle" size={80} color="#0094CE" alignItems ='center'/>
-          </TouchableOpacity>
-          </View>
+        </TouchableOpacity>
+      </View>
+      <Button
+  title="Topic"
+  color="#841584"
+  accessibilityLabel="何について話すな"
+/>
+
     </View>
   );
 }
@@ -107,7 +113,6 @@ const Message = (message) => {
   console.log(message.message.item.content);
   return (
     <View >
-      
     <View style={styles.messageBox,{
       borderRadius: 8,
       marginLeft: isMyMessage() ? 90 : 0,
@@ -185,7 +190,7 @@ const styles = StyleSheet.create({
   message: {
   },
   inputBox: {
-    width: 280,
+    width: 200,
     height: 80,
     justifyContent: 'center',
     borderRadius: 16,
