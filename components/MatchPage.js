@@ -56,11 +56,14 @@ export default function MatchPage({ navigation }) {
   useEffect(() => {
     if (userData.matches !== undefined) {
       // console.log("Matches", userData.matches.items);
-      const matches = userData.matches.items.map((item) => ({
-        name: item.customer.name,
-        id: item.customer.id,
-        photo: item.customer.photo,
-      }));
+      const matches = userData.matches.items.map((item, index) => {
+        console.log({ index, item });
+        return {
+          name: item.customer.name,
+          id: item.customer.id,
+          photo: item.customer.photo,
+        };
+      });
       setMatches(matches);
     }
     const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe({
@@ -68,7 +71,7 @@ export default function MatchPage({ navigation }) {
         // console.log("onCreateMatch", data);
         const owner_id = data.value.data.onCreateMatch.owner_id;
         console.log("newMatch firing with", data);
-        console.log("currentState of matches", userData.matches);
+        // console.log("currentState of matches", userData.matches);
         if (owner_id === userData.id) {
           console.log("updating matches");
           const matchedCustomerData = data.value.data.onCreateMatch.customer;
@@ -108,7 +111,7 @@ export default function MatchPage({ navigation }) {
 
       const totalScore = locationScore + categoryScore + hobbyScore;
       const customerName = customer.name;
-      console.log({ customerName, locationScore, categoryScore, hobbyScore, totalScore });
+      // console.log({ customerName, locationScore, categoryScore, hobbyScore, totalScore });
       customer.score = totalScore;
       return customer;
     });
@@ -297,7 +300,13 @@ const customerProfile = (customer) => {
             globalStyles.boxShadow,
           ]}
         >
-          <Image source={require("../assets/testphoto.jpeg")} style={styles.photo} />
+          <Image
+            style={[{ width: 100, height: 100 }, styles.photo]}
+            source={{
+              uri: customer.photo,
+            }}
+          />
+          {/* <Image source={{}} style={styles.photo} /> */}
           <Text style={styles.name}>{customer.name}</Text>
           <View style={styles.interests}>
             {generateInterestLabel(customer.interests)}
