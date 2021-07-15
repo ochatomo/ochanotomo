@@ -73,3 +73,41 @@ export const getCustomerWithMatches = /* GraphQL */ `
     }
   }
 `;
+
+export const onUpdateCustomerWithMatches = `
+subscription OnUpdateCustomer {
+  onUpdateCustomer {
+    gender
+    id
+    interests {
+      category
+      hobby
+    }
+    likes {
+      id
+      like
+    }
+    location
+    matches {
+      items {
+        id
+        owner_id
+        customer_id
+        createdAt
+        updatedAt
+        customer {
+          id
+          name
+          photo
+        }
+      }
+      nextToken
+    }
+    name
+    photo
+    profileText
+    createdAt
+    updatedAt
+  }
+}
+`;
