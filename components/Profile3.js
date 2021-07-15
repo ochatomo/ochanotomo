@@ -10,6 +10,7 @@ import {
   FlatList,
   Image,
   View,
+  Alert,
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -20,7 +21,7 @@ import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
 import { interestTable } from "../utils/helper";
-import { globalStyles } from "../styles/style.js";
+import { globalStyles } from "../styles/globalStyle.js";
 
 export default function Profile3({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
@@ -186,12 +187,16 @@ export default function Profile3({ route, navigation }) {
 
         <TouchableOpacity
           onPress={() => {
+            if (category === "") {
+              Alert.alert("入力エラー", "趣味を選んでください。", [
+                { text: "OK", onPress: () => console.log("alert closed") },
+              ]);
+            }
             const isValid = validateInput();
             if (isValid) {
               console.log("data is valid, saving to database");
               saveUserInfo();
               console.log("successfully saved the data");
-              // console.log("遷移前のユーザーデータ", { userData });
 
               navigation.navigate("MatchPage");
             }

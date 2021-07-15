@@ -26,6 +26,7 @@ export const globalStyles = StyleSheet.create({
   },
   profileContainer: {
     paddingVertical: 20,
+    paddingHorizontal: 20,
     backgroundColor: "white",
     width: 309,
   },
@@ -80,7 +81,14 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
   },
+  smallTextLabel: {
+    color: "#004DA9",
+    fontSize: 15,
+    fontWeight: "bold",
+    paddingVertical: 3,
+  },
   header: {
+    fontFamily: "NotoSansJP_700Bold",
     fontSize: 28,
     textAlign: "center",
     color: "#004DA9",

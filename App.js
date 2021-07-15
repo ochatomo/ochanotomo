@@ -37,12 +37,15 @@ function App() {
     NotoSansJP_700Bold,
     NotoSansJP_900Black,
   });
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
-    <UserProvider>
-      <AppNavigator />
-    </UserProvider>;
+    return (
+      <UserProvider>
+        <AppNavigator />
+      </UserProvider>
+    );
   }
 }
 
