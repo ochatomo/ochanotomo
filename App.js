@@ -17,22 +17,34 @@ import { withAuthenticator } from "aws-amplify-react-native";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
+import AppLoading from "expo-app-loading";
+import {
+  useFonts,
+  NotoSansJP_100Thin,
+  NotoSansJP_300Light,
+  NotoSansJP_400Regular,
+  NotoSansJP_500Medium,
+  NotoSansJP_700Bold,
+  NotoSansJP_900Black,
+} from "@expo-google-fonts/noto-sans-jp";
+
 function App() {
-  return (
-    // <View style={styles.container}>
+  let [fontsLoaded] = useFonts({
+    NotoSansJP_100Thin,
+    NotoSansJP_300Light,
+    NotoSansJP_400Regular,
+    NotoSansJP_500Medium,
+    NotoSansJP_700Bold,
+    NotoSansJP_900Black,
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
     <UserProvider>
       <AppNavigator />
-    </UserProvider>
-    // </View>
-  );
+    </UserProvider>;
+  }
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center" },
-  // todo: { marginBottom: 15 },
-  // input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
-  // todoName: { fontSize: 18 },
-});
 
 export default withAuthenticator(App, {
   usernameAttributes: "email",
