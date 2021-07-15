@@ -271,7 +271,9 @@ export default function MatchPage({ navigation }) {
             handleDislike(filteredCustomers[currentIdx]);
           }}
         >
-          <Text style={[styles.textBtn, { backgroundColor: "#EC5E56" }]}>ちょっと……</Text>
+          <Text style={[globalStyles.textBtn, { backgroundColor: "#EC5E56" }]}>
+            ちょっと……
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -280,7 +282,7 @@ export default function MatchPage({ navigation }) {
             handleLike(filteredCustomers[currentIdx]);
           }}
         >
-          <Text style={[styles.textBtn, { backgroundColor: "#27AE60" }]}>
+          <Text style={[globalStyles.textBtn, { backgroundColor: "#27AE60" }]}>
             お茶したい！
           </Text>
         </TouchableOpacity>
@@ -327,14 +329,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     backgroundColor: "white",
     width: 309,
-  },
-  textBtn: {
-    borderRadius: 44,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
   },
   name: {
     fontSize: 24,
