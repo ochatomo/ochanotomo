@@ -60,43 +60,6 @@ export default function Profile3({ route, navigation }) {
     }
   };
 
-  const saveUserInfo = async () => {
-    // console.log("saving to database", category, hobby);
-
-    if (isNewUser) {
-      const user = {
-        id: userId,
-        name: name,
-        interests: [{ category, hobby }],
-        location,
-        profileText,
-        likes: [],
-        gender,
-      };
-      setUserData(user);
-
-      const userData = await API.graphql(
-        graphqlOperation(createCustomer, { input: user })
-      );
-      // console.log({ userData });
-    } else {
-      // 本当は変更があるfieldのみを投げる。
-
-      const query = {
-        id: userId,
-        name,
-        location,
-        profileText,
-        interests: [{ category, hobby }],
-        gender,
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-    }
-
-    // userData.interests[0].category = category; // int
-    // userData.interests[0].hobby = hobby;
-    // userData.location = location;
-  };
   const handleCategory = (value) => {
     let interestList = interestTable[value].map((interest, index) => {
       if (interest === "その他") return { label: interest, value: 99 };
@@ -195,10 +158,17 @@ export default function Profile3({ route, navigation }) {
             const isValid = validateInput();
             if (isValid) {
               console.log("data is valid, saving to database");
-              saveUserInfo();
-              console.log("successfully saved the data");
+              // saveUserInfo();
+              // console.log("successfully saved the data");
 
-              navigation.navigate("MatchPage");
+              navigation.navigate("Profile4", {
+                name,
+                profileText,
+                gender,
+                location,
+                hobby,
+                category,
+              });
             }
           }}
         >
