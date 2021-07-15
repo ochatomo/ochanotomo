@@ -64,6 +64,11 @@ const HomeNavigator = ({ navigation }) => {
       ) : (
         <>
           <Screen
+            name="Photo"
+            component={Photo}
+            options={{ headerTitle: () => <Header /> }}
+          />
+          <Screen
             name="ProfilePage"
             component={ProfilePage}
             options={{ headerTitle: () => <Header /> }}
@@ -72,12 +77,12 @@ const HomeNavigator = ({ navigation }) => {
           <Screen
             name="MatchPage"
             component={MatchPage}
-            options={{ title: "MatchPage" }}
+            // options={{ headerTitle: () => <Header /> }}
           />
           <Screen name="Profile" component={Profile} options={{ title: "Profile" }} />
           <Screen name="Profile2" component={Profile2} options={{ title: "Profile2" }} />
           <Screen name="Profile3" component={Profile3} options={{ title: "Profile3" }} />
-          <Screen name="Photo" component={Photo} options={{ title: "Photo" }} />
+          {/* <Screen name="Photo" component={Photo} options={{ title: "Photo" }} /> */}
 
           <Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
           <Screen
