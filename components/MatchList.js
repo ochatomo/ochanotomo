@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button } fr
 import { API, graphqlOperation } from "aws-amplify";
 import { createChatRoom } from "../src/graphql/mutations";
 import { getFullChatRoomInfo } from "../src/graphql/customQueries";
-import { globalStyles } from "../styles/style";
+import { globalStyles } from "../styles/globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import { UserContext } from "../contexts/UserContext";
 
