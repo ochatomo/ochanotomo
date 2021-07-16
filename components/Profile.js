@@ -14,9 +14,10 @@ import {
   Image,
   View,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 
-import { globalStyles } from "../styles/style";
+import { globalStyles } from "../styles/globalStyle";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -54,24 +55,28 @@ export default function Profile({ navigation }) {
         <Text style={globalStyles.header}>
           {isNewUser ? "初めまして！" : "プロフィールを編集する"}
         </Text>
-        <Text style={globalStyles.inputLabel}>お名前は……</Text>
-        <TextInput
-          style={globalStyles.input}
-          onChangeText={setName}
-          value={name}
-          placeholder="名前（ニックネーム）"
-          required
-        />
+        <View style={globalStyles.flexColumn}>
+          <View style={styles.inputContainer}>
+            <Text style={globalStyles.inputLabel}>お名前は……</Text>
+            <TextInput
+              style={globalStyles.input}
+              onChangeText={setName}
+              value={name}
+              placeholder="名前（ニックネーム）"
+              required
+            />
 
-        <Text style={globalStyles.inputLabel}>自己紹介しましょう！</Text>
+            <Text style={globalStyles.inputLabel}>自己紹介しましょう！</Text>
 
-        <TextInput
-          style={[globalStyles.input, globalStyles.miltiInput]}
-          onChangeText={setProfileText}
-          value={profileText}
-          placeholder="自己紹介しましょう！"
-          multiline={true}
-        />
+            <TextInput
+              style={[globalStyles.input, globalStyles.miltiInput]}
+              onChangeText={setProfileText}
+              value={profileText}
+              placeholder="自己紹介しましょう！"
+              multiline={true}
+            />
+          </View>
+        </View>
         <View style={globalStyles.iconContainer}>
           <AntDesign name="leftcircle" size={56} color="#F3B614" />
           <Text style={globalStyles.header}> 1 of 4 </Text>
@@ -97,3 +102,9 @@ export default function Profile({ navigation }) {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    width: 300,
+  },
+});
