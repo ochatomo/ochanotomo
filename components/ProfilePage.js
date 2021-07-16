@@ -70,7 +70,7 @@ export default function ProfilePage({ navigation }) {
 const Profile = ({ userData }) => {
   return (
     <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
-      <Image source={require("../assets/testphoto.jpeg")} style={styles.profilePhoto} />
+      <Image source={{ uri: userData.photo }} style={styles.profilePhoto} />
       <Text style={globalStyles.header}>{userData.name}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         趣味・関心事
