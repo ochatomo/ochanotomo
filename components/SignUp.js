@@ -1,6 +1,8 @@
 import { Auth } from "aws-amplify";
 import React, { useState } from "react";
 
+import moment from "moment";
+
 import { globalStyles } from "../styles/globalStyle";
 
 import {
@@ -39,6 +41,10 @@ export default function SingUp({ setShowSignIn }) {
 
   const validateInput = () => {
     const errors = [];
+
+    if (!birthdateAuthentication(birthdate)) {
+      errors.push("* Ochatomoは50歳以上の方のみご利用いただけます。");
+    }
 
     if (!validateEmail(email)) {
       errors.push("* 正しいメールアドレスを入力してください。");
@@ -92,9 +98,14 @@ export default function SingUp({ setShowSignIn }) {
     }
   }
   return (
-    <SafeAreaView>
+    <View
+      style={[
+        globalStyles.flexColumn,
+        { width: "100%", height: "100%", marginVertical: 20 },
+      ]}
+    >
       {!hasSignedUp ? (
-        <View style={[globalStyles.flexColumn, { height: "100%", width: "100%" }]}>
+        <View style={[globalStyles.flexColumn]}>
           <Image
             style={styles.extraLargeLogo}
             source={require("../assets/ochatomo-logo.png")}
@@ -124,7 +135,7 @@ export default function SingUp({ setShowSignIn }) {
               style={globalStyles.input}
               onChangeText={setBirthdate}
               value={birthdate}
-              placeholder="生年月日を入力してください。（例：1962-12-03）"
+              placeholder="例：1962-12-03"
               required
             />
           </View>
@@ -202,7 +213,7 @@ export default function SingUp({ setShowSignIn }) {
           </TouchableOpacity>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -211,7 +222,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   inputContainer: {
-    width: "100%",
+    width: 280,
   },
 });
 
@@ -229,6 +240,7 @@ const validateEmail = (email) => {
 
 function birthdateAuthentication(birthdate) {
   const age = moment().diff(birthdate, "years");
+  console.log({ age });
 
   if (age < 50) return false;
   else {
