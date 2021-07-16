@@ -11,9 +11,10 @@ import { UserProvider } from "./contexts/UserContext";
 
 import "react-native-gesture-handler";
 import { AppNavigator } from "./routes/AppNavigator";
-import { AuthNavigator } from "./routes/AuthNavigator";
+import AuthNavigator from "./routes/AuthNavigator";
 
 import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
 import Authenticator from "./components/Authenticator";
 import { withAuthenticator } from "aws-amplify-react-native";
 
@@ -35,26 +36,35 @@ import { useEffect } from "react/cjs/react.development";
 function App({ Component, PageProps }) {
   // const [currentUser, setCurrentUser] = useState();
 
-  useEffect(() => {});
-  let [fontsLoaded] = useFonts({
-    NotoSansJP_100Thin,
-    NotoSansJP_300Light,
-    NotoSansJP_400Regular,
-    NotoSansJP_500Medium,
-    NotoSansJP_700Bold,
-    NotoSansJP_900Black,
-  });
+  return (
+    <View style={{ flex: 1 }}>
+      <Text>hellooo</Text>
+    </View>
+  );
+  // useEffect(() => {});
+  // let [fontsLoaded] = useFonts({
+  //   NotoSansJP_100Thin,
+  //   NotoSansJP_300Light,
+  //   NotoSansJP_400Regular,
+  //   NotoSansJP_500Medium,
+  //   NotoSansJP_700Bold,
+  //   NotoSansJP_900Black,
+  // });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else {
-    return (
-      <UserProvider>
-        <AppNavigator />
-      </UserProvider>
-    );
-  }
+  // if (!fontsLoaded) {
+  //   return <AppLoading  />;
+  // } else {
+  //   return (
+  //     <UserProvider>
+  //       <AppNavigator />
+  //     </UserProvider>
+  //   );
+  // }
 }
+
+// export default function App() {
+//   return <AuthNavigator />;
+// }
 
 export default withAuthenticator(App, false, [<Authenticator />]);
 

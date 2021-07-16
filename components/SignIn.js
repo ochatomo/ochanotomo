@@ -15,6 +15,7 @@ import {
 } from "react-native";
 
 export default function SingIn({ setShowSignIn }) {
+  console.log("SignIn component");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //   const [isValid, setIsValid] = useState(false)
@@ -46,7 +47,7 @@ export default function SingIn({ setShowSignIn }) {
   }
 
   return (
-    <SafeAreaView>
+    <View>
       <View style={[globalStyles.flexColumn, { height: "100%", width: "100%" }]}>
         <Image
           style={styles.extraLargeLogo}
@@ -104,7 +105,7 @@ export default function SingIn({ setShowSignIn }) {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -114,6 +115,6 @@ const styles = StyleSheet.create({
     height: 200,
   },
   inputContainer: {
-    width: "100%",
+    width: 280,
   },
 });
