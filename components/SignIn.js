@@ -14,7 +14,7 @@ import {
   Alert,
 } from "react-native";
 
-export default function SingIn({ navigation }) {
+export default function SingIn({ setShowSignIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //   const [isValid, setIsValid] = useState(false)
@@ -88,7 +88,7 @@ export default function SingIn({ navigation }) {
             サインインする
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setShowSignIn(false)}>
           <Text
             style={[
               globalStyles.textBtn,
@@ -100,7 +100,7 @@ export default function SingIn({ navigation }) {
               },
             ]}
           >
-            初めての方
+            🔰 初めての方
           </Text>
         </TouchableOpacity>
       </View>
@@ -114,6 +114,6 @@ const styles = StyleSheet.create({
     height: 200,
   },
   inputContainer: {
-    width: "70%",
+    width: "100%",
   },
 });

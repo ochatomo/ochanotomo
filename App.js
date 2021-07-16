@@ -11,10 +11,11 @@ import { UserProvider } from "./contexts/UserContext";
 
 import "react-native-gesture-handler";
 import { AppNavigator } from "./routes/AppNavigator";
-
-import { withAuthenticator } from "aws-amplify-react-native";
+import { AuthNavigator } from "./routes/AuthNavigator";
 
 import SignIn from "./components/SignIn";
+import Authenticator from "./components/Authenticator";
+import { withAuthenticator } from "aws-amplify-react-native";
 
 import React from "react";
 import { View, StyleSheet } from "react-native";
@@ -55,7 +56,7 @@ function App({ Component, PageProps }) {
   }
 }
 
-export default withAuthenticator(App, false, [<SignIn />]);
+export default withAuthenticator(App, false, [<Authenticator />]);
 
 // export default function App() {
 //   return <SignIn />;
