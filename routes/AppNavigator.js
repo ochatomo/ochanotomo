@@ -11,6 +11,7 @@ import Chat from "../components/Chat";
 import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
 import ProfilePage from "../components/ProfilePage";
+import SignIn from "../components/SignIn";
 import Loading from "../components/Loading";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
@@ -65,8 +66,8 @@ const HomeNavigator = ({ navigation }) => {
       ) : (
         <>
           {/* <Screen
-            name="Photo"
-            component={Photo}
+            name="SignIn"
+            component={SignIn}
             options={{ headerTitle: () => <Header /> }}
           /> */}
 

@@ -14,6 +14,8 @@ import { AppNavigator } from "./routes/AppNavigator";
 
 import { withAuthenticator } from "aws-amplify-react-native";
 
+import SignIn from "./components/SignIn";
+
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
@@ -27,8 +29,12 @@ import {
   NotoSansJP_700Bold,
   NotoSansJP_900Black,
 } from "@expo-google-fonts/noto-sans-jp";
+import { useEffect } from "react/cjs/react.development";
 
-function App() {
+function App({ Component, PageProps }) {
+  // const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {});
   let [fontsLoaded] = useFonts({
     NotoSansJP_100Thin,
     NotoSansJP_300Light,
@@ -49,35 +55,40 @@ function App() {
   }
 }
 
-export default withAuthenticator(App, {
-  usernameAttributes: "email",
-  signUpConfig: {
-    hideAllDefaults: true,
-    signUpFields: [
-      {
-        label: "Birthdate",
-        key: "birthdate",
-        placeholder: "生年月日を入力してください（例：1960-01-20）",
-        required: true,
-        displayOrder: 3,
-        type: "date",
-      },
-      {
-        label: "Email",
-        key: "username",
-        placeholder: "Enter your email",
-        required: true,
-        displayOrder: 1,
-        type: "string",
-      },
-      {
-        label: "Password",
-        key: "password",
-        placeholder: "Enter password",
-        required: true,
-        displayOrder: 2,
-        type: "password",
-      },
-    ],
-  },
-});
+export default withAuthenticator(App, false, [<SignIn />]);
+
+// export default function App() {
+//   return <SignIn />;
+// }
+// export default withAuthenticator(App, {
+//   usernameAttributes: "email",
+//   signUpConfig: {
+//     hideAllDefaults: true,
+//     signUpFields: [
+//       {
+//         label: "Birthdate",
+//         key: "birthdate",
+//         placeholder: "生年月日を入力してください（例：1960-01-20）",
+//         required: true,
+//         displayOrder: 3,
+//         type: "date",
+//       },
+//       {
+//         label: "Email",
+//         key: "username",
+//         placeholder: "Enter your email",
+//         required: true,
+//         displayOrder: 1,
+//         type: "string",
+//       },
+//       {
+//         label: "Password",
+//         key: "password",
+//         placeholder: "Enter password",
+//         required: true,
+//         displayOrder: 2,
+//         type: "password",
+//       },
+//     ],
+//   },
+// });
