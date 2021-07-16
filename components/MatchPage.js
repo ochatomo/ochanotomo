@@ -10,8 +10,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-na
 import { UserContext } from "../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
 
-import { globalStyles } from "../styles/style";
-import { interestTable, categoryTable } from "../utils/helper";
+import { globalStyles } from "../styles/globalStyle";
+import { generateInterestLabel } from "../utils/helper";
 
 import { updateCustomer, createMatch } from "../src/graphql/mutations";
 import { onCreateMatch } from "../src/graphql/subscriptions";
@@ -56,11 +56,14 @@ export default function MatchPage({ navigation }) {
   useEffect(() => {
     if (userData.matches !== undefined) {
       // console.log("Matches", userData.matches.items);
-      const matches = userData.matches.items.map((item) => ({
-        name: item.customer.name,
-        id: item.customer.id,
-        photo: item.customer.photo,
-      }));
+      const matches = userData.matches.items.map((item, index) => {
+        console.log({ index, item });
+        return {
+          name: item.customer.name,
+          id: item.customer.id,
+          photo: item.customer.photo,
+        };
+      });
       setMatches(matches);
     }
     const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe({
@@ -68,7 +71,7 @@ export default function MatchPage({ navigation }) {
         // console.log("onCreateMatch", data);
         const owner_id = data.value.data.onCreateMatch.owner_id;
         console.log("newMatch firing with", data);
-        console.log("currentState of matches", userData.matches);
+        // console.log("currentState of matches", userData.matches);
         if (owner_id === userData.id) {
           console.log("updating matches");
           const matchedCustomerData = data.value.data.onCreateMatch.customer;
@@ -108,7 +111,7 @@ export default function MatchPage({ navigation }) {
 
       const totalScore = locationScore + categoryScore + hobbyScore;
       const customerName = customer.name;
-      console.log({ customerName, locationScore, categoryScore, hobbyScore, totalScore });
+      // console.log({ customerName, locationScore, categoryScore, hobbyScore, totalScore });
       customer.score = totalScore;
       return customer;
     });
@@ -268,7 +271,9 @@ export default function MatchPage({ navigation }) {
             handleDislike(filteredCustomers[currentIdx]);
           }}
         >
-          <Text style={[styles.textBtn, { backgroundColor: "#EC5E56" }]}>ちょっと……</Text>
+          <Text style={[globalStyles.textBtn, { backgroundColor: "#EC5E56" }]}>
+            ちょっと……
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -277,7 +282,7 @@ export default function MatchPage({ navigation }) {
             handleLike(filteredCustomers[currentIdx]);
           }}
         >
-          <Text style={[styles.textBtn, { backgroundColor: "#27AE60" }]}>
+          <Text style={[globalStyles.textBtn, { backgroundColor: "#27AE60" }]}>
             お茶したい！
           </Text>
         </TouchableOpacity>
@@ -297,7 +302,13 @@ const customerProfile = (customer) => {
             globalStyles.boxShadow,
           ]}
         >
-          <Image source={require("../assets/testphoto.jpeg")} style={styles.photo} />
+          <Image
+            style={[{ width: 100, height: 100 }, styles.photo]}
+            source={{
+              uri: customer.photo,
+            }}
+          />
+          {/* <Image source={{}} style={styles.photo} /> */}
           <Text style={styles.name}>{customer.name}</Text>
           <View style={styles.interests}>
             {generateInterestLabel(customer.interests)}
@@ -309,21 +320,6 @@ const customerProfile = (customer) => {
   );
 };
 
-const generateInterestLabel = (interests) => {
-  if (interests.length === 0) return "";
-
-  return interests.map((interest, index) => (
-    <View style={globalStyles.flexRow}>
-      <Text style={globalStyles.smallCategoryLabel} key={index}>
-        {categoryTable[interest.category]}
-      </Text>
-      <Text style={globalStyles.smallHobbyLabel} key={index}>
-        {interestTable[interest.category][interest.hobby]}
-      </Text>
-    </View>
-  ));
-};
-
 const styles = StyleSheet.create({
   smallLabel: {
     width: 50,
@@ -333,14 +329,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     backgroundColor: "white",
     width: 309,
-  },
-  textBtn: {
-    borderRadius: 44,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
   },
   name: {
     fontSize: 24,

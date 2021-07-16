@@ -4,7 +4,10 @@ import { Auth } from "aws-amplify";
 import { getCustomer, listCustomers } from "../src/graphql/queries";
 import { onUpdateCustomer } from "../src/graphql/subscriptions";
 
-import { getCustomerWithMatches } from "../src/graphql/customQueries";
+import {
+  getCustomerWithMatches,
+  onUpdateCustomerWithMatches,
+} from "../src/graphql/customQueries";
 import { API, graphqlOperation } from "aws-amplify";
 
 export const UserContext = createContext();
@@ -16,6 +19,8 @@ export function UserProvider(props) {
     id: "",
     name: "",
     gender: "",
+    location: "",
+    photo: "",
     profileText: "",
     likes: [],
     matches: [],
@@ -66,13 +71,29 @@ export function UserProvider(props) {
   }, []);
 
   useEffect(() => {
-    const subscription = API.graphql(graphqlOperation(onUpdateCustomer)).subscribe({
+    const subscription = API.graphql(
+      graphqlOperation(onUpdateCustomerWithMatches)
+    ).subscribe({
       next: (data) => {
-        // console.log("updateCustomer", data);
+        // console.log("updateCustomer", data.value.data.onUpdateCustomer);
 
         const newUserData = data.value.data.onUpdateCustomer;
         if (newUserData.id === userId) {
-          setUserData(newUserData);
+          // update everything except the matches
+          const update = {
+            id: newUserData.id,
+            name: newUserData.name,
+            gender: newUserData.gender,
+            location: newUserData.location,
+            interests: newUserData.interests,
+            photo: newUserData.photo,
+            profileText: newUserData.profileText,
+            likes: newUserData.likes,
+            matches: userData.matches,
+          };
+          console.log("updateCustomer", update);
+
+          setUserData(update);
         }
       },
     });

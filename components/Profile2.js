@@ -20,7 +20,7 @@ import { Picker } from "@react-native-picker/picker";
 import { AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../contexts/UserContext";
-import { globalStyles } from "../styles/style";
+import { globalStyles } from "../styles/globalStyle";
 
 export default function Profile2({ route, navigation }) {
   const { userDataInfo } = useContext(UserContext);
