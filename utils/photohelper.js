@@ -30,12 +30,14 @@ export const handleChoosePhoto = async (userId) => {
 };
 
 export const getExtension = (uri) => {
-  const extension = uri.slice(uri.length - 4, uri.length);
-  if (extension.includes(".")) {
-    return extension.slice(1);
-  } else {
-    return extension;
-  }
+  const ext = uri.split(".").pop();
+  return ext;
+  // const extension = uri.slice(uri.length - 4, uri.length);
+  // if (extension.includes(".")) {
+  //   return extension.slice(1);
+  // } else {
+  //   return extension;
+  // }
 };
 
 export const handleTakePhoto = async (userId) => {
