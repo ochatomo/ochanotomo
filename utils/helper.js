@@ -1,3 +1,22 @@
+import React from "react";
+import { View, Text } from "react-native";
+import { globalStyles } from "../styles/globalStyle";
+
+export const generateInterestLabel = (interests) => {
+  if (interests.length === 0) return "";
+
+  return interests.map((interest, index) => (
+    <View style={globalStyles.flexRow} key={index}>
+      <Text style={globalStyles.smallCategoryLabel} key={index}>
+        {categoryTable[interest.category]}
+      </Text>
+      <Text style={globalStyles.smallHobbyLabel} key={index}>
+        {interestTable[interest.category][interest.hobby]}
+      </Text>
+    </View>
+  ));
+};
+
 export const categoryTable = {
   0: "音楽系",
   1: "鑑賞系",

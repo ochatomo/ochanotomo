@@ -10,6 +10,9 @@ import {
   FlatList,
   Image,
   View,
+  Alert,
+  StyleSheet,
+  Modal,
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -20,19 +23,18 @@ import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
 import { interestTable } from "../utils/helper";
-import { globalStyles } from "../styles/style.js";
+import { globalStyles } from "../styles/globalStyle.js";
 
 export default function Profile3({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
-  const [userId] = userIdInfo;
-  const [userData, setUserData] = userDataInfo;
   const { name, location, profileText, gender } = route.params;
 
   const [hobby, setHobby] = useState("");
   const [category, setCategory] = useState("");
   const [interestList, setInterestList] = useState([{ label: "", value: "" }]);
   const [error, setError] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (category === "") return;
@@ -59,43 +61,6 @@ export default function Profile3({ route, navigation }) {
     }
   };
 
-  const saveUserInfo = async () => {
-    // console.log("saving to database", category, hobby);
-
-    if (isNewUser) {
-      const user = {
-        id: userId,
-        name: name,
-        interests: [{ category, hobby }],
-        location,
-        profileText,
-        likes: [],
-        gender,
-      };
-      setUserData(user);
-
-      const userData = await API.graphql(
-        graphqlOperation(createCustomer, { input: user })
-      );
-      // console.log({ userData });
-    } else {
-      // 本当は変更があるfieldのみを投げる。
-
-      const query = {
-        id: userId,
-        name,
-        location,
-        profileText,
-        interests: [{ category, hobby }],
-        gender,
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-    }
-
-    // userData.interests[0].category = category; // int
-    // userData.interests[0].hobby = hobby;
-    // userData.location = location;
-  };
   const handleCategory = (value) => {
     let interestList = interestTable[value].map((interest, index) => {
       if (interest === "その他") return { label: interest, value: 99 };
@@ -104,6 +69,7 @@ export default function Profile3({ route, navigation }) {
     setInterestList(interestList);
     // console.log("setting interest with", interestList);
     setCategory(value);
+    setShowModal(true);
   };
 
   const handleHobby = (hobby) => {
@@ -122,57 +88,92 @@ export default function Profile3({ route, navigation }) {
       <Text style={globalStyles.header}>
         {isNewUser ? "趣味を教えてください" : "趣味を編集する"}
       </Text>
-
-      {category === "" ? (
-        <View>
-          <FlatList
-            numColumns={3}
-            data={categories}
-            keyExtractor={(item) => item.value}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleCategory(item.value)}>
-                <Text style={globalStyles.categoryLabel}>{item.label}</Text>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-      ) : (
-        <View>
-          <View style={globalStyles.iconRight}>
-            <TouchableOpacity
-              onPress={() => {
-                setHobby("");
-                setCategory("");
-              }}
+      <FlatList
+        contentContainerStyle={styles.flatListContainer}
+        data={categories}
+        keyExtractor={(item) => item.value}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleCategory(item.value)}>
+            <Text
+              style={
+                category === item.value
+                  ? globalStyles.selectedCategoryLabel
+                  : globalStyles.categoryLabel
+              }
             >
-              <AntDesign name="closecircle" size={56} color="#EC5E56" />
-            </TouchableOpacity>
-          </View>
-          <FlatList
-            numColumns={3}
-            data={interestList}
-            keyExtractor={(item) => item.value}
-            renderItem={({ item }) => (
+              {item.label}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={globalStyles.modalContainer}>
+          <View style={styles.labelContainer}>
+            <View style={globalStyles.iconRight}>
               <TouchableOpacity
                 onPress={() => {
-                  handleHobby(item.value);
-                  // saveUserInfo();
+                  setHobby("");
+                  setCategory("");
+                  setShowModal(false);
                 }}
               >
-                <Text
-                  style={
-                    hobby === item.value
-                      ? globalStyles.selectedLabel
-                      : globalStyles.hobbyLabel
-                  }
-                >
-                  {item.label}
-                </Text>
+                <AntDesign name="closecircle" size={56} color="#EC5E56" />
               </TouchableOpacity>
-            )}
-          />
+            </View>
+            <View style={globalStyles.flexColumn}>
+              <FlatList
+                contentContainerStyle={[styles.flatListContainer, globalStyles.boxShadow]}
+                data={interestList}
+                keyExtractor={(item) => item.value}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setShowModal(false);
+                      handleHobby(item.value);
+
+                      console.log("onPress running");
+                      if (category === "") {
+                        Alert.alert("入力エラー", "趣味を選んでください。", [
+                          { text: "OK", onPress: () => console.log("alert closed") },
+                        ]);
+                        return;
+                      }
+
+                      navigation.navigate("Profile4", {
+                        name,
+                        profileText,
+                        gender,
+                        location,
+                        hobby,
+                        category,
+                      });
+                    }}
+                  >
+                    <Text
+                      style={
+                        hobby === item.value
+                          ? globalStyles.selectedLabel
+                          : globalStyles.hobbyLabel
+                      }
+                    >
+                      {item.label}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          </View>
         </View>
-      )}
+      </Modal>
 
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
@@ -186,14 +187,25 @@ export default function Profile3({ route, navigation }) {
 
         <TouchableOpacity
           onPress={() => {
+            if (category === "" || hobby == "") {
+              Alert.alert("入力エラー", "趣味を選んでください。", [
+                { text: "OK", onPress: () => console.log("alert closed") },
+              ]);
+            }
             const isValid = validateInput();
             if (isValid) {
               console.log("data is valid, saving to database");
-              saveUserInfo();
-              console.log("successfully saved the data");
-              // console.log("遷移前のユーザーデータ", { userData });
+              // saveUserInfo();
+              // console.log("successfully saved the data");
 
-              navigation.navigate("MatchPage");
+              navigation.navigate("Profile4", {
+                name,
+                profileText,
+                gender,
+                location,
+                hobby,
+                category,
+              });
             }
           }}
         >
@@ -219,3 +231,17 @@ const categories = [
   { label: "乗り物系", value: 11 },
   { label: "芸術系", value: 12 },
 ];
+
+const styles = StyleSheet.create({
+  flatListContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+  labelContainer: {
+    height: "55%",
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    borderRadius: 16,
+  },
+});
