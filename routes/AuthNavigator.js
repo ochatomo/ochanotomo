@@ -1,38 +1,22 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import * as React from "react";
+import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-
+import { createStackNavigator } from "@react-navigation/stack";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
-import Loading from "../components/Loading";
-import React, { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
-import Header from "./Header";
-import { View } from "react-native";
 
 const { Navigator, Screen } = createStackNavigator();
 
-const SignInNavigator = ({ navigation }) => {
-  console.log("SignIn Navigator rendering");
+function AuthNavigator() {
+  console.log("Auth navigator");
   return (
-    <Navigator
-    //   headerMode="float"
-    //   screenOptions={{
-    //     headerShown: false,
-    //   }}
-    >
-      <Screen name="SignIn" component={SignIn} />
-      <Screen name="SignUp" component={SignUp} />
-    </Navigator>
-  );
-};
-
-// const Drawer = createDrawerNavigator();
-
-export const AuthNavigator = () => (
-  <View style={{ flex: 1 }}>
-    <NavigationContainer>
-      <SignInNavigator />
+    <NavigationContainer style={{ flex: 1 }}>
+      <Navigator headerMode="float">
+        <Screen name="SignIn" component={SignIn} />
+        <Screen name="SignUp" component={SignUp} />
+      </Navigator>
     </NavigationContainer>
-  </View>
-);
+  );
+}
+
+export default AuthNavigator;

@@ -12,7 +12,7 @@ export default function Authenticator({ navigation }) {
   //   console.count("Authenticator loading,");
 
   return (
-    <View>
+    <View style={{ width: "100%", height: "100%" }}>
       {showSignIn ? (
         <SignIn setShowSignIn={setShowSignIn} />
       ) : (
