@@ -3,10 +3,13 @@ import { UserContext } from "../contexts/UserContext";
 import moment from "moment";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import React, { useEffect, useState, useContext } from "react";
+import { prompts, greeting, closing } from "../utils/prompts";
+
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
+
 
 export default function Chat({ route, navigation }) {
   const { userDataInfo } = useContext(UserContext);
@@ -36,32 +39,16 @@ export default function Chat({ route, navigation }) {
     };
   }, []);
   
-  const odai = [
-    "最近ハマっているものは？",
-    "お気に入りのスイーツある？",
-    "休日は何をしてる？",
-    "出身地ってどこ？",
-    "最近映画観た？",
-    "昨日の晩御飯は？",
-    "犬派と猫派？",
-    "お酒飲む？飲まない？",
-    "好きなアーティストは？",
-    "遺書ってもう書いた？",
-    "あなたが持っていたいと思うスーパーパワーは何ですか？",
-    "今までで一番好きな本は何ですか？"
-  ]
-
   return (
     <View style={styles.container}>
          <Text style={styles.header}>{user2.name}とお話しましょう
         </Text>
       <ScrollView
-      >
-        
-        <View style={styles.chatContainer}>
-        
-        <FlatList
-          data={messages}
+        ref={ref => {this.scrollView = ref}}
+        onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}>
+        <View style={styles.chatContainer}>      
+          <FlatList
+            data={messages}
             renderItem={renderItem}
             />
         </View>
@@ -105,13 +92,24 @@ export default function Chat({ route, navigation }) {
           </TouchableOpacity>
           </View>
         <View style={styles.topicContainer}>
+          
         <TouchableOpacity
-            
-            
           onPress={async () => {
               try {
-                const rndInt = Math.floor(Math.random() * 11) + 1
-                setInput(odai[rndInt]);
+                const rndInt = Math.floor(Math.random() * greeting.length) + 1
+                setInput(greeting[rndInt]);
+              } catch (e) {
+                console.log(e);
+              }
+              }} >
+              <Text style={styles.topicButton}>あいさつ</Text> 
+        </TouchableOpacity>
+          
+        <TouchableOpacity
+          onPress={async () => {
+              try {
+                const rndInt = Math.floor(Math.random() * prompts.length) + 1
+                setInput(prompts[rndInt]);
               } catch (e) {
                 console.log(e);
               }
@@ -119,6 +117,17 @@ export default function Chat({ route, navigation }) {
               <Text style={styles.topicButton}>何について話すかな</Text> 
         </TouchableOpacity>
           
+        <TouchableOpacity
+          onPress={async () => {
+              try {
+                const rndInt = Math.floor(Math.random() * closing.length) + 1
+                setInput(closing[rndInt]);
+              } catch (e) {
+                console.log(e);
+              }
+              }} >
+              <Text style={styles.topicButton}>さよなら</Text> 
+            </TouchableOpacity>
       </View>
       </View>
      
@@ -208,7 +217,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   topicButton: {
-    borderRadius: 44,
+    borderRadius: 36,
     fontSize: 14,
     fontWeight: "bold",
     color: "#FFFFFF",
