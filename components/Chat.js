@@ -1,9 +1,8 @@
-
-import React, { useEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, TextInput, Button, FlatList, StatusBar, ScrollView, TouchableOpacity, Image } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import moment from "moment";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import React, { useEffect, useState, useContext } from "react";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createMessage } from "../src/graphql/mutations";
@@ -17,7 +16,7 @@ export default function Chat({ route, navigation }) {
   const [input, setInput] = useState("");
 
   function renderItem(message) {
-    return <Message message={message}/>;
+    return <Message message={message} />;
   }
 
   useEffect(() => {
@@ -77,7 +76,7 @@ export default function Chat({ route, navigation }) {
         value={input}
         placeholder="メッセージを入力してください。"
         />
-         <TouchableOpacity
+        <TouchableOpacity
           title="チャット送信"
           style={styles.button}
           onPress={async () => {
@@ -132,11 +131,10 @@ const Message = (message) => {
   const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
   const isMyMessage = () => {
-    if(sender_name === userData.name)
-    return true;
-  }
+    if (sender_name === userData.name) return true;
+  };
 
-  console.log({message})
+  console.log({ message });
   const sender_name = message.message.item.sender.name;
   const content = message.message.item.content;
   const timestamp = moment(message.message.item.createdAt).fromNow();
@@ -182,6 +180,8 @@ const Message = (message) => {
         fontSize: 16
       }}>{timestamp}</Text>
       </View>
+
+   
   );
 };
 
@@ -232,30 +232,27 @@ const styles = StyleSheet.create({
   
   },
   messageBox: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
-  message: {
-  },
+  message: {},
   inputBox: {
     width: 270,
     height: 80,
-    justifyContent: 'center',
+    justifyContent: "center",
     borderRadius: 16,
-    borderStyle: "solid"  ,
+    borderStyle: "solid",
     borderWidth: 2,
     borderColor: "rgba(0, 147, 237, 1.0)",
     fontSize: 18,
-    
   },
   sender: {
     padding: 12,
     fontFamily: "Roboto",
     fontSize: 18,
     fontWeight: "700",
-    color: "#B725D4"
+    color: "#B725D4",
   },
-  time: {
-  },
+  time: {},
   user: {
   },
   avatar: {
