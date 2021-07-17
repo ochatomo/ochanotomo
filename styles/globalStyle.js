@@ -106,6 +106,10 @@ export const globalStyles = StyleSheet.create({
     height: 100,
     marginHorizontal: "auto",
   },
+  extraLargeLogo: {
+    width: 150,
+    height: 150,
+  },
   input: {
     // width: 283,
     height: 40,

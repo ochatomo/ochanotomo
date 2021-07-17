@@ -1,7 +1,7 @@
 import { Auth } from "aws-amplify";
 import React, { useState } from "react";
 
-import { globalStyles } from "../styles/globalStyle";
+import { globalStyles } from "../../styles/globalStyle";
 
 import {
   View,
@@ -14,11 +14,9 @@ import {
   Alert,
 } from "react-native";
 
-export default function SingIn({ setShowSignIn }) {
-  console.log("SignIn component");
+export default function SingIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //   const [isValid, setIsValid] = useState(false)
 
   const handleSignIn = () => {
     if (password === "" || email === "") {
@@ -50,8 +48,8 @@ export default function SingIn({ setShowSignIn }) {
     <View>
       <View style={[globalStyles.flexColumn, { height: "100%", width: "100%" }]}>
         <Image
-          style={styles.extraLargeLogo}
-          source={require("../assets/ochatomo-logo.png")}
+          style={globalStyles.extraLargeLogo}
+          source={require("../../assets/ochatomo-logo.png")}
         />
         <Text style={globalStyles.header}>サインイン</Text>
         <View style={styles.inputContainer}>
@@ -89,7 +87,7 @@ export default function SingIn({ setShowSignIn }) {
             サインインする
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setShowSignIn(false)}>
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
           <Text
             style={[
               globalStyles.textBtn,
@@ -110,10 +108,6 @@ export default function SingIn({ setShowSignIn }) {
 }
 
 const styles = StyleSheet.create({
-  extraLargeLogo: {
-    width: 200,
-    height: 200,
-  },
   inputContainer: {
     width: 280,
   },
