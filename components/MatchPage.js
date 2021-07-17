@@ -227,7 +227,7 @@ export default function MatchPage({ navigation }) {
   };
 
   return (
-    <View>
+    <View style={globalStyles.viewContainer}>
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           onPress={() => {

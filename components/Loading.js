@@ -2,7 +2,7 @@
 // * improve styling
 
 import React from "react";
-import { View, Text, Image, ActivityIndicator } from "react-native";
+import { View, Text, Image } from "react-native";
 import { globalStyles } from "../styles/globalStyle";
 
 export default function Loading() {

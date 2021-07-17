@@ -25,15 +25,9 @@ export default function ProfilePage({ navigation }) {
     }
   }
   return (
-    <View>
+    <View style={globalStyles.viewContainer}>
       <View style={globalStyles.iconContainer}>
-        <TouchableOpacity
-          style={globalStyles.flexColumn}
-          onPress={() => {
-            // logout
-            signOut();
-          }}
-        >
+        <TouchableOpacity style={globalStyles.flexColumn} onPress={signOut}>
           <AntDesign name="logout" size={50} color="#F3B614" style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>ログアウトする</Text>
         </TouchableOpacity>
@@ -41,7 +35,6 @@ export default function ProfilePage({ navigation }) {
         <TouchableOpacity
           style={globalStyles.flexColumn}
           onPress={() => {
-            // view my profile page
             navigation.navigate("Profile");
           }}
         >

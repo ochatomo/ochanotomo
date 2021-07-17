@@ -1,8 +1,7 @@
 import React, { useState, createContext, useEffect } from "react";
 import { Auth } from "aws-amplify";
 
-import { getCustomer, listCustomers } from "../src/graphql/queries";
-import { onUpdateCustomer } from "../src/graphql/subscriptions";
+import { listCustomers } from "../src/graphql/queries";
 
 import {
   getCustomerWithMatches,

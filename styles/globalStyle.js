@@ -60,12 +60,13 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
   },
   iconContainer: {
-    marginTop: 15,
+    marginVertical: 20,
     marginHorizontal: 15,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 10,
+    width: "100%",
   },
   buttonContainer: {
     marginTop: 15,
@@ -88,7 +89,7 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 3,
   },
   header: {
-    fontFamily: "NotoSansJP_700Bold",
+    // fontFamily: "NotoSansJP_700Bold",
     fontSize: 28,
     textAlign: "center",
     color: "#004DA9",
@@ -245,5 +246,13 @@ export const globalStyles = StyleSheet.create({
     textDecorationLine: "underline",
     paddingVertical: 10,
     marginTop: 20,
+  },
+  viewContainer: {
+    width: "100%",
+    height: "100%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 5,
   },
 });
