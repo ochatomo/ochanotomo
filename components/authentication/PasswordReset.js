@@ -8,39 +8,47 @@ import {
   Text,
   TextInput,
   Image,
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Alert,
 } from "react-native";
 
-export default function SingIn({ navigation }) {
+export default function PasswordReset({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = () => {
-    if (password === "" || email === "") {
-      Alert.alert(
-        "入力エラー",
-        "メールアドレスまたはパスワードが空欄です。再入力をお願いします。",
-        [{ text: "OK", onPress: () => console.log("alert closed") }]
-      );
+  const handleReset = () => {
+    if (email === "") {
+      Alert.alert("入力エラー", "メールアドレスが空欄です。再入力をお願いします。", [
+        { text: "OK", onPress: () => console.log("alert closed") },
+      ]);
       return;
     }
-
-    signIn();
+    reset();
   };
 
-  async function signIn() {
+  async function reset() {
     try {
-      const user = await Auth.signIn(email, password);
-      console.log(user);
+      console.log("input email", email);
+      const res = await Auth.forgotPassword(email);
+      console.log(res);
+      Alert.alert("認証コードを送信しました", "メールをご確認ください。", [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("PasswordConfirmation", { email }),
+        },
+      ]);
     } catch (error) {
-      Alert.alert(
-        "入力エラー",
-        "メールアドレスまたはパスワードが間違っています。もう一度お試しください。",
-        [{ text: "OK", onPress: () => console.log("alert closed") }]
-      );
+      console.log(error);
+      if (error.name === "LimitExceededException") {
+        createAlert(
+          "認証エラー",
+          "認証回数制限をオーバーしました。しばらく経ってから再度お試しください。"
+        );
+        return;
+      } else {
+        createAlert("入力エラー", "メールアドレスが無効です。もう一度お試しください。");
+      }
     }
   }
 
@@ -51,7 +59,7 @@ export default function SingIn({ navigation }) {
           style={globalStyles.extraLargeLogo}
           source={require("../../assets/ochatomo-logo.png")}
         />
-        <Text style={globalStyles.header}>サインイン</Text>
+        <Text style={globalStyles.header}>パスワードを変更する</Text>
         <View style={styles.inputContainer}>
           <Text style={globalStyles.inputLabel}>メールアドレス</Text>
           <TextInput
@@ -61,7 +69,7 @@ export default function SingIn({ navigation }) {
             placeholder="メールアドレス"
             required
           />
-
+          {/* 
           <Text style={globalStyles.inputLabel}>パスワード</Text>
 
           <TextInput
@@ -70,9 +78,9 @@ export default function SingIn({ navigation }) {
             value={password}
             placeholder="パスワード"
             secureTextEntry={true}
-          />
+          /> */}
         </View>
-        <TouchableOpacity onPress={handleSignIn}>
+        <TouchableOpacity onPress={handleReset}>
           <Text
             style={[
               globalStyles.textBtn,
@@ -84,10 +92,10 @@ export default function SingIn({ navigation }) {
               },
             ]}
           >
-            サインインする
+            送信する
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+        <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
           <Text
             style={[
               globalStyles.textBtn,
@@ -99,11 +107,8 @@ export default function SingIn({ navigation }) {
               },
             ]}
           >
-            🔰 初めての方
+            戻る
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("PasswordReset")}>
-          <Text style={globalStyles.textLink}>パスワードを忘れた</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -115,3 +120,8 @@ const styles = StyleSheet.create({
     width: 280,
   },
 });
+const createAlert = (title, message) => {
+  Alert.alert(title, message, [
+    { text: "OK", onPress: () => console.log("alert closed") },
+  ]);
+};

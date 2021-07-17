@@ -124,7 +124,7 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 16,
   },
   inputLabel: {
-    margin: 10,
+    margin: 5,
     color: "#0094CE",
     fontSize: 24,
     fontWeight: "bold",
@@ -238,5 +238,12 @@ export const globalStyles = StyleSheet.create({
   iconRight: {
     alignItems: "flex-end",
     marginHorizontal: 15,
+  },
+  textLink: {
+    fontSize: 18,
+    color: "black",
+    textDecorationLine: "underline",
+    paddingVertical: 10,
+    marginTop: 20,
   },
 });
