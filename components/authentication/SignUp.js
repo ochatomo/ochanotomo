@@ -2,7 +2,10 @@ import { Auth } from "aws-amplify";
 import React, { useState } from "react";
 
 import moment from "moment";
-import Comfirmation from "./Comfirmation";
+
+import { dateObject } from "../../utils/data/birthdate";
+
+import { Picker } from "@react-native-picker/picker";
 
 import { globalStyles } from "../../styles/globalStyle";
 
@@ -22,11 +25,9 @@ export default function SingUp({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [birthdate, setBirthdate] = useState("");
-
-  // useEffect(() => {
-  //   if (birthdate.length === 4　&& ) setBirthdate((prev) => prev + "-");
-  //   if (birthdate.length === 7) setBirthdate((prev) => prev + "-");
-  // }, [birthdate]);
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+  const [date, setDate] = useState("");
 
   const handleSignUp = async () => {
     const errors = validateInput();
@@ -44,9 +45,10 @@ export default function SingUp({ navigation }) {
   const validateInput = () => {
     const errors = [];
 
-    if (!birthdateAuthentication(birthdate)) {
+    if (!birthdateAuthentication(year, month, date)) {
       console.log("birthdate error");
       errors.push("* Ochatomoは50歳以上の方のみご利用いただけます。");
+      return;
     }
 
     if (!validateEmail(email)) {
@@ -96,7 +98,7 @@ export default function SingUp({ navigation }) {
           style={globalStyles.extraLargeLogo}
           source={require("../../assets/ochatomo-logo.png")}
         />
-        <Text style={globalStyles.header}>サインアップ</Text>
+        <Text style={globalStyles.header}>登録する</Text>
         <View style={styles.inputContainer}>
           <Text style={globalStyles.inputLabel}>メールアドレス</Text>
           <TextInput
@@ -117,13 +119,75 @@ export default function SingUp({ navigation }) {
             secureTextEntry={true}
           />
           <Text style={globalStyles.inputLabel}>生年月日</Text>
-          <TextInput
-            style={globalStyles.input}
-            onChangeText={setBirthdate}
-            value={birthdate}
-            placeholder="例：1962-12-03"
-            required
-          />
+          <View style={styles.container}>
+            <View style={styles.pickerContainer}>
+              <Picker style={styles.picker} selectedValue={year} onValueChange={setYear}>
+                <Picker.Item
+                  label={"年"}
+                  value={""}
+                  color="#0094CE"
+                  key={"placeholder"}
+                  enabled={false}
+                  style={styles.pickerlabel}
+                />
+                {dateObject.year.map((data, index) => (
+                  <Picker.Item
+                    label={data.label}
+                    value={data.value}
+                    color="#0094CE"
+                    key={index}
+                    style={styles.pickerlabel}
+                  />
+                ))}
+              </Picker>
+            </View>
+            <View style={styles.pickersContainer2}>
+              <Picker
+                style={styles.picker}
+                selectedValue={month}
+                onValueChange={setMonth}
+              >
+                <Picker.Item
+                  label={"月"}
+                  value={""}
+                  color="#0094CE"
+                  key={"placeholder"}
+                  enabled={false}
+                  style={styles.pickerlabel}
+                />
+                {dateObject.month.map((data, index) => (
+                  <Picker.Item
+                    label={data.label}
+                    value={data.value}
+                    color="#0094CE"
+                    key={index}
+                    style={styles.pickerlabel}
+                  />
+                ))}
+              </Picker>
+            </View>
+            <View style={styles.pickersContainer2}>
+              <Picker style={styles.picker} selectedValue={date} onValueChange={setDate}>
+                <Picker.Item
+                  label={"日"}
+                  value={""}
+                  color="#0094CE"
+                  key={"placeholder"}
+                  enabled={false}
+                  style={styles.pickerlabel}
+                />
+                {dateObject.date.map((data, index) => (
+                  <Picker.Item
+                    label={data.label}
+                    value={data.value}
+                    color="#0094CE"
+                    key={index}
+                    style={styles.pickerlabel}
+                  />
+                ))}
+              </Picker>
+            </View>
+          </View>
         </View>
         <TouchableOpacity onPress={handleSignUp}>
           <Text
@@ -137,7 +201,7 @@ export default function SingUp({ navigation }) {
               },
             ]}
           >
-            サインアップ
+            登録する
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
@@ -146,13 +210,13 @@ export default function SingUp({ navigation }) {
               globalStyles.textBtn,
               {
                 backgroundColor: "#27AE60",
-                width: 200,
+                width: 220,
                 marginVertical: 5,
                 textAlign: "center",
               },
             ]}
           >
-            アカウントをすでに持っている
+            {"アカウントを\nすでに持っている"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -166,6 +230,37 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: 280,
+  },
+  picker: {
+    width: "100%",
+    height: 50,
+  },
+  pickerContainer: {
+    width: "38%",
+    borderWidth: 2,
+    borderColor: "#0094CE",
+    textAlign: "center",
+    borderRadius: 16,
+    marginHorizontal: 1,
+    marginBottom: 5,
+  },
+  pickersContainer2: {
+    width: "33%",
+    justifyContent: "space-around",
+    flexDirection: "column",
+    borderWidth: 2,
+    borderColor: "#0094CE",
+    textAlign: "center",
+    borderRadius: 16,
+    marginHorizontal: 1,
+    marginBottom: 5,
+  },
+  pickerlabel: {
+    textAlign: "center",
+  },
+  container: {
+    justifyContent: "center",
+    flexDirection: "row",
   },
 });
 
@@ -181,12 +276,21 @@ const validateEmail = (email) => {
   return regex.test(email);
 };
 
-function birthdateAuthentication(birthdate) {
+const birthdateAuthentication = (year, month, date) => {
+  const birthdate = year + "-" + month + "-" + date;
   const age = moment().diff(birthdate, "years");
-  console.log({ age });
+  // console.log({ age });
 
   if (age < 50) return false;
   else {
     return true;
   }
-}
+};
+
+const generateLabel = (start, end) => {
+  const array = [];
+  for (let i = start; i < end; i++) {
+    array.push({ label: i, value: i });
+  }
+  return array;
+};
