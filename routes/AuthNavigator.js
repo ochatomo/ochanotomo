@@ -10,12 +10,12 @@ const { Navigator, Screen } = createStackNavigator();
 function AuthNavigator() {
   console.log("Auth navigator");
   return (
-    <NavigationContainer
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Navigator>
+    <NavigationContainer>
+      <Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         <Screen name="SignIn" component={SignIn} />
         <Screen name="SignUp" component={SignUp} />
       </Navigator>
