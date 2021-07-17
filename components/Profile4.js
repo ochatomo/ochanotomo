@@ -39,7 +39,7 @@ export default function Profile4({ route, navigation }) {
   const { name, location, profileText, gender, category, hobby } = route.params;
   const [uri, setUri] = useState("");
   const [photoSelected, setPhotoSelected] = useState(false);
-  const [profileSaved, setProfileSaved] = useState(false);
+  console.log("profile 4 loading");
 
   const validateInput = () => {
     //data validation あれば
