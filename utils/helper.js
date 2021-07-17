@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { globalStyles } from "../styles/globalStyle";
 
 export const generateInterestLabel = (interests) => {
@@ -15,6 +15,20 @@ export const generateInterestLabel = (interests) => {
       </Text>
     </View>
   ));
+};
+
+export const createAlert = (
+  title,
+  message,
+  callback = () => console.log("alert closed")
+) => {
+  Alert.alert(title, message, [{ text: "OK", onPress: callback }]);
+};
+
+export const validateEmail = (email) => {
+  const regex =
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
 };
 
 export const categoryTable = {

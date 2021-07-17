@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import moment from "moment";
 
 import { dateObject } from "../../utils/data/birthdate";
+import { validateEmail } from "../../utils/helper";
 
 import { Picker } from "@react-native-picker/picker";
 
@@ -30,6 +31,7 @@ export default function SingUp({ navigation }) {
   const [date, setDate] = useState("");
 
   const handleSignUp = async () => {
+    setBirthdate(year + "-" + month + "-" + date);
     const errors = validateInput();
     if (errors.length > 0) {
       Alert.alert("入力エラー", errors.join("\n"), [
@@ -37,8 +39,10 @@ export default function SingUp({ navigation }) {
       ]);
       return;
     } else {
-      await signUp();
-      navigation.navigate("Confirmation");
+      const isSuccess = await signUp();
+      if (isSuccess) {
+        navigation.navigate("Confirmation", { email });
+      }
     }
   };
 
@@ -76,13 +80,18 @@ export default function SingUp({ navigation }) {
           birthdate,
         },
       });
-
-      console.log(user);
+      return true;
     } catch (error) {
-      createAlert(
-        "登録エラー",
-        "申し訳ございません。しばらく経ってから再度お試しください。"
-      );
+      if (error.name === "UsernameExistsException") {
+        createAlert("登録エラー", "このメールアドレスはすでに登録されています。");
+        navigation.navigate("SignIn");
+      } else {
+        createAlert(
+          "登録エラー",
+          "申し訳ございません。しばらく経ってから再度お試しください。"
+        );
+      }
+      return false;
     }
   }
 
@@ -219,6 +228,11 @@ export default function SingUp({ navigation }) {
             {"アカウントを\nすでに持っている"}
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Confirmation", { email: "" })}
+        >
+          <Text style={globalStyles.textLink}>認証コードを入力する</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -264,18 +278,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const createAlert = (title, message) => {
-  Alert.alert(title, message, [
-    { text: "OK", onPress: () => console.log("alert closed") },
-  ]);
-};
-
-const validateEmail = (email) => {
-  const regex =
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return regex.test(email);
-};
-
 const birthdateAuthentication = (year, month, date) => {
   const birthdate = year + "-" + month + "-" + date;
   const age = moment().diff(birthdate, "years");
@@ -285,12 +287,4 @@ const birthdateAuthentication = (year, month, date) => {
   else {
     return true;
   }
-};
-
-const generateLabel = (start, end) => {
-  const array = [];
-  for (let i = start; i < end; i++) {
-    array.push({ label: i, value: i });
-  }
-  return array;
 };
