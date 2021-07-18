@@ -67,11 +67,6 @@ export default function Profile3({ route, navigation }) {
     setShowModal(true);
   };
 
-  const handleHobby = (hobby) => {
-    // console.log("setting hobby with ", hobby);
-    setHobby(hobby);
-  };
-
   return (
     <View style={globalStyles.viewContainer}>
       <View style={globalStyles.imgContainer}>
@@ -137,9 +132,8 @@ export default function Profile3({ route, navigation }) {
                   <TouchableOpacity
                     onPress={() => {
                       setShowModal(false);
-                      handleHobby(item.value);
+                      setHobby(item.value);
 
-                      console.log("onPress running");
                       if (category === "") {
                         Alert.alert("入力エラー", "趣味を選んでください。", [
                           { text: "OK", onPress: () => console.log("alert closed") },
@@ -147,14 +141,35 @@ export default function Profile3({ route, navigation }) {
                         return;
                       }
 
-                      navigation.navigate("Profile4", {
-                        name,
-                        profileText,
-                        gender,
-                        location,
-                        hobby,
-                        category,
-                      });
+                      Alert.alert(
+                        "趣味はこちらよろしいですか？",
+                        `カテゴリー：${categories[category].label}\n趣味：${
+                          interestTable[category][item.value]
+                        }`,
+                        [
+                          {
+                            text: "やり直す",
+                            onPress: () => {
+                              setCategory("");
+                              setHobby("");
+                            },
+                            style: "cancel",
+                          },
+                          {
+                            text: "これでいい",
+                            onPress: () => {
+                              navigation.navigate("Profile4", {
+                                name,
+                                profileText,
+                                gender,
+                                location,
+                                hobby,
+                                category,
+                              });
+                            },
+                          },
+                        ]
+                      );
                     }}
                   >
                     <Text

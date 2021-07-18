@@ -66,7 +66,13 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+  text: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#0094CE",
+  },
   buttonContainer: {
+    width: "100%",
     marginTop: 15,
     marginHorizontal: 15,
     flexDirection: "row",
@@ -91,7 +97,7 @@ export const globalStyles = StyleSheet.create({
     textAlign: "center",
     color: "#004DA9",
     fontWeight: "bold",
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   logo: {
     width: 50,

@@ -24,6 +24,7 @@ export function UserProvider(props) {
     likes: [],
     matches: [],
   });
+  const [matches, setMatches] = useState([]);
   const [allCustomers, setAllCustomers] = useState([]);
 
   async function getCurrentAuthenticatedUser() {
@@ -43,6 +44,7 @@ export function UserProvider(props) {
       const userData = res.data.getCustomer;
       if (userData) {
         setUserData(userData);
+        setMatches(userData.matches.items);
         setIsNewUser(false);
 
         console.log("setting userdata", userData);
@@ -108,6 +110,7 @@ export function UserProvider(props) {
         userIdInfo: [userId, setUserId],
         userDataInfo: [userData, setUserData],
         allCustomerData: [allCustomers, setAllCustomers],
+        matchesData: [matches, setMatches],
       }}
     >
       {props.children}

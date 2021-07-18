@@ -11,7 +11,7 @@ import { UserContext } from "../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
 import { globalStyles } from "../styles/globalStyle";
-import { generateInterestLabel } from "../utils/helper";
+import { generateInterestLabel, prefectureList } from "../utils/helper";
 
 export default function ProfilePage({ navigation }) {
   const { userDataInfo } = useContext(UserContext);
@@ -65,6 +65,10 @@ const Profile = ({ userData }) => {
     <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
       <Image source={{ uri: userData.photo }} style={styles.profilePhoto} />
       <Text style={globalStyles.header}>{userData.name}</Text>
+      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
+        都道府県
+      </Text>
+      <Text>{prefectureList[userData.location]}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         趣味・関心事
       </Text>
