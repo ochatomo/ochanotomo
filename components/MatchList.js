@@ -94,7 +94,7 @@ export default function MatchList({ route, navigation }) {
         return (
           <View style={styles.friendsListContainer} key={index}>
             <View style={styles.avatarBox}>
-              <Image source={require("../assets/user.png")} style={styles.matchAvatar} />
+              <Image source={{ uri: match.photo }} style={styles.matchAvatar} />
             </View>
 
             <View style={styles.matchedUserContainer}>
