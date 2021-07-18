@@ -5,6 +5,7 @@ import moment from "moment";
 
 import { dateObject } from "../../utils/data/birthdate";
 import { validateEmail } from "../../utils/helper";
+import { createAlert } from "../../utils/helper";
 
 import { Picker } from "@react-native-picker/picker";
 
@@ -15,12 +16,10 @@ import {
   Text,
   TextInput,
   Image,
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { useEffect } from "react/cjs/react.development";
 
 export default function SingUp({ navigation }) {
   const [email, setEmail] = useState("");
@@ -82,6 +81,7 @@ export default function SingUp({ navigation }) {
       });
       return true;
     } catch (error) {
+      console.log("SignUp error", error);
       if (error.name === "UsernameExistsException") {
         createAlert("登録エラー", "このメールアドレスはすでに登録されています。");
         navigation.navigate("SignIn");

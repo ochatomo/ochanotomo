@@ -13,6 +13,7 @@ export default function Comfirmation({ route, navigation }) {
 
   async function confirmSignUp() {
     try {
+      console.log("email---", email);
       await Auth.confirmSignUp(emailInput, code);
       createAlert(
         "アカウントが作成されました",

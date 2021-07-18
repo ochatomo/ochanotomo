@@ -54,7 +54,6 @@ export const globalStyles = StyleSheet.create({
   },
   imgContainer: {
     marginVertical: 5,
-
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -65,7 +64,6 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 10,
     width: "100%",
   },
   buttonContainer: {
@@ -89,7 +87,6 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 3,
   },
   header: {
-    // fontFamily: "NotoSansJP_700Bold",
     fontSize: 28,
     textAlign: "center",
     color: "#004DA9",
@@ -100,7 +97,6 @@ export const globalStyles = StyleSheet.create({
     width: 50,
     height: 50,
     marginBottom: 5,
-    // marginHorizontal: "auto",
   },
   largeLogo: {
     width: 100,
@@ -156,10 +152,8 @@ export const globalStyles = StyleSheet.create({
     color: "#fff",
     backgroundColor: "#0094CE",
     borderRadius: 44,
-    paddingBottom: 12,
-    paddingTop: 12,
-    paddingRight: 24,
-    paddingLeft: 24,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     marginHorizontal: 3,
     marginVertical: 5,
   },
@@ -181,7 +175,6 @@ export const globalStyles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 10,
   },
   textBtn: {
     borderRadius: 44,
@@ -237,8 +230,8 @@ export const globalStyles = StyleSheet.create({
     marginVertical: 5,
   },
   iconRight: {
-    alignItems: "flex-end",
     marginHorizontal: 15,
+    alignSelf: "flex-end",
   },
   textLink: {
     fontSize: 18,
@@ -250,9 +243,12 @@ export const globalStyles = StyleSheet.create({
   viewContainer: {
     width: "100%",
     height: "100%",
+    flex: 1,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 5,
+    // borderWidth: 10,
+    // borderColor: "pink",
   },
 });

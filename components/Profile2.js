@@ -42,7 +42,7 @@ export default function Profile2({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView>
+    <View style={globalStyles.viewContainer}>
       <View style={globalStyles.imgContainer}>
         <Image
           style={globalStyles.largeLogo}
@@ -126,7 +126,7 @@ export default function Profile2({ route, navigation }) {
           <AntDesign name="rightcircle" size={56} color="#27AE60" />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

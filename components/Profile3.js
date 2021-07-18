@@ -5,7 +5,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   FlatList,
   Image,
@@ -19,14 +18,11 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../contexts/UserContext";
 
-import { createCustomer, updateCustomer } from "../src/graphql/mutations";
-import { API, graphqlOperation } from "aws-amplify";
-
 import { interestTable } from "../utils/helper";
 import { globalStyles } from "../styles/globalStyle.js";
 
 export default function Profile3({ route, navigation }) {
-  const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
+  const { isNewUserInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const { name, location, profileText, gender } = route.params;
 
@@ -67,7 +63,6 @@ export default function Profile3({ route, navigation }) {
       return { label: interest, value: index };
     });
     setInterestList(interestList);
-    // console.log("setting interest with", interestList);
     setCategory(value);
     setShowModal(true);
   };
@@ -78,7 +73,7 @@ export default function Profile3({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView>
+    <View style={globalStyles.viewContainer}>
       <View style={globalStyles.imgContainer}>
         <Image
           style={globalStyles.largeLogo}
@@ -88,24 +83,27 @@ export default function Profile3({ route, navigation }) {
       <Text style={globalStyles.header}>
         {isNewUser ? "趣味を教えてください" : "趣味を編集する"}
       </Text>
-      <FlatList
-        contentContainerStyle={styles.flatListContainer}
-        data={categories}
-        keyExtractor={(item) => item.value}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleCategory(item.value)}>
-            <Text
-              style={
-                category === item.value
-                  ? globalStyles.selectedCategoryLabel
-                  : globalStyles.categoryLabel
-              }
-            >
-              {item.label}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
+
+      <View style={[styles.container, globalStyles.flexColumn]}>
+        <FlatList
+          contentContainerStyle={styles.flatListContainer}
+          data={categories}
+          keyExtractor={(item) => item.label}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleCategory(item.value)}>
+              <Text
+                style={
+                  category === item.value
+                    ? globalStyles.selectedCategoryLabel
+                    : globalStyles.categoryLabel
+                }
+              >
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
 
       <Modal
         animationType="slide"
@@ -117,19 +115,20 @@ export default function Profile3({ route, navigation }) {
         }}
       >
         <View style={globalStyles.modalContainer}>
-          <View style={styles.labelContainer}>
-            <View style={globalStyles.iconRight}>
-              <TouchableOpacity
-                onPress={() => {
-                  setHobby("");
-                  setCategory("");
-                  setShowModal(false);
-                }}
-              >
-                <AntDesign name="closecircle" size={56} color="#EC5E56" />
-              </TouchableOpacity>
-            </View>
-            <View style={globalStyles.flexColumn}>
+          <View style={[styles.labelContainer, globalStyles.boxShadow]}>
+            <View style={[styles.largeContainer, globalStyles.flexColumn]}>
+              <View style={globalStyles.iconRight}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setHobby("");
+                    setCategory("");
+                    setShowModal(false);
+                  }}
+                >
+                  <AntDesign name="closecircle" size={56} color="#EC5E56" />
+                </TouchableOpacity>
+              </View>
+
               <FlatList
                 contentContainerStyle={[styles.flatListContainer, globalStyles.boxShadow]}
                 data={interestList}
@@ -212,7 +211,7 @@ export default function Profile3({ route, navigation }) {
           <AntDesign name="rightcircle" size={56} color="#27AE60" />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -237,11 +236,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
+    alignSelf: "center",
+    alignItems: "center",
   },
   labelContainer: {
-    height: "55%",
     backgroundColor: "#fff",
     justifyContent: "center",
+    alignItems: "center",
     borderRadius: 16,
+    marginHorizontal: 10,
+
+    paddingVertical: 10,
+  },
+  container: {
+    height: 300,
+    width: "100%",
+  },
+  largeContainer: {
+    minHeight: 200,
+    maxHeight: "100%",
+    width: "100%",
   },
 });
