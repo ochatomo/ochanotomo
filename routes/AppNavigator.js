@@ -9,6 +9,7 @@ import Profile from "../components/Profile";
 import Profile2 from "../components/Profile2";
 import Profile3 from "../components/Profile3";
 import Profile4 from "../components/Profile4";
+import ProfilePreview from "../components/ProfilePreview";
 import Chat from "../components/Chat";
 import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
@@ -81,8 +82,7 @@ export const AppNavigator = () => {
         }}
       >
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="MatchPage" component={MatchPage} />
-        <Stack.Screen name="ProfilePage" component={ProfilePage} />
+
         <Stack.Screen name="Profile" component={Profile} options={{ title: "Profile" }} />
         <Stack.Screen
           name="Profile2"
@@ -99,12 +99,12 @@ export const AppNavigator = () => {
           component={Profile4}
           options={{ title: "Profile4" }}
         />
-        <Stack.Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
         <Stack.Screen
-          name="MatchList"
-          component={MatchList}
-          options={{ title: "MatchList" }}
+          name="ProfilePreview"
+          component={ProfilePreview}
+          options={{ title: "ProfilePreview" }}
         />
+        <Stack.Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
