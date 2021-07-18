@@ -4,7 +4,7 @@
 
 //　全員スワイプしちゃったときの画面 or 文言
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
 
 import { UserContext } from "../contexts/UserContext";
@@ -17,20 +17,19 @@ import { updateCustomer, createMatch } from "../src/graphql/mutations";
 import { onCreateMatch } from "../src/graphql/subscriptions";
 import { getLikesByCustomerID } from "../src/graphql/customQueries";
 import { API, graphqlOperation } from "aws-amplify";
-import { useEffect } from "react/cjs/react.development";
 import { calcLocation } from "../utils/location";
 import { calcCategory } from "../utils/category ";
 import { calcHobby } from "../utils/hobby";
 
 export default function MatchPage({ navigation }) {
-  const { allCustomerData, userDataInfo } = useContext(UserContext);
+  const { allCustomerData, userDataInfo, matchesData } = useContext(UserContext);
   const [allCustomers] = allCustomerData;
   const [userData] = userDataInfo;
   const [likes, setLikes] = useState(userData.likes);
   const [currentIdx, setIdx] = useState(0);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [message] = useState("");
-  const [matches, setMatches] = useState([]);
+  const [matches, setMatches] = matchesData;
 
   useEffect(() => {
     // filter out customers whose id is already registered in the likes of currentUser
@@ -110,8 +109,6 @@ export default function MatchPage({ navigation }) {
           : 0;
 
       const totalScore = locationScore + categoryScore + hobbyScore;
-      const customerName = customer.name;
-      // console.log({ customerName, locationScore, categoryScore, hobbyScore, totalScore });
       customer.score = totalScore;
       return customer;
     });
