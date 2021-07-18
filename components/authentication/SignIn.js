@@ -8,7 +8,6 @@ import {
   Text,
   TextInput,
   Image,
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Alert,
@@ -18,7 +17,8 @@ export default function SingIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = () => {
+  const handleSignIn = (e) => {
+    e.preventDefault();
     if (password === "" || email === "") {
       Alert.alert(
         "入力エラー",
@@ -36,6 +36,7 @@ export default function SingIn({ navigation }) {
       const user = await Auth.signIn(email, password);
       console.log(user);
     } catch (error) {
+      console.log("SignIn error", error);
       Alert.alert(
         "入力エラー",
         "メールアドレスまたはパスワードが間違っています。もう一度お試しください。",

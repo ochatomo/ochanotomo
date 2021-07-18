@@ -14,7 +14,6 @@ import { AppNavigator } from "./routes/AppNavigator";
 
 import Authenticator from "./components/authentication/Authenticator";
 import { withAuthenticator } from "aws-amplify-react-native";
-import { View } from "react-native";
 
 import React from "react";
 
