@@ -12,6 +12,7 @@ import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
 import ProfilePage from "../components/ProfilePage";
 import Loading from "../components/Loading";
+import OnBoarding from "../components/OnBoarding";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import Header from "./Header";
@@ -64,11 +65,11 @@ const HomeNavigator = ({ navigation }) => {
         </>
       ) : (
         <>
-          {/* <Screen
-            name="Photo"
-            component={Photo}
+          <Screen
+            name="OnBoarding"
+            component={OnBoarding}
             options={{ headerTitle: () => <Header /> }}
-          /> */}
+          />
 
           <Screen
             name="ProfilePage"

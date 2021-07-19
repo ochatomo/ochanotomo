@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, StatusBar } from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createChatRoom } from "../src/graphql/mutations";
@@ -80,13 +80,16 @@ export default function MatchList({ route, navigation }) {
         </TouchableOpacity>
       </View>
       
-     
+      
       <View>
         <Text style={globalStyles.header}>マイお茶とも</Text>
       </View>
 
       {matches.map((match, index) => {
         return (
+          
+          <ScrollView >
+            <View style={styles.container}>
           <View style={styles.friendsListContainer} key={index}>
               
             <View style={styles.avatarBox}>
@@ -105,8 +108,9 @@ export default function MatchList({ route, navigation }) {
                 </Text>
               </TouchableOpacity>
             </View>
-        
-          </View>
+            </View>
+            </View>
+          </ScrollView>
         )
       })
       }
@@ -137,7 +141,8 @@ export default function MatchList({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    height: 100
   },
   header: {
     textAlign: "center",
@@ -149,6 +154,8 @@ const styles = StyleSheet.create({
   },
   friendsListContainer: {
     flexDirection: 'row',
+    backgroundColor: "pink",
+    flex: 1
   },
   chatButtonContainer: {
     flex: 2,
