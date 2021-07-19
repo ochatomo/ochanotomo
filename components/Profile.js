@@ -43,63 +43,63 @@ export default function Profile({ navigation }) {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={globalStyles.imgContainer}>
-          <Image
-            style={globalStyles.largeLogo}
-            source={require("../assets/profile_logo.png")}
+    <View style={globalStyles.viewContainer}>
+      <View style={globalStyles.imgContainer}>
+        <Image
+          style={globalStyles.largeLogo}
+          source={require("../assets/profile_logo.png")}
+        />
+      </View>
+
+      <Text style={globalStyles.header}>
+        {isNewUser ? "初めまして！" : "プロフィールを編集する"}
+      </Text>
+      <View style={globalStyles.flexColumn}>
+        <View style={styles.inputContainer}>
+          <Text style={globalStyles.inputLabel}>お名前は……</Text>
+          <TextInput
+            style={globalStyles.input}
+            onChangeText={setName}
+            value={name}
+            placeholder="名前（ニックネーム）"
+            required
+          />
+
+          <Text style={globalStyles.inputLabel}>自己紹介しましょう！</Text>
+
+          <TextInput
+            style={[globalStyles.input, globalStyles.miltiInput]}
+            onChangeText={setProfileText}
+            value={profileText}
+            placeholder="自己紹介しましょう！"
+            multiline={true}
           />
         </View>
-
-        <Text style={globalStyles.header}>
-          {isNewUser ? "初めまして！" : "プロフィールを編集する"}
-        </Text>
-        <View style={globalStyles.flexColumn}>
-          <View style={styles.inputContainer}>
-            <Text style={globalStyles.inputLabel}>お名前は……</Text>
-            <TextInput
-              style={globalStyles.input}
-              onChangeText={setName}
-              value={name}
-              placeholder="名前（ニックネーム）"
-              required
-            />
-
-            <Text style={globalStyles.inputLabel}>自己紹介しましょう！</Text>
-
-            <TextInput
-              style={[globalStyles.input, globalStyles.miltiInput]}
-              onChangeText={setProfileText}
-              value={profileText}
-              placeholder="自己紹介しましょう！"
-              multiline={true}
-            />
-          </View>
-        </View>
-        <View style={globalStyles.iconContainer}>
+      </View>
+      <View style={globalStyles.iconContainer}>
+        <TouchableOpacity>
           <AntDesign name="leftcircle" size={56} color="#F3B614" />
-          <Text style={globalStyles.header}> 1 of 4 </Text>
+        </TouchableOpacity>
+        <Text style={globalStyles.header}> 1 of 4 </Text>
 
-          <TouchableOpacity
-            onPress={() => {
-              const errors = validateInput();
+        <TouchableOpacity
+          onPress={() => {
+            const errors = validateInput();
 
-              if (errors.length > 0) {
-                Alert.alert("入力エラー", errors.join("\n"), [
-                  { text: "OK", onPress: () => console.log("alert closed") },
-                ]);
-              } else {
-                // console.log({ name, profileText });
-                navigation.navigate("Profile2", { name, profileText });
-              }
-            }}
-          >
-            <AntDesign name="rightcircle" size={56} color="#27AE60" />
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+            if (errors.length > 0) {
+              Alert.alert("入力エラー", errors.join("\n"), [
+                { text: "OK", onPress: () => console.log("alert closed") },
+              ]);
+            } else {
+              // console.log({ name, profileText });
+              navigation.navigate("Profile2", { name, profileText });
+            }
+          }}
+        >
+          <AntDesign name="rightcircle" size={56} color="#27AE60" />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
