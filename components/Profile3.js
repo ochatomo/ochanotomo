@@ -144,7 +144,7 @@ export default function Profile3({ route, navigation }) {
                       Alert.alert(
                         "趣味はこちらよろしいですか？",
                         `カテゴリー：${categories[category].label}\n趣味：${
-                          interestTable[category][item.value]
+                          interestTable[category][item.value] || "その他"
                         }`,
                         [
                           {

@@ -9,8 +9,11 @@ import { UserContext } from "../contexts/UserContext";
 import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
+import { uploadFile } from "../utils/photohelper";
+
 export default function ProfilePreview({ route, navigation }) {
-  const { name, profileText, location, gender, category, hobby, photo } = route.params;
+  const { name, profileText, location, gender, category, hobby, photo, uri, filename } =
+    route.params;
   const currentUserData = {
     name,
     profileText,
@@ -50,13 +53,20 @@ export default function ProfilePreview({ route, navigation }) {
           style={globalStyles.flexColumn}
           onPress={() => navigation.goBack()}
         >
-          <AntDesign name="logout" size={50} color="#F3B614" style={globalStyles.logo} />
+          <AntDesign
+            name="leftcircle"
+            size={50}
+            color="#F3B614"
+            style={globalStyles.logo}
+          />
           <Text style={globalStyles.iconLabel}>やり直す</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={globalStyles.flexColumn}
           onPress={async () => {
+            await uploadFile(uri, filename);
+
             await saveUserInfo();
 
             Alert.alert(
@@ -78,16 +88,16 @@ export default function ProfilePreview({ route, navigation }) {
       <Text style={globalStyles.header}>確認画面</Text>
       <Text style={globalStyles.text}>保存してよろしいですか？</Text>
       <View style={globalStyles.flexRow}>
-        <Profile userData={currentUserData} />
+        <Profile userData={currentUserData} uri={uri} />
       </View>
     </View>
   );
 }
 
-const Profile = ({ userData }) => {
+const Profile = ({ userData, uri }) => {
   return (
     <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
-      <Image source={{ uri: userData.photo }} style={styles.profilePhoto} />
+      <Image source={{ uri: uri }} style={styles.profilePhoto} />
       <Text style={globalStyles.header}>{userData.name}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         性別
@@ -113,9 +123,9 @@ const Profile = ({ userData }) => {
 
 const styles = StyleSheet.create({
   profilePhoto: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    width: 236,
+    height: 195,
+    // borderRadius: 100,
   },
   profileTextContainer: {
     width: "100%",
