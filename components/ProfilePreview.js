@@ -23,7 +23,7 @@ export default function ProfilePreview({ route, navigation }) {
     photo,
   };
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
-  const [isNewUser] = isNewUserInfo;
+  const [isNewUser, setIsNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
   const [userData, setUserData] = userDataInfo;
 
@@ -37,6 +37,7 @@ export default function ProfilePreview({ route, navigation }) {
       setUserData(user);
 
       await API.graphql(graphqlOperation(createCustomer, { input: user }));
+      setIsNewUser(false);
     } else {
       const query = {
         id: userId,
