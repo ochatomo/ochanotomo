@@ -23,12 +23,14 @@ import { UserContext } from "../contexts/UserContext";
 import { globalStyles } from "../styles/globalStyle";
 
 export default function Profile2({ route, navigation }) {
-  const { userDataInfo } = useContext(UserContext);
+  const { userDataInfo, isNewUserInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
+  const [isNewUser] = isNewUserInfo;
   const { name, profileText } = route.params;
 
   const [location, setLocation] = useState(userData.location);
   const [gender, setGender] = useState(userData.gender);
+  console.log({ location, gender });
 
   const validateInput = () => {
     const errors = [];
@@ -58,9 +60,19 @@ export default function Profile2({ route, navigation }) {
         <View style={styles.pickerContainer}>
           <Picker
             style={styles.picker}
-            selectedValue={location || ""}
+            selectedValue={Number(location) || ""}
             onValueChange={setLocation}
           >
+            {isNewUser && (
+              <Picker.Item
+                label={"都道府県"}
+                value={""}
+                color="#0094CE"
+                key={"placeholder"}
+                enabled={false}
+                style={styles.pickerlabel}
+              />
+            )}
             {prefectures.map((data, index) => (
               <Picker.Item
                 label={data.label}
@@ -81,6 +93,16 @@ export default function Profile2({ route, navigation }) {
             selectedValue={gender || ""}
             onValueChange={setGender}
           >
+            {isNewUser && (
+              <Picker.Item
+                label={"性別"}
+                value={""}
+                color="#0094CE"
+                key={"placeholder"}
+                enabled={false}
+                style={styles.pickerlabel}
+              />
+            )}
             {genderOptions.map((data, index) => (
               <Picker.Item
                 label={data.label}

@@ -98,7 +98,11 @@ export const getMatch = /* GraphQL */ `
   }
 `;
 export const listMatches = /* GraphQL */ `
-  query ListMatches($filter: ModelMatchFilterInput, $limit: Int, $nextToken: String) {
+  query ListMatches(
+    $filter: ModelMatchFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
     listMatches(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -219,7 +223,11 @@ export const getMessage = /* GraphQL */ `
   }
 `;
 export const listMessages = /* GraphQL */ `
-  query ListMessages($filter: ModelMessageFilterInput, $limit: Int, $nextToken: String) {
+  query ListMessages(
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
     listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id

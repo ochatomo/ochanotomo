@@ -53,7 +53,7 @@ export default function ProfilePage({ navigation }) {
             navigation.navigate("MatchPage");
           }}
         >
-          <Text style={globalStyles.label}>お茶ともを探そう！</Text>
+          <Text style={globalStyles.label}>お茶トモを探そう！</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -63,7 +63,10 @@ export default function ProfilePage({ navigation }) {
 const Profile = ({ userData }) => {
   return (
     <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
-      <Image source={{ uri: userData.photo }} style={styles.profilePhoto} />
+      <Image
+        source={{ uri: `${userData.photo}?+${new Date()}` }}
+        style={styles.profilePhoto}
+      />
       <Text style={globalStyles.header}>{userData.name}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         都道府県
@@ -87,9 +90,9 @@ const Profile = ({ userData }) => {
 
 const styles = StyleSheet.create({
   profilePhoto: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    width: 236,
+    height: 195,
+    // borderRadius: 100,
   },
   profileTextContainer: {
     width: "100%",

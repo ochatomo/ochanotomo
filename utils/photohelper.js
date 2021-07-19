@@ -50,7 +50,7 @@ export const handleTakePhoto = async (userId) => {
   return result.uri;
 };
 
-export const uploadFile = async (uri, id, ext) => {
+export const uploadFile = async (uri, filename) => {
   //   console.log("+++++++++++++++", uri, id);
 
   // const base64 = await FileSystem.readFile(selectedFile.uri, 'base64');
@@ -68,7 +68,7 @@ export const uploadFile = async (uri, id, ext) => {
       ACL: "public-read",
       Body: arrayBuffer,
       Bucket: S3_BUCKET,
-      Key: `${id}.${ext}`, //user_idに変える
+      Key: filename, //user_idに変える
     };
 
     const res = await myBucket
