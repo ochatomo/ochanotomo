@@ -127,6 +127,7 @@ export default function MatchPage({ navigation }) {
 
   const saveLike = async (user2Info, user1Preference) => {
     const newLike = { id: user2Info.id, like: user1Preference };
+    console.log(newLike);
     // update the current likes so we don't lose the previous state
     setLikes((likes) => [...likes, newLike]);
     const query = { id: userData.id, likes: [...likes, newLike] };
@@ -157,9 +158,11 @@ export default function MatchPage({ navigation }) {
   };
 
   const handleLike = async (user2Info) => {
+    console.log("handleLike running");
     const max = filteredCustomers.length - 1;
 
-    if (currentIdx >= max) {
+    if (currentIdx > max) {
+      console.log("if statement running");
       Alert.alert(
         "新しいユーザーがいません。",
         "すべてのユーザーをチェックしました。現在のお茶トモと話してみましょう。",
@@ -172,6 +175,7 @@ export default function MatchPage({ navigation }) {
       );
       return;
     }
+
     await saveLike(user2Info, true);
     const isMatch = await checkLike(userData.id, user2Info.id);
     console.log({ isMatch });
