@@ -26,8 +26,6 @@ import {
 
 import { UserContext } from "../contexts/UserContext";
 
-import { createCustomer, updateCustomer } from "../src/graphql/mutations";
-import { API, graphqlOperation } from "aws-amplify";
 
 import { globalStyles } from "../styles/globalStyle.js";
 
@@ -40,36 +38,7 @@ export default function Profile4({ route, navigation }) {
   const [uri, setUri] = useState("");
   const [photoSelected, setPhotoSelected] = useState(false);
 
-  const saveUserInfo = async (photoUrl) => {
-    console.log("saving to database", photoUrl);
-
-    if (isNewUser) {
-      const user = {
-        id: userId,
-        name: name,
-        interests: [{ category, hobby }],
-        location,
-        profileText,
-        likes: [],
-        gender,
-        photo: photoUrl,
-      };
-      setUserData(user);
-
-      await API.graphql(graphqlOperation(createCustomer, { input: user }));
-    } else {
-      const query = {
-        id: userId,
-        name,
-        location,
-        profileText,
-        interests: [{ category, hobby }],
-        gender,
-        photo: photoUrl,
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-    }
-  };
+  
 
   return (
     <View style={globalStyles.viewContainer}>

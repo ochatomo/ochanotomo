@@ -11,7 +11,7 @@ import { API, graphqlOperation } from "aws-amplify";
 
 export default function ProfilePreview({ route, navigation }) {
   const { name, profileText, location, gender, category, hobby, photo } = route.params;
-  const userData = {
+  const currentUserData = {
     name,
     profileText,
     location,
@@ -19,14 +19,15 @@ export default function ProfilePreview({ route, navigation }) {
     interests: [{ category, hobby }],
     photo,
   };
-  const { isNewUserInfo, userIdInfo } = useContext(UserContext);
+  const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
+  const [userData, setUserData] = userDataInfo;
 
   const saveUserInfo = async () => {
     if (isNewUser) {
       const user = {
-        ...userData,
+        ...currentUserData,
         id: userId,
         likes: [],
       };
@@ -36,7 +37,7 @@ export default function ProfilePreview({ route, navigation }) {
     } else {
       const query = {
         id: userId,
-        ...userData,
+        ...currentUserData,
       };
       await API.graphql(graphqlOperation(updateCustomer, { input: query }));
     }
@@ -77,7 +78,7 @@ export default function ProfilePreview({ route, navigation }) {
       <Text style={globalStyles.header}>確認画面</Text>
       <Text style={globalStyles.text}>保存してよろしいですか？</Text>
       <View style={globalStyles.flexRow}>
-        <Profile userData={userData} />
+        <Profile userData={currentUserData} />
       </View>
     </View>
   );
