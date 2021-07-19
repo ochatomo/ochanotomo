@@ -52,7 +52,7 @@ export default function SingIn({ navigation }) {
           style={globalStyles.extraLargeLogo}
           source={require("../../assets/ochatomo-logo.png")}
         />
-        <Text style={globalStyles.header}>サインイン</Text>
+        <Text style={globalStyles.header}>ログインする</Text>
         <View style={styles.inputContainer}>
           <Text style={globalStyles.inputLabel}>メールアドレス</Text>
           <TextInput
