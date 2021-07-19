@@ -232,8 +232,8 @@ export default function MatchPage({ navigation }) {
           }}
           style={globalStyles.flexColumn}
         >
-          <AntDesign name="leftcircle" size={50} color="#F3B614" />
-          <Text style={globalStyles.iconLabel}>戻る</Text>
+          <AntDesign name="leftcircle" size={50} color="#F3B614" style={{ opacity: 0 }} />
+          {/* <Text style={globalStyles.iconLabel}>戻る</Text> */}
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -339,5 +339,7 @@ const styles = StyleSheet.create({
   },
   profileText: {
     fontSize: 15,
+    fontWeight: "bold",
+    color: "#0094CE",
   },
 });

@@ -78,7 +78,7 @@ export default function Profile({ navigation }) {
       </View>
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity>
-          <AntDesign name="leftcircle" size={56} color="#F3B614" />
+          <AntDesign name="leftcircle" size={56} color="#F3B614" style={{ opacity: 0 }} />
         </TouchableOpacity>
         <Text style={globalStyles.header}> 1 of 4 </Text>
 
