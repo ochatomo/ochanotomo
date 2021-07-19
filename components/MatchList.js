@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
-  TextInput,
-  Button,
+  ScrollView,
+  Text,
 } from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
@@ -24,6 +23,7 @@ export default function MatchList({ route, navigation }) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    // console.log("MATCHES----", matches)
     if (matches.length === 0) {
       setMessage(
         `まだお茶トモがいません。\n「探す」メニューでお茶トモを見つけましょう！`
@@ -55,12 +55,9 @@ export default function MatchList({ route, navigation }) {
             input: { id: chatRoomId },
           })
         );
-        // console.log(newChatRoomData);
+
         chatRoomData = newChatRoomData.data.createChatRoom;
       }
-      // console.log({ chatRoomData });
-
-      // 3. move to Chat page
       navigation.navigate("Chat", {
         user2: match,
         chatRoomData: chatRoomData,
@@ -72,39 +69,21 @@ export default function MatchList({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.iconContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            // return
-            navigation.navigate("MatchPage");
-          }}
-          style={globalStyles.flexColumn}
-        >
-          <AntDesign name="leftcircle" size={50} color="#F3B614" />
-          <Text style={globalStyles.iconLabel}>戻る</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => {
-            // view my profile page
-            navigation.navigate("Profile");
-          }}
-          style={globalStyles.flexColumn}
-        >
-          <Image source={require("../assets/edit.png")} style={globalStyles.logo} />
-          <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
-        </TouchableOpacity>
-      </View>
-
+      
       <View>
         <Text style={globalStyles.header}>Myお茶トモ</Text>
         {message !== "" && (
           <Text style={[globalStyles.text, { textAlign: "center" }]}>{message}</Text>
         )}
       </View>
-
+      <View style={{width: "100%", height: 500}}>
+      <ScrollView >
       {matches.map((match, index) => {
         return (
+          
+         
+            <View style={styles.container}>
           <View style={styles.friendsListContainer} key={index}>
             <View style={styles.avatarBox}>
               <Image source={{ uri: match.photo }} style={styles.matchAvatar} />
@@ -119,38 +98,27 @@ export default function MatchList({ route, navigation }) {
                 <Text style={styles.chatButton}>お話をする</Text>
               </TouchableOpacity>
             </View>
-          </View>
-        );
-      })}
+            </View>
+            </View>
+         
+        )
+      })
+      }
+       </ScrollView>
+       </View>
     </View>
   );
 }
 
-{
-  /* <Text>
-        Logged in as {userData.name} ID:{userId}{" "}
-      </Text>
-      <Button
-        onPress={() => {
-          navigation.navigate("MatchPage");
-        }}
-        title="戻る"
-        color="#841584"
-      />
-      {matches.map((match, index) => {
-        return (
-          <View key={index}>
-            <Text>{match.name}</Text>
-            <Text>{match.profileText}</Text>
-            <Button onPress={() => startChat(match)} title="お話をする" color="#841584" />
-          </View>
-        );
-      } */
-}
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: 100,
+    width: "100%",
+    // borderWidth: 2,
+    // borderColor: "pink"
   },
   header: {
     textAlign: "center",
@@ -161,7 +129,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   friendsListContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
+    flex: 1
   },
   chatButtonContainer: {
     flex: 2,
@@ -184,7 +153,7 @@ const styles = StyleSheet.create({
   matchAvatar: {
     width: 70,
     height: 70,
-    borderRadius: 30,
+    borderRadius: 35,
   },
   chatButton: {
     borderRadius: 44,

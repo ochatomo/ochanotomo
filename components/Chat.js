@@ -2,27 +2,40 @@ import { View, Text, StyleSheet, TextInput, Button, FlatList, StatusBar, ScrollV
 import { UserContext } from "../contexts/UserContext";
 import moment from "moment";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
+import { prompts, greeting, closing } from "../utils/prompts";
+
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
+import { globalStyles } from "../styles/globalStyle";
+import { AntDesign } from "@expo/vector-icons";
+
+
+
 
 export default function Chat({ route, navigation }) {
+  const scrollViewRef = useRef();
+
   const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
   const { user2, chatRoomData } = route.params;
   const [messages, setMessages] = useState(chatRoomData.messages.items);
   const [input, setInput] = useState("");
+  const [greetingIdx, setGreetingIdx]= useState("")
+  const [closingIdx, setClosingIdx]= useState("")
+  const [promptIdx, setPromptIdx]= useState("")
 
   function renderItem(message) {
     return <Message message={message} />;
   }
 
   useEffect(() => {
+    console.log("Messages in useEffect", messages)
     const subscription = API.graphql(graphqlOperation(onCreateMessage)).subscribe({
       next: (data) => {
-        console.log("subscribe---", data);
+        // console.log("subscribe---", data);
         const newMessage = data.value.data.onCreateMessage;
         // console.log("newMessage :", newMessage);
         if (newMessage.chatRoomId === chatRoomData.id) {
@@ -36,32 +49,26 @@ export default function Chat({ route, navigation }) {
     };
   }, []);
   
-  const odai = [
-    "最近ハマっているものは？",
-    "お気に入りのスイーツある？",
-    "休日は何をしてる？",
-    "出身地ってどこ？",
-    "最近映画観た？",
-    "昨日の晩御飯は？",
-    "犬派と猫派？",
-    "お酒飲む？飲まない？",
-    "好きなアーティストは？",
-    "遺書ってもう書いた？",
-    "あなたが持っていたいと思うスーパーパワーは何ですか？",
-    "今までで一番好きな本は何ですか？"
-  ]
-
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.viewContainer}>
+      <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("MatchList")
+          }}
+          style={[globalStyles.flexColumn, {alignSelf: "flex-start"}]}
+        >
+          <AntDesign name="leftcircle" size={50} color="#F3B614"  />
+          <Text style={globalStyles.iconLabel}>戻る</Text>
+        </TouchableOpacity>
+
          <Text style={styles.header}>{user2.name}とお話しましょう
         </Text>
       <ScrollView
-      >
-        
-        <View style={styles.chatContainer}>
-        
-        <FlatList
-          data={messages}
+        ref={scrollViewRef}
+        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({animated: true})}>
+        <View style={styles.chatContainer}>      
+          <FlatList
+            data={messages}
             renderItem={renderItem}
             />
         </View>
@@ -79,7 +86,8 @@ export default function Chat({ route, navigation }) {
         <TouchableOpacity
           title="チャット送信"
           style={styles.button}
-          onPress={async () => {
+            onPress={async () => {
+              if (!input) return;
             try {
               const newMessageData = await API.graphql(
                 graphqlOperation(createMessage, {
@@ -105,20 +113,66 @@ export default function Chat({ route, navigation }) {
           </TouchableOpacity>
           </View>
         <View style={styles.topicContainer}>
+          
         <TouchableOpacity
-            
-            
           onPress={async () => {
               try {
-                const rndInt = Math.floor(Math.random() * 11) + 1
-                setInput(odai[rndInt]);
+                while(true){
+                  const rndInt = Math.floor(Math.random() * greeting.length) 
+                if(rndInt !==  greetingIdx){
+                  
+                  setInput(greeting[rndInt]);
+                  setGreetingIdx(rndInt)
+                  break
+                } 
+                }
+                
               } catch (e) {
                 console.log(e);
               }
               }} >
-              <Text style={styles.topicButton}>何について話すかな</Text> 
+              <Text style={styles.topicButton}>あいさつ</Text> 
         </TouchableOpacity>
           
+        <TouchableOpacity
+          onPress={async () => {
+              try {
+                while(true){
+                  const rndInt = Math.floor(Math.random() * prompts.length) 
+                if(rndInt !==  promptIdx){
+                  
+                  setInput(prompts[rndInt]);
+                  setPromptIdx(rndInt)
+                  break
+                } 
+                }
+               
+              } catch (e) {
+                console.log(e);
+              }
+              }} >
+              <Text style={styles.topicButton}>何を話そう？</Text> 
+        </TouchableOpacity>
+          
+        <TouchableOpacity
+          onPress={async () => {
+              try {
+                while(true){
+                  const rndInt = Math.floor(Math.random() * closing.length) 
+                if(rndInt !==  closingIdx){
+                  
+                  setInput(closing[rndInt]);
+                  setClosingIdx(rndInt)
+                  break
+                } 
+                }
+                
+              } catch (e) {
+                console.log(e);
+              }
+              }} >
+              <Text style={styles.topicButton}>そろそろ……</Text> 
+            </TouchableOpacity>
       </View>
       </View>
      
@@ -136,9 +190,10 @@ const Message = (message) => {
 
   console.log({ message });
   const sender_name = message.message.item.sender.name;
+  const photo = message.message.item.sender.photo
   const content = message.message.item.content;
   const timestamp = moment(message.message.item.createdAt).fromNow();
-  console.log(message.message.item.content);
+  // console.log("this is photo", photo);
   return (
     <View >
     <View style={styles.messageBox,{
@@ -148,7 +203,7 @@ const Message = (message) => {
       margin: 2,
       }}>
         <View style={styles.avatar}>
-        <Image source={require("../assets/user.png")} style={styles.user, {
+        <Image source={{uri: photo}} style={styles.user, {
           width: 40,
           height: 40,
           borderRadius: 30,
@@ -208,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   topicButton: {
-    borderRadius: 44,
+    borderRadius: 36,
     fontSize: 14,
     fontWeight: "bold",
     color: "#FFFFFF",
