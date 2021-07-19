@@ -110,8 +110,8 @@ export const globalStyles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   extraLargeLogo: {
-    width: 150,
-    height: 150,
+    width: 250,
+    height: 250,
   },
   input: {
     // width: 283,
@@ -247,6 +247,7 @@ export const globalStyles = StyleSheet.create({
     marginTop: 20,
   },
   viewContainer: {
+    paddingVertical: 100,
     width: "100%",
     height: "100%",
     flex: 1,

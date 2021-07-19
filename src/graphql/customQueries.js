@@ -11,9 +11,11 @@ export const getFullChatRoomInfo = /* GraphQL */ `
           createdAt
           sender {
             name
+            photo
           }
           receiver {
             name
+            photo
           }
           updatedAt
         }
