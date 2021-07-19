@@ -54,11 +54,6 @@ export const onUpdateCustomer = /* GraphQL */ `
           customer_id
           createdAt
           updatedAt
-          customer {
-            id
-            name
-            photo
-          }
         }
         nextToken
       }

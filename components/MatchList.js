@@ -20,6 +20,15 @@ export default function MatchList({ route, navigation }) {
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
   const [matches, setMatches] = matchesData;
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (matches.length === 0) {
+      setMessage(
+        `まだお茶トモがいません。\n「探す」メニューでお茶トモを見つけましょう！`
+      );
+    }
+  }, []);
 
   function generateChatRoomId(id1, id2) {
     const array = [id1, id2];
@@ -58,11 +67,12 @@ export default function MatchList({ route, navigation }) {
   }
 
   return (
-    <View>
+    <View style={globalStyles.viewContainer}>
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           onPress={() => {
             // return
+            navigation.navigate("MatchPage");
           }}
           style={globalStyles.flexColumn}
         >
@@ -82,7 +92,10 @@ export default function MatchList({ route, navigation }) {
         </TouchableOpacity>
       </View>
       <View>
-        <Text style={globalStyles.header}>マイお茶とも</Text>
+        <Text style={globalStyles.header}>Myお茶トモ</Text>
+        {message !== "" && (
+          <Text style={[globalStyles.text, { textAlign: "center" }]}>{message}</Text>
+        )}
       </View>
 
       {matches.map((match, index) => {

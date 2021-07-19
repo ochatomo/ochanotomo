@@ -26,7 +26,6 @@ import {
 
 import { UserContext } from "../contexts/UserContext";
 
-
 import { globalStyles } from "../styles/globalStyle.js";
 
 export default function Profile4({ route, navigation }) {
@@ -38,14 +37,13 @@ export default function Profile4({ route, navigation }) {
   const [uri, setUri] = useState("");
   const [photoSelected, setPhotoSelected] = useState(false);
 
-  
-
   return (
     <View style={globalStyles.viewContainer}>
       <View style={globalStyles.imgContainer}>
         <Image style={globalStyles.largeLogo} source={require("../assets/photo.png")} />
       </View>
       <Text style={globalStyles.header}>写真をアップロードする</Text>
+      <Text style={globalStyles.text}>ご自身の顔写真をアップロードしてください。</Text>
 
       <Modal
         animationType="slide"
@@ -97,19 +95,20 @@ export default function Profile4({ route, navigation }) {
                 //   console.log({ extension });
                 const photoUrl = `https://photo152330-dev.s3.ap-northeast-1.amazonaws.com/${userData.id}.${extension}`;
                 //   console.log(photoUrl);
-                const res = await uploadFile(uri, userData.id, extension);
+                // const res = await uploadFile(uri, userData.id, extension);
                 //   console.log("response------", res.error);
-                if (!res.error) {
-                  navigation.navigate("ProfilePreview", {
-                    name,
-                    profileText,
-                    location,
-                    gender,
-                    photo: photoUrl,
-                    category,
-                    hobby,
-                  });
-                }
+
+                navigation.navigate("ProfilePreview", {
+                  name,
+                  profileText,
+                  location,
+                  gender,
+                  photo: photoUrl,
+                  uri,
+                  filename: `${userData.id}.${extension}`,
+                  category,
+                  hobby,
+                });
               }}
             >
               <Text style={[styles.textBtn, { backgroundColor: "#27AE60" }]}>
@@ -140,8 +139,10 @@ export default function Profile4({ route, navigation }) {
         <TouchableOpacity
           style={[globalStyles.flexColumn, styles.logoContainer]}
           onPress={async () => {
+            console.log("handle take photo running");
             setPhotoSelected(false);
             const result = await handleTakePhoto();
+            console.log("take photo result", result);
 
             if (result !== undefined) {
               setUri(result);
