@@ -66,7 +66,8 @@ export default function Chat({ route, navigation }) {
         <TouchableOpacity
           title="チャット送信"
           style={styles.button}
-          onPress={async () => {
+            onPress={async () => {
+              if (!input) return;
             try {
               const newMessageData = await API.graphql(
                 graphqlOperation(createMessage, {
