@@ -157,6 +157,7 @@ export default function Profile4({ route, navigation }) {
           <Text style={styles.label}>今写真を撮る</Text>
         </TouchableOpacity>
       </View>
+     
 
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
@@ -208,6 +209,11 @@ const styles = StyleSheet.create({
   photoPreview: {
     width: "100%",
     height: "100%",
+  },
+  photoSmallPreview: {
+    height: 100,
+    width: 100,
+
   },
   photoPreviewContainer: {
     backgroundColor: "#FFF",

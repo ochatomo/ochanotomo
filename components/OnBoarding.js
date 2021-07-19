@@ -38,6 +38,25 @@ const Welcome = () => (
   
   export default Welcome;
 
+// export default function OnBoarding() {
+//     return (
+//         <View style={styles.container}>
+            
+//             <View style={styles.imageContainer} />
+//             {/* <Text>Onboarding</Text> */}
+//             <View style={styles.onboardingMessageContainer} />
+           
+//             </View>
+//         );
+    
+  
+// //           <Text style={globalStyles.header}>Onboarding</Text>
+// //       </View>
+      
+// //       <View style={globalStyles.imageContainer}></View>
+// //   );
+// }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -52,8 +71,8 @@ const styles = StyleSheet.create({
         backgroundColor: "blue"
     },
     photo: {
-        width: 300,
-        height: 300,
+        width: 236,
+        height: 195,
         alignItems: "center"
       },
   });
