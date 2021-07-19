@@ -85,7 +85,7 @@ export default function SingIn({ navigation }) {
               },
             ]}
           >
-            サインインする
+            ログインする
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>

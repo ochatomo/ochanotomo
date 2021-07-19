@@ -14,6 +14,7 @@ import {
   Image,
   View,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -34,10 +35,10 @@ export default function Profile2({ route, navigation }) {
 
   const validateInput = () => {
     const errors = [];
-    if (name === "") {
+    if (gender === "") {
       errors.push("* 性別を教えてください。");
     }
-    if (profileText === "") {
+    if (location === "") {
       errors.push("* 都道府県を選んでください。");
     }
     return errors;
