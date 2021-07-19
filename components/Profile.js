@@ -77,8 +77,17 @@ export default function Profile({ navigation }) {
         </View>
       </View>
       <View style={globalStyles.iconContainer}>
-        <TouchableOpacity>
-          <AntDesign name="leftcircle" size={56} color="#F3B614" style={{ opacity: 0 }} />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Home", { screen: "ProfilePage" });
+          }}
+        >
+          <AntDesign
+            name="leftcircle"
+            size={56}
+            color="#F3B614"
+            style={{ opacity: isNewUser ? 0 : 1 }}
+          />
         </TouchableOpacity>
         <Text style={globalStyles.header}> 1 of 4 </Text>
 
