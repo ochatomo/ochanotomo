@@ -11,7 +11,7 @@ import { UserContext } from "../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
 import { globalStyles } from "../styles/globalStyle";
-import { generateInterestLabel } from "../utils/helper";
+import { generateInterestLabel, prefectureList } from "../utils/helper";
 
 export default function ProfilePage({ navigation }) {
   const { userDataInfo } = useContext(UserContext);
@@ -25,15 +25,9 @@ export default function ProfilePage({ navigation }) {
     }
   }
   return (
-    <View>
+    <View style={globalStyles.viewContainer}>
       <View style={globalStyles.iconContainer}>
-        <TouchableOpacity
-          style={globalStyles.flexColumn}
-          onPress={() => {
-            // logout
-            signOut();
-          }}
-        >
+        <TouchableOpacity style={globalStyles.flexColumn} onPress={signOut}>
           <AntDesign name="logout" size={50} color="#F3B614" style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>ログアウトする</Text>
         </TouchableOpacity>
@@ -41,7 +35,6 @@ export default function ProfilePage({ navigation }) {
         <TouchableOpacity
           style={globalStyles.flexColumn}
           onPress={() => {
-            // view my profile page
             navigation.navigate("Profile");
           }}
         >
@@ -70,8 +63,12 @@ export default function ProfilePage({ navigation }) {
 const Profile = ({ userData }) => {
   return (
     <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
-      <Image source={require("../assets/testphoto.jpeg")} style={styles.profilePhoto} />
+      <Image source={{ uri: userData.photo }} style={styles.profilePhoto} />
       <Text style={globalStyles.header}>{userData.name}</Text>
+      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
+        都道府県
+      </Text>
+      <Text>{prefectureList[userData.location]}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         趣味・関心事
       </Text>

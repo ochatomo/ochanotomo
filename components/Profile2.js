@@ -42,7 +42,7 @@ export default function Profile2({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView>
+    <View style={globalStyles.viewContainer}>
       <View style={globalStyles.imgContainer}>
         <Image
           style={globalStyles.largeLogo}
@@ -61,8 +61,13 @@ export default function Profile2({ route, navigation }) {
             selectedValue={location || ""}
             onValueChange={setLocation}
           >
-            {prefectures.map((data) => (
-              <Picker.Item label={data.label} value={data.value} color="#0094CE" />
+            {prefectures.map((data, index) => (
+              <Picker.Item
+                label={data.label}
+                value={data.value}
+                color="#0094CE"
+                key={index}
+              />
             ))}
           </Picker>
         </View>
@@ -76,8 +81,13 @@ export default function Profile2({ route, navigation }) {
             selectedValue={gender || ""}
             onValueChange={setGender}
           >
-            {genderOptions.map((data) => (
-              <Picker.Item label={data.label} value={data.value} color="#0094CE" />
+            {genderOptions.map((data, index) => (
+              <Picker.Item
+                label={data.label}
+                value={data.value}
+                color="#0094CE"
+                key={index}
+              />
             ))}
           </Picker>
         </View>
@@ -116,7 +126,7 @@ export default function Profile2({ route, navigation }) {
           <AntDesign name="rightcircle" size={56} color="#27AE60" />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

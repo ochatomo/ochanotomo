@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, StatusBar } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Text,
+} from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { createChatRoom } from "../src/graphql/mutations";
@@ -9,10 +16,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { UserContext } from "../contexts/UserContext";
 
 export default function MatchList({ route, navigation }) {
-  const { userIdInfo, userDataInfo } = useContext(UserContext);
+  const { userIdInfo, userDataInfo, matchesData } = useContext(UserContext);
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
-  const { matches } = route.params;
+  const [matches, setMatches] = matchesData;
 
   function generateChatRoomId(id1, id2) {
     const array = [id1, id2];
@@ -23,8 +30,7 @@ export default function MatchList({ route, navigation }) {
   async function startChat(match) {
     const chatRoomId = generateChatRoomId(userId, match.id);
 
-    try
-    {
+    try {
       // 1. check if the chatroom already exists
       console.log({ chatRoomId });
       const res = await API.graphql(
@@ -33,25 +39,20 @@ export default function MatchList({ route, navigation }) {
       // console.log("Here is chatroomData", res);
       let chatRoomData = res.data.getChatRoom;
       // 2. if it doesn't exist, create a new Chatroom by the chatRoomId
-      if (!chatRoomData)
-      {
+      if (!chatRoomData) {
         const newChatRoomData = await API.graphql(
           graphqlOperation(createChatRoom, {
             input: { id: chatRoomId },
           })
         );
-        // console.log(newChatRoomData);
+
         chatRoomData = newChatRoomData.data.createChatRoom;
       }
-      // console.log({ chatRoomData });
-
-      // 3. move to Chat page
       navigation.navigate("Chat", {
         user2: match,
         chatRoomData: chatRoomData,
       });
-    } catch (e)
-    {
+    } catch (e) {
       console.log(e);
     }
   }
@@ -74,13 +75,12 @@ export default function MatchList({ route, navigation }) {
             // view my profile page
             navigation.navigate("Profile");
           }}
-          style={globalStyles.flexColumn}>
+          style={globalStyles.flexColumn}
+        >
           <Image source={require("../assets/edit.png")} style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
         </TouchableOpacity>
       </View>
-      
-      
       <View>
         <Text style={globalStyles.header}>マイお茶とも</Text>
       </View>
@@ -91,21 +91,17 @@ export default function MatchList({ route, navigation }) {
           <ScrollView >
             <View style={styles.container}>
           <View style={styles.friendsListContainer} key={index}>
-              
             <View style={styles.avatarBox}>
-              <Image source={require("../assets/user.png")} style={styles.matchAvatar} />
+              <Image source={{ uri: match.photo }} style={styles.matchAvatar} />
             </View>
-              
+
             <View style={styles.matchedUserContainer}>
               <Text style={globalStyles.name}>{match.name}</Text>
             </View>
-              
+
             <View style={styles.chatButtonContainer}>
-              <TouchableOpacity
-                onPress={() => startChat(match)}
-              >
-                <Text style={styles.chatButton}>お話をする
-                </Text>
+              <TouchableOpacity onPress={() => startChat(match)}>
+                <Text style={styles.chatButton}>お話をする</Text>
               </TouchableOpacity>
             </View>
             </View>
@@ -115,10 +111,11 @@ export default function MatchList({ route, navigation }) {
       })
       }
     </View>
-  )
+  );
 }
 
-      {/* <Text>
+{
+  /* <Text>
         Logged in as {userData.name} ID:{userId}{" "}
       </Text>
       <Button
@@ -136,8 +133,8 @@ export default function MatchList({ route, navigation }) {
             <Button onPress={() => startChat(match)} title="お話をする" color="#841584" />
           </View>
         );
-      } */}
-
+      } */
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -154,26 +151,25 @@ const styles = StyleSheet.create({
   },
   friendsListContainer: {
     flexDirection: 'row',
-    backgroundColor: "pink",
     flex: 1
   },
   chatButtonContainer: {
     flex: 2,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   matchedUserContainer: {
     flex: 1.5,
     padding: 10,
     height: 90,
-    flexDirection: 'column',
-    justifyContent: 'center'
+    flexDirection: "column",
+    justifyContent: "center",
   },
   avatarBox: {
     flex: 1.5,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center",
   },
   matchAvatar: {
     width: 70,
