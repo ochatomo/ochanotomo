@@ -5,7 +5,7 @@ import * as FileSystem from "expo-file-system";
 // import fs from 'react-native-fs';
 import { decode } from "base64-arraybuffer";
 
-const S3_BUCKET = "photo152330-dev";
+const S3_BUCKET = "photo101957-production";
 const REGION = "ap-northeast-1";
 
 AWS.config.update({

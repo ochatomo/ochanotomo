@@ -93,8 +93,8 @@ export default function Profile4({ route, navigation }) {
                 if (!photoSelected) return;
                 const extension = getExtension(uri);
                 //   console.log({ extension });
-                const photoUrl = `https://photo152330-dev.s3.ap-northeast-1.amazonaws.com/${userData.id}.${extension}`;
-                //   console.log(photoUrl);
+                const photoUrl = `https://photo101957-production.s3.ap-northeast-1.amazonaws.com/${userId}.${extension}`;
+                console.log("photourl", photoUrl);
                 // const res = await uploadFile(uri, userData.id, extension);
                 //   console.log("response------", res.error);
 
@@ -105,7 +105,7 @@ export default function Profile4({ route, navigation }) {
                   gender,
                   photo: photoUrl,
                   uri,
-                  filename: `${userData.id}.${extension}`,
+                  filename: `${userId}.${extension}`,
                   category,
                   hobby,
                 });
@@ -157,7 +157,6 @@ export default function Profile4({ route, navigation }) {
           <Text style={styles.label}>今写真を撮る</Text>
         </TouchableOpacity>
       </View>
-     
 
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
@@ -213,7 +212,6 @@ const styles = StyleSheet.create({
   photoSmallPreview: {
     height: 100,
     width: 100,
-
   },
   photoPreviewContainer: {
     backgroundColor: "#FFF",
