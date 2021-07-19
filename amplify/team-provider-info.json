@@ -16,5 +16,23 @@
         "ochatomopro84df2325": {}
       }
     }
+  },
+  "production": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ochatomopro-production-101957-authRole",
+      "UnauthRoleArn": "arn:aws:iam::359591340937:role/amplify-ochatomopro-production-101957-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::359591340937:role/amplify-ochatomopro-production-101957-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-ochatomopro-production-101957-deployment",
+      "UnauthRoleName": "amplify-ochatomopro-production-101957-unauthRole",
+      "StackName": "amplify-ochatomopro-production-101957",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:359591340937:stack/amplify-ochatomopro-production-101957/6e78a780-e82f-11eb-b2f1-0e20d0fe7d4b",
+      "AmplifyAppId": "d3crs4rf5moczi"
+    },
+    "categories": {
+      "auth": {
+        "ochatomopro84df2325": {}
+      }
+    }
   }
 }
