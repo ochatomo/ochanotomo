@@ -44,7 +44,16 @@ export function UserProvider(props) {
       const userData = res.data.getCustomer;
       if (userData) {
         setUserData(userData);
-        setMatches(userData.matches.items);
+        const matches = userData.matches.items.map((item, index) => {
+          console.log({ index, item });
+          return {
+            name: item.customer.name,
+            id: item.customer.id,
+            photo: item.customer.photo,
+          };
+        });
+        setMatches(matches);
+        // setMatches(userData.matches.items);
         setIsNewUser(false);
 
         console.log("setting userdata", userData);
