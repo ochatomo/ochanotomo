@@ -23,6 +23,7 @@ export default function MatchList({ route, navigation }) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    // console.log("MATCHES----", matches)
     if (matches.length === 0) {
       setMessage(
         `まだお茶トモがいません。\n「探す」メニューでお茶トモを見つけましょう！`
@@ -68,40 +69,20 @@ export default function MatchList({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.iconContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            // return
-            navigation.navigate("MatchPage");
-          }}
-          style={globalStyles.flexColumn}
-        >
-          <AntDesign name="leftcircle" size={50} color="#F3B614" />
-          <Text style={globalStyles.iconLabel}>戻る</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => {
-            // view my profile page
-            navigation.navigate("Profile");
-          }}
-          style={globalStyles.flexColumn}
-        >
-          <Image source={require("../assets/edit.png")} style={globalStyles.logo} />
-          <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
-        </TouchableOpacity>
-      </View>
+      
       <View>
         <Text style={globalStyles.header}>Myお茶トモ</Text>
         {message !== "" && (
           <Text style={[globalStyles.text, { textAlign: "center" }]}>{message}</Text>
         )}
       </View>
-
+      <View style={{width: "100%", height: 500}}>
+      <ScrollView >
       {matches.map((match, index) => {
         return (
           
-          <ScrollView >
+         
             <View style={styles.container}>
           <View style={styles.friendsListContainer} key={index}>
             <View style={styles.avatarBox}>
@@ -119,40 +100,25 @@ export default function MatchList({ route, navigation }) {
             </View>
             </View>
             </View>
-          </ScrollView>
+         
         )
       })
       }
+       </ScrollView>
+       </View>
     </View>
   );
 }
 
-{
-  /* <Text>
-        Logged in as {userData.name} ID:{userId}{" "}
-      </Text>
-      <Button
-        onPress={() => {
-          navigation.navigate("MatchPage");
-        }}
-        title="戻る"
-        color="#841584"
-      />
-      {matches.map((match, index) => {
-        return (
-          <View key={index}>
-            <Text>{match.name}</Text>
-            <Text>{match.profileText}</Text>
-            <Button onPress={() => startChat(match)} title="お話をする" color="#841584" />
-          </View>
-        );
-      } */
-}
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 100
+    height: 100,
+    width: "100%",
+    // borderWidth: 2,
+    // borderColor: "pink"
   },
   header: {
     textAlign: "center",
@@ -187,7 +153,7 @@ const styles = StyleSheet.create({
   matchAvatar: {
     width: 70,
     height: 70,
-    borderRadius: 30,
+    borderRadius: 35,
   },
   chatButton: {
     borderRadius: 44,
