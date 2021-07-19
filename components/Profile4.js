@@ -26,8 +26,6 @@ import {
 
 import { UserContext } from "../contexts/UserContext";
 
-import { createCustomer, updateCustomer } from "../src/graphql/mutations";
-import { API, graphqlOperation } from "aws-amplify";
 
 import { globalStyles } from "../styles/globalStyle.js";
 
@@ -39,46 +37,11 @@ export default function Profile4({ route, navigation }) {
   const { name, location, profileText, gender, category, hobby } = route.params;
   const [uri, setUri] = useState("");
   const [photoSelected, setPhotoSelected] = useState(false);
-  const [profileSaved, setProfileSaved] = useState(false);
 
-  const validateInput = () => {
-    //data validation あれば
-    return true;
-  };
-
-  const saveUserInfo = async (photoUrl) => {
-    console.log("saving to database", photoUrl);
-
-    if (isNewUser) {
-      const user = {
-        id: userId,
-        name: name,
-        interests: [{ category, hobby }],
-        location,
-        profileText,
-        likes: [],
-        gender,
-        photo: photoUrl,
-      };
-      setUserData(user);
-
-      await API.graphql(graphqlOperation(createCustomer, { input: user }));
-    } else {
-      const query = {
-        id: userId,
-        name,
-        location,
-        profileText,
-        interests: [{ category, hobby }],
-        gender,
-        photo: photoUrl,
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-    }
-  };
+  
 
   return (
-    <SafeAreaView>
+    <View style={globalStyles.viewContainer}>
       <View style={globalStyles.imgContainer}>
         <Image style={globalStyles.largeLogo} source={require("../assets/photo.png")} />
       </View>
@@ -137,13 +100,15 @@ export default function Profile4({ route, navigation }) {
                 const res = await uploadFile(uri, userData.id, extension);
                 //   console.log("response------", res.error);
                 if (!res.error) {
-                  await saveUserInfo(photoUrl);
-                  setPhotoSelected(false);
-                  Alert.alert(
-                    "ユーザー情報が保存されました",
-                    "早速お茶トモを探しにいきましょう！",
-                    [{ text: "OK", onPress: () => navigation.navigate("MatchPage") }]
-                  );
+                  navigation.navigate("ProfilePreview", {
+                    name,
+                    profileText,
+                    location,
+                    gender,
+                    photo: photoUrl,
+                    category,
+                    hobby,
+                  });
                 }
               }}
             >
@@ -204,21 +169,20 @@ export default function Profile4({ route, navigation }) {
 
         <TouchableOpacity
           onPress={() => {
-            // photo validation
-            const isValid = validateInput();
-            if (isValid) {
-              console.log("data is valid, saving to database");
-              saveUserInfo();
-              console.log("successfully saved the data");
-
-              navigation.navigate("MatchPage");
-            }
+            // move to profile preview for final confirmation
+            // const isValid = validateInput();
+            // if (isValid) {
+            //   console.log("data is valid, saving to database");
+            //   saveUserInfo();
+            //   console.log("successfully saved the data");
+            //   navigation.navigate("Home", { screen: "MatchPage" });
+            // }
           }}
         >
           <AntDesign name="rightcircle" size={56} style={{ opacity: 0 }} />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
