@@ -82,6 +82,11 @@ export default function MatchPage({ navigation }) {
             photo: matchedCustomerData.photo,
           };
           setMatches((matches) => [...matches, newMatch]);
+          Alert.alert(
+            "新しいお茶トモができました！",
+            "お茶トモが成立しました。チャットで確認しましょう。",
+            [{ text: "OK" }]
+          );
         }
       },
     });
@@ -153,6 +158,11 @@ export default function MatchPage({ navigation }) {
       console.log("creating a match with ", query, query2);
       await API.graphql(graphqlOperation(createMatch, { input: query }));
       await API.graphql(graphqlOperation(createMatch, { input: query2 }));
+      Alert.alert(
+        "新しいお茶トモができました！",
+        "お茶トモが成立しました。チャットで確認しましょう。",
+        [{ text: "OK" }]
+      );
     } catch (e) {
       console.log(e);
     }
@@ -160,9 +170,9 @@ export default function MatchPage({ navigation }) {
 
   const handleLike = async (user2Info) => {
     const max = filteredCustomers.length - 1;
-    console.log({ max, currentIdx });
+    console.log({ max, currentIdx }, currentIdx > max);
 
-    if (currentIdx === max) {
+    if (currentIdx > max) {
       console.log("if statement running");
       Alert.alert(
         "新しいユーザーがいません。",
@@ -179,7 +189,7 @@ export default function MatchPage({ navigation }) {
 
     await saveLike(user2Info, true);
     const isMatch = await checkLike(userData.id, user2Info.id);
-    // console.log({ isMatch });
+    console.log({ isMatch });
 
     // if successful match, save to the database
     if (isMatch) {
@@ -187,13 +197,13 @@ export default function MatchPage({ navigation }) {
       await saveMatch(userData.id, user2Info.id);
     }
 
-    incrementIdx();
+    setIdx(currentIdx + 1);
   };
 
   const handleDislike = async (user2Info) => {
     const max = filteredCustomers.length - 1;
 
-    if (currentIdx >= max) {
+    if (currentIdx > max) {
       Alert.alert(
         "新しいユーザーがいません。",
         "すべてのユーザーをチェックしました。現在のお茶トモと話してみましょう。",
@@ -207,7 +217,7 @@ export default function MatchPage({ navigation }) {
       return;
     }
     await saveLike(user2Info, false);
-    incrementIdx();
+    setIdx(currentIdx + 1);
   };
 
   const checkLike = async (user1ID, user2ID) => {
@@ -261,7 +271,7 @@ export default function MatchPage({ navigation }) {
           <Text style={globalStyles.label}>お茶トモをチェックする</Text>
         </TouchableOpacity>
       </View>
-      {filteredCustomers.length !== currentIdx ? (
+      {filteredCustomers.length > currentIdx ? (
         <>
           <CustomerProfile customer={filteredCustomers[currentIdx]} />
           <View style={globalStyles.buttonContainer}>
