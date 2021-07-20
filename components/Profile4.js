@@ -28,6 +28,10 @@ import { UserContext } from "../contexts/UserContext";
 
 import { globalStyles } from "../styles/globalStyle.js";
 
+import config from "../src/aws-exports";
+
+const S3_BUCKET = config.aws_user_files_s3_bucket;
+
 export default function Profile4({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
@@ -93,8 +97,8 @@ export default function Profile4({ route, navigation }) {
                 if (!photoSelected) return;
                 const extension = getExtension(uri);
                 //   console.log({ extension });
-                const photoUrl = `https://photo101957-production.s3.ap-northeast-1.amazonaws.com/${userId}.${extension}`;
-                console.log("photourl", photoUrl);
+                const photoUrl = `https://${S3_BUCKET}.s3.ap-northeast-1.amazonaws.com/public/${userId}.${extension}`;
+                // console.log("photourl", photoUrl);
                 // const res = await uploadFile(uri, userData.id, extension);
                 //   console.log("response------", res.error);
 
@@ -126,7 +130,7 @@ export default function Profile4({ route, navigation }) {
             setPhotoSelected(false);
 
             const result = await handleChoosePhoto();
-            console.log({ result });
+            // console.log({ result });
             if (result !== undefined) {
               setUri(result);
               setPhotoSelected(true);
@@ -139,10 +143,10 @@ export default function Profile4({ route, navigation }) {
         <TouchableOpacity
           style={[globalStyles.flexColumn, styles.logoContainer]}
           onPress={async () => {
-            console.log("handle take photo running");
+            // console.log("handle take photo running");
             setPhotoSelected(false);
             const result = await handleTakePhoto();
-            console.log("take photo result", result);
+            // console.log("take photo result", result);
 
             if (result !== undefined) {
               setUri(result);

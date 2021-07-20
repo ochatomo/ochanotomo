@@ -1,22 +1,27 @@
 import * as ImagePicker from "expo-image-picker";
 import AWS from "aws-sdk";
 import * as FileSystem from "expo-file-system";
+import Amplify, { Storage } from "aws-amplify";
 
 // import fs from 'react-native-fs';
 import { decode } from "base64-arraybuffer";
 import config from "../src/aws-exports";
 
-const S3_BUCKET = "photo101957-production";
-const REGION = "ap-northeast-1";
+const S3_BUCKET = config.aws_user_files_s3_bucket;
+const REGION = config.aws_user_files_s3_bucket_region;
 
-AWS.config.update({
+Amplify.configure({
   ...config,
+  Analytics: {
+    disabled: true,
+  },
 });
 
 // AWS.config.update({
-//   accessKeyId: "AKIAVHOKQNOERIAHSXXG",
-//   secretAccessKey: "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",
+//   accessKeyId:,
+//   secretAccessKey:
 // });
+
 const myBucket = new AWS.S3({
   params: { Bucket: S3_BUCKET },
   region: REGION,
@@ -57,26 +62,30 @@ export const uploadFile = async (uri, filename) => {
       encoding: FileSystem.EncodingType.Base64,
     });
     // console.log("*************", base64);
-    console.log("starting decoding");
+    // console.log("starting decoding");
     // const arrayBuffer = await decode(base64);
     const arrayBuffer = await decode(base64);
-    const params = {
-      ACL: "public-read",
-      Body: arrayBuffer,
-      Bucket: S3_BUCKET,
-      Key: filename, //user_idに変える
-    };
 
-    const res = await myBucket
-      .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        // setProgress(Math.round((evt.loaded / evt.total) * 100));
-      })
-      .send((err) => {
-        if (err) console.log(err);
-      });
-    console.log("@@@@@@@@@@@@@", arrayBuffer.byteLength);
-    return res;
+    Storage.put(filename, arrayBuffer, { ACL: "public-read" })
+      .then((res) => console.log("successful upload", res))
+      .catch((err) => console.log("error in uploading", err));
+    // const params = {
+    //   ACL: "public-read",
+    //   Body: arrayBuffer,
+    //   Bucket: S3_BUCKET,
+    //   Key: filename, //user_idに変える
+    // };
+
+    // const res = await myBucket
+    //   .putObject(params)
+    //   .on("httpUploadProgress", (evt) => {
+    //     // setProgress(Math.round((evt.loaded / evt.total) * 100));
+    //   })
+    //   .send((err) => {
+    //     if (err) console.log(err);
+    //   });
+    // console.log("@@@@@@@@@@@@@", arrayBuffer.byteLength);
+    // return res;
   } catch (e) {
     console.log(e);
   }

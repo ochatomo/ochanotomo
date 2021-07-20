@@ -31,7 +31,7 @@ export default function Profile2({ route, navigation }) {
 
   const [location, setLocation] = useState(userData.location);
   const [gender, setGender] = useState(userData.gender);
-  console.log({ location, gender });
+  // console.log({ location, gender });
 
   const validateInput = () => {
     const errors = [];

@@ -49,7 +49,7 @@ export default function SignUp({ navigation }) {
     const errors = [];
 
     if (!birthdateAuthentication(year, month, date)) {
-      console.log("birthdate error");
+      // console.log("birthdate error");
       errors.push("* Ochatomoは50歳以上の方のみご利用いただけます。");
       return;
     }
@@ -64,7 +64,7 @@ export default function SignUp({ navigation }) {
     if (password.length < 8) {
       errors.push("* 8文字以上のパスワードを入力してください。");
     }
-    console.log({ errors });
+    // console.log({ errors });
 
     return errors;
   };
