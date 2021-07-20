@@ -1,27 +1,28 @@
 {
   "expo": {
-    "name": "ochatomo2",
-    "slug": "ochatomo2",
+    "name": "御茶ノ友",
+    "slug": "ochanotomo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/ochanotomo-icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/ochanotomo-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "sdkVersion": "42.0.0",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["assets/*"],
     "ios": {
+      "bundleIdentifier": "com.SilverLining.ochanotomo",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.SilverLining.ochanotomo",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/ochanotomo-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
