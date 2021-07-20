@@ -77,33 +77,33 @@ const Profile = ({ userData }) => {
         globalStyles.boxShadow,
       ]}
     >
-      {/* <ScrollView
+      <ScrollView
         contentContainerStyle={[styles.scrollviewContainer, globalStyles.flexColumn]}
-      > */}
-      <Image
-        source={{ uri: `${userData.photo}?+${new Date()}` }}
-        style={globalStyles.profilePhoto}
-      />
-      <Text style={globalStyles.header}>{userData.name}</Text>
-      <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
-        都道府県
-      </Text>
-      <Text style={globalStyles.text}>{prefectureList[userData.location]}</Text>
-      <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
-        趣味・関心事
-      </Text>
-      <View style={styles.interests}>{generateInterestLabel(userData.interests)}</View>
-      <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
-        自己紹介
-      </Text>
-      <ScrollView>
+      >
+        <Image
+          source={{ uri: `${userData.photo}?+${new Date()}` }}
+          style={globalStyles.profilePhoto}
+        />
+        <Text style={globalStyles.header}>{userData.name}</Text>
+        <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
+          都道府県
+        </Text>
+        <Text style={globalStyles.text}>{prefectureList[userData.location]}</Text>
+        <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
+          趣味・関心事
+        </Text>
+        <View style={styles.interests}>{generateInterestLabel(userData.interests)}</View>
+        <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
+          自己紹介
+        </Text>
+        {/* <ScrollView> */}
         <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
           <Text style={{ fontSize: 15, fontWeight: "bold", color: "#0094CE" }}>
             {userData.profileText}
           </Text>
         </View>
+        {/* </ScrollView> */}
       </ScrollView>
-      {/* </ScrollView> */}
     </View>
   );
 };
