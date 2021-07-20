@@ -28,8 +28,10 @@ export default function MatchList({ route, navigation }) {
       setMessage(
         `まだお茶トモがいません。\n「探す」メニューでお茶トモを見つけましょう！`
       );
+    } else {
+      setMessage("");
     }
-  }, []);
+  }, [matches]);
 
   function generateChatRoomId(id1, id2) {
     const array = [id1, id2];

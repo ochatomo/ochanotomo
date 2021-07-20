@@ -4,7 +4,9 @@ import Amplify, { Auth } from "aws-amplify";
 import AuthNavigator from "../../routes/AuthNavigator";
 import config from "../../src/aws-exports";
 import Loading from "../Loading";
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
+
+import { globalStyles } from "../../styles/globalStyle";
 
 Amplify.configure({
   ...config,
@@ -31,7 +33,12 @@ export default function Authenticator() {
     return <Loading />;
   } else {
     return (
-      <View style={{ width: "100%", height: "100%" }}>
+      <View
+        style={{
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+        }}
+      >
         <AuthNavigator />
       </View>
     );

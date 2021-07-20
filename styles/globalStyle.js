@@ -1,4 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const WIDTH = Dimensions.get("window").width;
+const HEIGHT = Dimensions.get("window").height;
 
 export const globalStyles = StyleSheet.create({
   boxShadow: {
@@ -11,9 +14,6 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
   },
-  text: {
-    fontFamily: "poppins",
-  },
   iconLabel: {
     fontSize: 14,
     color: "#0094CE",
@@ -25,10 +25,12 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
   },
   profileContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
     backgroundColor: "white",
-    width: 309,
+    width: "80%",
+    maxHeight: HEIGHT * 0.65,
+    marginVertical: 5,
   },
   textBtn: {
     borderRadius: 44,
@@ -59,7 +61,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
   },
   iconContainer: {
-    marginVertical: 20,
+    marginVertical: 5,
     marginHorizontal: 15,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -110,8 +112,8 @@ export const globalStyles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   extraLargeLogo: {
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
   },
   input: {
     // width: 283,
@@ -129,7 +131,7 @@ export const globalStyles = StyleSheet.create({
   inputLabel: {
     margin: 5,
     color: "#0094CE",
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
   },
   miltiInput: {
@@ -142,12 +144,9 @@ export const globalStyles = StyleSheet.create({
     color: "#fff",
     backgroundColor: "#B725D4",
     borderRadius: 44,
-    paddingBottom: 12,
-    paddingTop: 12,
-    paddingRight: 24,
-    paddingLeft: 24,
-    marginHorizontal: 3,
-    marginVertical: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    marginVertical: 5,
   },
   miltiInput: {
     height: 200,
@@ -244,18 +243,23 @@ export const globalStyles = StyleSheet.create({
     color: "black",
     textDecorationLine: "underline",
     paddingVertical: 10,
-    marginTop: 20,
+    marginTop: 5,
+  },
+  profilePhoto: {
+    aspectRatio: 4 / 3,
+    width: WIDTH * 0.6,
   },
   viewContainer: {
-    paddingVertical: 100,
-    width: "100%",
-    height: "100%",
+    paddingTop: 25,
     flex: 1,
+    width: WIDTH,
+    height: HEIGHT,
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     paddingHorizontal: 5,
-    // borderWidth: 10,
-    // borderColor: "pink",
+    paddingVertical: 10,
+    borderWidth: 10,
+    borderColor: "pink",
   },
 });
