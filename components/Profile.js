@@ -44,16 +44,18 @@ export default function Profile({ navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.imgContainer}>
-        <Image
-          style={globalStyles.largeLogo}
-          source={require("../assets/profile_logo.png")}
-        />
-      </View>
+      <View>
+        <View style={globalStyles.imgContainer}>
+          <Image
+            style={globalStyles.largeLogo}
+            source={require("../assets/profile_logo.png")}
+          />
+        </View>
 
-      <Text style={globalStyles.header}>
-        {isNewUser ? "初めまして！" : "プロフィールを編集する"}
-      </Text>
+        <Text style={globalStyles.header}>
+          {isNewUser ? "初めまして！" : "プロフィールを編集する"}
+        </Text>
+      </View>
       <View style={globalStyles.flexColumn}>
         <View style={styles.inputContainer}>
           <Text style={globalStyles.inputLabel}>お名前は……</Text>
