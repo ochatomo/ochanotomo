@@ -94,8 +94,10 @@ export default function ProfilePreview({ route, navigation }) {
           <Text style={globalStyles.iconLabel}>保存する</Text>
         </TouchableOpacity>
       </View>
-      <Text style={globalStyles.header}>確認画面</Text>
-      <Text style={globalStyles.text}>保存してよろしいですか？</Text>
+      <View>
+        <Text style={globalStyles.header}>確認画面</Text>
+        <Text style={globalStyles.text}>保存してよろしいですか？</Text>
+      </View>
       <View style={globalStyles.flexRow}>
         <Profile userData={currentUserData} uri={uri} />
       </View>
