@@ -16,11 +16,10 @@ Amplify.configure({
 export default function Authenticator() {
   const [userChecked, setUserChecked] = useState(false);
   useEffect(() => {
-    console.log("Inside Authenticator");
     (async () => {
       try {
         const user = await Auth.currentUserInfo();
-        console.log("user-----", user);
+        // console.log("user-----", user);
         setUserChecked(true);
         if (user) return;
       } catch (e) {

@@ -208,7 +208,7 @@ export default function Profile3({ route, navigation }) {
             }
             const isValid = validateInput();
             if (isValid) {
-              console.log("moving to profile4");
+              // console.log("moving to profile4");
               // saveUserInfo();
               // console.log("successfully saved the data");
 
