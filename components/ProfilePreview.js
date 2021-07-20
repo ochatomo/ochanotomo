@@ -1,5 +1,13 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+  SafeAreaView,
+} from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
 import { globalStyles } from "../styles/globalStyle";
@@ -126,6 +134,7 @@ const styles = StyleSheet.create({
   profilePhoto: {
     width: 236,
     height: 195,
+
     // borderRadius: 100,
   },
   profileTextContainer: {

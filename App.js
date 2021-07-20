@@ -18,7 +18,6 @@ import { withAuthenticator } from "aws-amplify-react-native";
 import React from "react";
 
 function App() {
-  console.log(config);
   return (
     <UserProvider>
       <AppNavigator />
