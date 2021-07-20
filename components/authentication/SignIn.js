@@ -13,7 +13,7 @@ import {
   Alert,
 } from "react-native";
 
-export default function SingIn({ navigation }) {
+export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

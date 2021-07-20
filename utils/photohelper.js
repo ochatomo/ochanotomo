@@ -4,14 +4,19 @@ import * as FileSystem from "expo-file-system";
 
 // import fs from 'react-native-fs';
 import { decode } from "base64-arraybuffer";
+import config from "../src/aws-exports";
 
 const S3_BUCKET = "photo101957-production";
 const REGION = "ap-northeast-1";
 
 AWS.config.update({
-  accessKeyId: "AKIAVHOKQNOERIAHSXXG",
-  secretAccessKey: "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",
+  ...config,
 });
+
+// AWS.config.update({
+//   accessKeyId: "AKIAVHOKQNOERIAHSXXG",
+//   secretAccessKey: "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",
+// });
 const myBucket = new AWS.S3({
   params: { Bucket: S3_BUCKET },
   region: REGION,
@@ -23,21 +28,13 @@ export const handleChoosePhoto = async (userId) => {
     aspect: [4, 3],
     quality: 1,
   });
-  //   console.log("------------", result.uri);
-  //   const extension  = getExtensionn(result.uri);
+
   return result.uri;
-  //   setSelectedFile(result);
 };
 
 export const getExtension = (uri) => {
   const ext = uri.split(".").pop();
   return ext;
-  // const extension = uri.slice(uri.length - 4, uri.length);
-  // if (extension.includes(".")) {
-  //   return extension.slice(1);
-  // } else {
-  //   return extension;
-  // }
 };
 
 export const handleTakePhoto = async (userId) => {
@@ -46,7 +43,6 @@ export const handleTakePhoto = async (userId) => {
     aspect: [4, 3],
     quality: 1,
   });
-  //   console.log("------------", result.uri);
   return result.uri;
 };
 
