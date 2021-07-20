@@ -69,10 +69,10 @@ export default function MatchPage({ navigation }) {
       next: (data) => {
         // console.log("onCreateMatch", data);
         const owner_id = data.value.data.onCreateMatch.owner_id;
-        console.log("newMatch firing with", data);
+        // console.log("newMatch firing with", data);
         // console.log("currentState of matches", userData.matches);
         if (owner_id === userData.id) {
-          console.log("updating matches");
+          // console.log("updating matches");
           const matchedCustomerData = data.value.data.onCreateMatch.customer;
 
           const newMatch = {
@@ -178,7 +178,7 @@ export default function MatchPage({ navigation }) {
 
     await saveLike(user2Info, true);
     const isMatch = await checkLike(userData.id, user2Info.id);
-    console.log({ isMatch });
+    // console.log({ isMatch });
 
     // if successful match, save to the database
     if (isMatch) {
@@ -211,7 +211,7 @@ export default function MatchPage({ navigation }) {
 
   const checkLike = async (user1ID, user2ID) => {
     // get likes of user2, filter by currentUserId
-    console.log("checking like with", user1ID, user2ID);
+    // console.log("checking like with", user1ID, user2ID);
 
     const res = await API.graphql(
       graphqlOperation(getLikesByCustomerID, { id: user2ID })
@@ -222,7 +222,7 @@ export default function MatchPage({ navigation }) {
     const filteredLikes = likes.filter((like) => like.id === user1ID);
     if (filteredLikes.length === 0) return false;
     else {
-      console.log("like?", filteredLikes);
+      // console.log("like?", filteredLikes);
       return filteredLikes[0].like;
     }
   };
