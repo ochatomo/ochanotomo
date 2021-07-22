@@ -259,7 +259,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 5,
     paddingVertical: 10,
-    borderWidth: 10,
-    borderColor: "pink",
+    // borderWidth: 10,
+    // borderColor: "pink",
   },
 });

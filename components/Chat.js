@@ -12,6 +12,9 @@ import {
 } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import moment from "moment";
+import "moment/locale/ja";
+moment.locale("ja");
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { prompts, greeting, closing } from "../utils/prompts";
@@ -104,11 +107,11 @@ export default function Chat({ route, navigation }) {
                   })
                 );
                 setInput("");
-                const newMessage = newMessageData.data.createMessage;
-                // console.log(
-                //   "Data from message table",
-                //   newMessageData.data.createMessage.content
-                // );
+                // const newMessage = newMessageData.data.createMessage;
+                // // console.log(
+                // //   "Data from message table",
+                // //   newMessageData.data.createMessage.content
+                // // );
               } catch (e) {
                 console.log(e);
               }
@@ -192,12 +195,10 @@ const Message = (message) => {
     if (sender_name === userData.name) return true;
   };
 
-  // console.log({ message });
   const sender_name = message.message.item.sender.name;
   const photo = message.message.item.sender.photo;
   const content = message.message.item.content;
   const timestamp = moment(message.message.item.createdAt).fromNow();
-  // console.log("this is photo", photo);
   return (
     <View>
       <View
@@ -213,7 +214,7 @@ const Message = (message) => {
       >
         <View style={styles.avatar}>
           <Image
-            source={{ uri: photo }}
+            source={{ uri: `${photo}?${new Date()}` }}
             style={
               (styles.user,
               {
