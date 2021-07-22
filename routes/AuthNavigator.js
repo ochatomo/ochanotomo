@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignIn from "../components/authentication/SignIn";
 import SignUp from "../components/authentication/SignUp";
+import OnBoarding from "../components/authentication/OnBoarding";
 import Confirmation from "../components/authentication/Confirmation";
 import PasswordReset from "../components/authentication/PasswordReset";
 import PasswordConfirmation from "../components/authentication/PasswordConfirmation";
@@ -19,6 +20,7 @@ function AuthNavigator() {
         }}
       >
         <Screen name="SignIn" component={SignIn} />
+        <Screen name="OnBoarding" component={OnBoarding} />
         <Screen name="SignUp" component={SignUp} />
         <Screen name="Confirmation" component={Confirmation} />
         <Screen name="PasswordReset" component={PasswordReset} />

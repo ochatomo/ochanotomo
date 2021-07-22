@@ -21,7 +21,7 @@ import {
   Alert,
 } from "react-native";
 
-export default function SingUp({ navigation }) {
+export default function SignUp({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [birthdate, setBirthdate] = useState("");
