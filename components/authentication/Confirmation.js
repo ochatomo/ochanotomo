@@ -13,11 +13,11 @@ export default function Comfirmation({ route, navigation }) {
 
   async function confirmSignUp() {
     try {
-      console.log("email---", email);
+      // console.log("email---", email);
       await Auth.confirmSignUp(emailInput, code);
       createAlert(
         "アカウントが作成されました",
-        "早速Ochatomoにサインインしましょう。",
+        "早速御茶ノ友にサインインしましょう。",
         () => {
           navigation.navigate("SignIn");
         }
@@ -27,7 +27,7 @@ export default function Comfirmation({ route, navigation }) {
       if (error.name === "NotAuthorizedException") {
         createAlert(
           "認証済み",
-          "こちらのアカウントはすでに認証済みです。サインインページよりOchatomoへお進みください。",
+          "こちらのアカウントはすでに認証済みです。サインインページより御茶ノ友へお進みください。",
           () => navigation.navigate("SignIn")
         );
       }

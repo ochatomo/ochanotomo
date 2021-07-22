@@ -69,16 +69,17 @@ export default function Profile3({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.imgContainer}>
-        <Image
-          style={globalStyles.largeLogo}
-          source={require("../assets/active_icon.png")}
-        />
+      <View>
+        <View style={globalStyles.imgContainer}>
+          <Image
+            style={globalStyles.largeLogo}
+            source={require("../assets/active_icon.png")}
+          />
+        </View>
+        <Text style={globalStyles.header}>
+          {isNewUser ? "趣味を教えてください" : "趣味を編集する"}
+        </Text>
       </View>
-      <Text style={globalStyles.header}>
-        {isNewUser ? "趣味を教えてください" : "趣味を編集する"}
-      </Text>
-
       <View style={[styles.container, globalStyles.flexColumn]}>
         <FlatList
           contentContainerStyle={styles.flatListContainer}
@@ -208,7 +209,7 @@ export default function Profile3({ route, navigation }) {
             }
             const isValid = validateInput();
             if (isValid) {
-              console.log("moving to profile4");
+              // console.log("moving to profile4");
               // saveUserInfo();
               // console.log("successfully saved the data");
 

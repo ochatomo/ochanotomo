@@ -44,16 +44,24 @@ export default function Profile({ navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.imgContainer}>
-        <Image
-          style={globalStyles.largeLogo}
-          source={require("../assets/profile_logo.png")}
-        />
-      </View>
+      <View>
+        <View style={globalStyles.imgContainer}>
+          <Image
+            style={globalStyles.largeLogo}
+            source={require("../assets/profile_logo.png")}
+          />
+          <Image
+            style={globalStyles.largeLogo}
+            source={{
+              uri: "s3://photo101957-production/public/fd7acc30-9475-49fe-b5c2-f4d62a51fb1b.jpg",
+            }}
+          />
+        </View>
 
-      <Text style={globalStyles.header}>
-        {isNewUser ? "初めまして！" : "プロフィールを編集する"}
-      </Text>
+        <Text style={globalStyles.header}>
+          {isNewUser ? "初めまして！" : "プロフィールを編集する"}
+        </Text>
+      </View>
       <View style={globalStyles.flexColumn}>
         <View style={styles.inputContainer}>
           <Text style={globalStyles.inputLabel}>お名前は……</Text>
@@ -68,7 +76,7 @@ export default function Profile({ navigation }) {
           <Text style={globalStyles.inputLabel}>自己紹介しましょう！</Text>
 
           <TextInput
-            style={[globalStyles.input, globalStyles.miltiInput]}
+            style={[globalStyles.input, globalStyles.multiInput]}
             onChangeText={setProfileText}
             value={profileText}
             placeholder="自己紹介しましょう！"
@@ -77,8 +85,17 @@ export default function Profile({ navigation }) {
         </View>
       </View>
       <View style={globalStyles.iconContainer}>
-        <TouchableOpacity>
-          <AntDesign name="leftcircle" size={56} color="#F3B614" style={{ opacity: 0 }} />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Home", { screen: "ProfilePage" });
+          }}
+        >
+          <AntDesign
+            name="leftcircle"
+            size={56}
+            color="#F3B614"
+            style={{ opacity: isNewUser ? 0 : 1 }}
+          />
         </TouchableOpacity>
         <Text style={globalStyles.header}> 1 of 4 </Text>
 

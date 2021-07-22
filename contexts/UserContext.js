@@ -32,7 +32,7 @@ export function UserProvider(props) {
     const id = userInfo.username;
     setUserId(id);
 
-    console.log(`%c user_id : ${id} `, consoleStyle2);
+    // console.log(`%c user_id : ${id} `, consoleStyle2);
     return id;
   }
   async function getCurrentUserInfo(userId) {
@@ -45,7 +45,7 @@ export function UserProvider(props) {
       if (userData) {
         setUserData(userData);
         const matches = userData.matches.items.map((item, index) => {
-          console.log({ index, item });
+          // console.log({ index, item });
           return {
             name: item.customer.name,
             id: item.customer.id,
@@ -56,8 +56,8 @@ export function UserProvider(props) {
         // setMatches(userData.matches.items);
         setIsNewUser(false);
 
-        console.log("setting userdata", userData);
-        console.log(`%c username: ${userData.name}`, consoleStyle2);
+        // console.log("setting userdata", userData);
+        // console.log(`%c username: ${userData.name}`, consoleStyle2);
       } else {
         setIsNewUser(true);
       }
@@ -101,7 +101,7 @@ export function UserProvider(props) {
             likes: newUserData.likes,
             matches: userData.matches,
           };
-          console.log("updateCustomer", update);
+          // console.log("updateCustomer", update);
 
           setUserData(update);
         }

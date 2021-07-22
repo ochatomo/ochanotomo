@@ -28,6 +28,10 @@ import { UserContext } from "../contexts/UserContext";
 
 import { globalStyles } from "../styles/globalStyle.js";
 
+import config from "../src/aws-exports";
+
+const S3_BUCKET = config.aws_user_files_s3_bucket;
+
 export default function Profile4({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
@@ -39,12 +43,13 @@ export default function Profile4({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.imgContainer}>
-        <Image style={globalStyles.largeLogo} source={require("../assets/photo.png")} />
+      <View>
+        <View style={globalStyles.imgContainer}>
+          <Image style={globalStyles.largeLogo} source={require("../assets/photo.png")} />
+        </View>
+        <Text style={globalStyles.header}>写真をアップロードする</Text>
+        <Text style={globalStyles.text}>ご自身の顔写真をアップロードしてください。</Text>
       </View>
-      <Text style={globalStyles.header}>写真をアップロードする</Text>
-      <Text style={globalStyles.text}>ご自身の顔写真をアップロードしてください。</Text>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -93,8 +98,8 @@ export default function Profile4({ route, navigation }) {
                 if (!photoSelected) return;
                 const extension = getExtension(uri);
                 //   console.log({ extension });
-                const photoUrl = `https://photo152330-dev.s3.ap-northeast-1.amazonaws.com/${userData.id}.${extension}`;
-                //   console.log(photoUrl);
+                const photoUrl = `https://${S3_BUCKET}.s3.ap-northeast-1.amazonaws.com/public/${userId}.${extension}`;
+                // console.log("photourl", photoUrl);
                 // const res = await uploadFile(uri, userData.id, extension);
                 //   console.log("response------", res.error);
 
@@ -105,7 +110,7 @@ export default function Profile4({ route, navigation }) {
                   gender,
                   photo: photoUrl,
                   uri,
-                  filename: `${userData.id}.${extension}`,
+                  filename: `${userId}.${extension}`,
                   category,
                   hobby,
                 });
@@ -126,7 +131,7 @@ export default function Profile4({ route, navigation }) {
             setPhotoSelected(false);
 
             const result = await handleChoosePhoto();
-            console.log({ result });
+            // console.log({ result });
             if (result !== undefined) {
               setUri(result);
               setPhotoSelected(true);
@@ -139,10 +144,10 @@ export default function Profile4({ route, navigation }) {
         <TouchableOpacity
           style={[globalStyles.flexColumn, styles.logoContainer]}
           onPress={async () => {
-            console.log("handle take photo running");
+            // console.log("handle take photo running");
             setPhotoSelected(false);
             const result = await handleTakePhoto();
-            console.log("take photo result", result);
+            // console.log("take photo result", result);
 
             if (result !== undefined) {
               setUri(result);
@@ -157,7 +162,6 @@ export default function Profile4({ route, navigation }) {
           <Text style={styles.label}>今写真を撮る</Text>
         </TouchableOpacity>
       </View>
-     
 
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
@@ -213,7 +217,6 @@ const styles = StyleSheet.create({
   photoSmallPreview: {
     height: 100,
     width: 100,
-
   },
   photoPreviewContainer: {
     backgroundColor: "#FFF",

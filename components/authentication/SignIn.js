@@ -34,7 +34,7 @@ export default function SignIn({ navigation }) {
   async function signIn() {
     try {
       const user = await Auth.signIn(email, password);
-      console.log(user);
+      // console.log(user);
     } catch (error) {
       console.log("SignIn error", error);
       Alert.alert(
@@ -85,7 +85,7 @@ export default function SignIn({ navigation }) {
               },
             ]}
           >
-            サインインする
+            ログインする
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("OnBoarding")}>

@@ -1,5 +1,13 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+  SafeAreaView,
+} from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
 import { globalStyles } from "../styles/globalStyle";
@@ -23,7 +31,7 @@ export default function ProfilePreview({ route, navigation }) {
     photo,
   };
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
-  const [isNewUser] = isNewUserInfo;
+  const [isNewUser, setIsNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
   const [userData, setUserData] = userDataInfo;
 
@@ -37,6 +45,7 @@ export default function ProfilePreview({ route, navigation }) {
       setUserData(user);
 
       await API.graphql(graphqlOperation(createCustomer, { input: user }));
+      setIsNewUser(false);
     } else {
       const query = {
         id: userId,
@@ -85,8 +94,10 @@ export default function ProfilePreview({ route, navigation }) {
           <Text style={globalStyles.iconLabel}>保存する</Text>
         </TouchableOpacity>
       </View>
-      <Text style={globalStyles.header}>確認画面</Text>
-      <Text style={globalStyles.text}>保存してよろしいですか？</Text>
+      <View>
+        <Text style={globalStyles.header}>確認画面</Text>
+        <Text style={globalStyles.text}>保存してよろしいですか？</Text>
+      </View>
       <View style={globalStyles.flexRow}>
         <Profile userData={currentUserData} uri={uri} />
       </View>
@@ -125,6 +136,7 @@ const styles = StyleSheet.create({
   profilePhoto: {
     width: 236,
     height: 195,
+
     // borderRadius: 100,
   },
   profileTextContainer: {
