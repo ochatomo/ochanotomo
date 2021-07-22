@@ -88,7 +88,7 @@ export default function SignIn({ navigation }) {
             ログインする
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+        <TouchableOpacity onPress={() => navigation.navigate("OnBoarding")}>
           <Text
             style={[
               globalStyles.textBtn,
