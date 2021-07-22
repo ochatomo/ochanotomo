@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TextInput, Button, FlatList, StatusBar, ScrollView, TouchableOpacity, Image } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import moment from "moment";
+import 'moment/locale/ja'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { prompts, greeting, closing } from "../utils/prompts";
@@ -180,8 +181,10 @@ export default function Chat({ route, navigation }) {
     </View>
   );
 }
+moment.locale('ja')
 
 const Message = (message) => {
+
   const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
   const isMyMessage = () => {

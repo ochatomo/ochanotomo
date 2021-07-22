@@ -129,7 +129,7 @@ export const globalStyles = StyleSheet.create({
   inputLabel: {
     margin: 5,
     color: "#0094CE",
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
   },
   miltiInput: {
