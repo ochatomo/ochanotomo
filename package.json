@@ -22,6 +22,7 @@
     "aws-amplify": "^4.1.2",
     "aws-amplify-react-native": "^5.0.2",
     "aws-sdk": "^2.943.0",
+    "babel-plugin-dotenv-import": "^2.2.0",
     "base64-arraybuffer": "^0.2.0",
     "expo": "~42.0.0",
     "expo-app-loading": "^1.1.2",

@@ -20,6 +20,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { calcLocation } from "../utils/location";
 import { calcCategory } from "../utils/category ";
 import { calcHobby } from "../utils/hobby";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function MatchPage({ navigation }) {
   const { allCustomerData, userDataInfo, matchesData } = useContext(UserContext);
@@ -69,10 +70,10 @@ export default function MatchPage({ navigation }) {
       next: (data) => {
         // console.log("onCreateMatch", data);
         const owner_id = data.value.data.onCreateMatch.owner_id;
-        console.log("newMatch firing with", data);
+        // console.log("newMatch firing with", data);
         // console.log("currentState of matches", userData.matches);
         if (owner_id === userData.id) {
-          console.log("updating matches");
+          // console.log("updating matches");
           const matchedCustomerData = data.value.data.onCreateMatch.customer;
 
           const newMatch = {
@@ -81,6 +82,11 @@ export default function MatchPage({ navigation }) {
             photo: matchedCustomerData.photo,
           };
           setMatches((matches) => [...matches, newMatch]);
+          Alert.alert(
+            "新しいお茶トモができました！",
+            "お茶トモが成立しました。チャットで確認しましょう。",
+            [{ text: "OK" }]
+          );
         }
       },
     });
@@ -127,6 +133,7 @@ export default function MatchPage({ navigation }) {
 
   const saveLike = async (user2Info, user1Preference) => {
     const newLike = { id: user2Info.id, like: user1Preference };
+    console.log(newLike);
     // update the current likes so we don't lose the previous state
     setLikes((likes) => [...likes, newLike]);
     const query = { id: userData.id, likes: [...likes, newLike] };
@@ -151,6 +158,11 @@ export default function MatchPage({ navigation }) {
       console.log("creating a match with ", query, query2);
       await API.graphql(graphqlOperation(createMatch, { input: query }));
       await API.graphql(graphqlOperation(createMatch, { input: query2 }));
+      Alert.alert(
+        "新しいお茶トモができました！",
+        "お茶トモが成立しました。チャットで確認しましょう。",
+        [{ text: "OK" }]
+      );
     } catch (e) {
       console.log(e);
     }
@@ -158,8 +170,10 @@ export default function MatchPage({ navigation }) {
 
   const handleLike = async (user2Info) => {
     const max = filteredCustomers.length - 1;
+    console.log({ max, currentIdx }, currentIdx > max);
 
-    if (currentIdx >= max) {
+    if (currentIdx > max) {
+      console.log("if statement running");
       Alert.alert(
         "新しいユーザーがいません。",
         "すべてのユーザーをチェックしました。現在のお茶トモと話してみましょう。",
@@ -172,6 +186,7 @@ export default function MatchPage({ navigation }) {
       );
       return;
     }
+
     await saveLike(user2Info, true);
     const isMatch = await checkLike(userData.id, user2Info.id);
     console.log({ isMatch });
@@ -182,13 +197,13 @@ export default function MatchPage({ navigation }) {
       await saveMatch(userData.id, user2Info.id);
     }
 
-    incrementIdx();
+    setIdx(currentIdx + 1);
   };
 
   const handleDislike = async (user2Info) => {
     const max = filteredCustomers.length - 1;
 
-    if (currentIdx >= max) {
+    if (currentIdx > max) {
       Alert.alert(
         "新しいユーザーがいません。",
         "すべてのユーザーをチェックしました。現在のお茶トモと話してみましょう。",
@@ -202,12 +217,12 @@ export default function MatchPage({ navigation }) {
       return;
     }
     await saveLike(user2Info, false);
-    incrementIdx();
+    setIdx(currentIdx + 1);
   };
 
   const checkLike = async (user1ID, user2ID) => {
     // get likes of user2, filter by currentUserId
-    console.log("checking like with", user1ID, user2ID);
+    // console.log("checking like with", user1ID, user2ID);
 
     const res = await API.graphql(
       graphqlOperation(getLikesByCustomerID, { id: user2ID })
@@ -218,14 +233,14 @@ export default function MatchPage({ navigation }) {
     const filteredLikes = likes.filter((like) => like.id === user1ID);
     if (filteredLikes.length === 0) return false;
     else {
-      console.log("like?", filteredLikes);
+      // console.log("like?", filteredLikes);
       return filteredLikes[0].like;
     }
   };
 
   return (
-    <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.iconContainer}>
+    <View style={[globalStyles.viewContainer, { justifyContent: "space-evenly" }]}>
+      {/* <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           onPress={() => {
             // view my profile page
@@ -233,10 +248,9 @@ export default function MatchPage({ navigation }) {
           style={globalStyles.flexColumn}
         >
           <AntDesign name="leftcircle" size={50} color="#F3B614" style={{ opacity: 0 }} />
-          {/* <Text style={globalStyles.iconLabel}>戻る</Text> */}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        <TouchableOpacity
+      {/* <TouchableOpacity
           onPress={() => {
             // view my profile page
             navigation.navigate("Profile");
@@ -245,8 +259,8 @@ export default function MatchPage({ navigation }) {
         >
           <Image source={require("../assets/edit.png")} style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
-        </TouchableOpacity>
-      </View>
+        </TouchableOpacity> */}
+      {/* </View> */}
       <View style={globalStyles.rightContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -257,76 +271,76 @@ export default function MatchPage({ navigation }) {
           <Text style={globalStyles.label}>お茶トモをチェックする</Text>
         </TouchableOpacity>
       </View>
-      {filteredCustomers.length > 0 ? (
-        customerProfile(filteredCustomers[currentIdx])
-      ) : (
-        <Text>全員をスワイプしました</Text>
-      )}
-      <View style={globalStyles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            handleDislike(filteredCustomers[currentIdx]);
-          }}
-        >
-          <Text style={[globalStyles.textBtn, { backgroundColor: "#EC5E56" }]}>
-            ちょっと……
-          </Text>
-        </TouchableOpacity>
+      {filteredCustomers.length > currentIdx ? (
+        <>
+          <CustomerProfile customer={filteredCustomers[currentIdx]} />
+          <View style={globalStyles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                handleDislike(filteredCustomers[currentIdx]);
+              }}
+            >
+              <Text style={[globalStyles.textBtn, { backgroundColor: "#EC5E56" }]}>
+                ちょっと……
+              </Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => {
-            // view my profile page
-            handleLike(filteredCustomers[currentIdx]);
-          }}
-        >
-          <Text style={[globalStyles.textBtn, { backgroundColor: "#27AE60" }]}>
-            お茶したい！
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity
+              onPress={() => {
+                // view my profile page
+                handleLike(filteredCustomers[currentIdx]);
+              }}
+            >
+              <Text style={[globalStyles.textBtn, { backgroundColor: "#27AE60" }]}>
+                お茶したい！
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      ) : (
+        <Text style={[globalStyles.text, { textAlign: "center" }]}>
+          {`新しいユーザーがいません。\nしばらく経ってから再度お試しください。`}
+        </Text>
+      )}
     </View>
   );
 }
 
-const customerProfile = (customer) => {
+const CustomerProfile = ({ customer }) => {
   return (
-    <>
-      <View style={globalStyles.flexColumn}>
-        <View
-          style={[
-            styles.profileContainer,
-            globalStyles.flexColumn,
-            globalStyles.boxShadow,
-          ]}
-        >
-          <Image
-            style={[{ width: 100, height: 100 }, styles.photo]}
-            source={{
-              uri: customer.photo,
-            }}
-          />
-          {/* <Image source={{}} style={styles.photo} /> */}
-          <Text style={styles.name}>{customer.name}</Text>
-          <View style={styles.interests}>
-            {generateInterestLabel(customer.interests)}
-          </View>
+    <View style={globalStyles.flexColumn}>
+      <View
+        style={[
+          globalStyles.profileContainer,
+          globalStyles.flexColumn,
+          globalStyles.boxShadow,
+        ]}
+      >
+        <Image
+          style={globalStyles.profilePhoto}
+          source={{
+            uri: customer.photo,
+          }}
+        />
+        {/* <Image source={{}} style={styles.photo} /> */}
+        <Text style={styles.name}>{customer.name}</Text>
+        <View style={styles.interests}>{generateInterestLabel(customer.interests)}</View>
+        <ScrollView style={styles.scrollviewContainer}>
           <Text style={styles.profileText}>{customer.profileText}</Text>
-        </View>
+        </ScrollView>
       </View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollviewContainer: {
+    maxHeight: "40%",
+  },
   smallLabel: {
     width: 50,
   },
-  profileContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 12,
-    backgroundColor: "white",
-    width: 309,
-  },
+
   name: {
     fontSize: 24,
     color: "#004DA9",

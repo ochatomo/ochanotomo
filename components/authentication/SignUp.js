@@ -19,6 +19,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from "react-native";
 
 export default function SignUp({ navigation }) {
@@ -49,8 +50,8 @@ export default function SignUp({ navigation }) {
     const errors = [];
 
     if (!birthdateAuthentication(year, month, date)) {
-      console.log("birthdate error");
-      errors.push("* Ochatomoは50歳以上の方のみご利用いただけます。");
+      // console.log("birthdate error");
+      errors.push("* 御茶ノ友は50歳以上の方のみご利用いただけます。");
       return;
     }
 
@@ -64,7 +65,7 @@ export default function SignUp({ navigation }) {
     if (password.length < 8) {
       errors.push("* 8文字以上のパスワードを入力してください。");
     }
-    console.log({ errors });
+    // console.log({ errors });
 
     return errors;
   };
@@ -99,13 +100,13 @@ export default function SignUp({ navigation }) {
     <View
       style={[
         globalStyles.flexColumn,
-        { width: "100%", height: "100%", marginVertical: 20 },
+        { width: "100%", height: "100%", marginVertical: 10 },
       ]}
     >
       <View style={[globalStyles.flexColumn]}>
         <Image
-          style={globalStyles.extraLargeLogo}
-          source={require("../../assets/ochatomo-logo.png")}
+          style={{ width: 150, height: 150 }}
+          source={require("../../assets/ochanotomo-logo-without-text.png")}
         />
         <Text style={globalStyles.header}>登録する</Text>
         <View style={styles.inputContainer}>
@@ -215,17 +216,19 @@ export default function SignUp({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
           <Text
-            style={[
-              globalStyles.textBtn,
-              {
-                backgroundColor: "#27AE60",
-                width: 220,
-                marginVertical: 5,
-                textAlign: "center",
-              },
-            ]}
+            style={{
+              borderRadius: 44,
+              fontSize: 18,
+              fontWeight: "bold",
+              color: "white",
+              paddingVertical: 8,
+              paddingHorizontal: 24,
+              backgroundColor: "#27AE60",
+              width: 200,
+              textAlign: "center",
+            }}
           >
-            {"アカウントを\nすでに持っている"}
+            {"アカウントを\n既に持っている"}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

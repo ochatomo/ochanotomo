@@ -14,6 +14,7 @@ import {
   Image,
   View,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -30,14 +31,14 @@ export default function Profile2({ route, navigation }) {
 
   const [location, setLocation] = useState(userData.location);
   const [gender, setGender] = useState(userData.gender);
-  console.log({ location, gender });
+  // console.log({ location, gender });
 
   const validateInput = () => {
     const errors = [];
-    if (name === "") {
+    if (gender === "") {
       errors.push("* 性別を教えてください。");
     }
-    if (profileText === "") {
+    if (location === "") {
       errors.push("* 都道府県を選んでください。");
     }
     return errors;
@@ -45,76 +46,80 @@ export default function Profile2({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.imgContainer}>
-        <Image
-          style={globalStyles.largeLogo}
-          source={require("../assets/profile_logo.png")}
-        />
+      <View>
+        <View style={globalStyles.imgContainer}>
+          <Image
+            style={globalStyles.largeLogo}
+            source={require("../assets/profile_logo.png")}
+          />
+        </View>
+
+        <Text style={globalStyles.header}>プロフィールを編集する</Text>
       </View>
+      <View>
+        <Text style={globalStyles.inputLabel}>お住まいは……</Text>
 
-      <Text style={globalStyles.header}>プロフィールを編集する</Text>
-
-      <Text style={globalStyles.inputLabel}>お住まいは……</Text>
-
-      <View style={styles.container}>
-        <View style={styles.pickerContainer}>
-          <Picker
-            style={styles.picker}
-            selectedValue={Number(location) || ""}
-            onValueChange={setLocation}
-          >
-            {isNewUser && (
-              <Picker.Item
-                label={"都道府県"}
-                value={""}
-                color="#0094CE"
-                key={"placeholder"}
-                enabled={false}
-                style={styles.pickerlabel}
-              />
-            )}
-            {prefectures.map((data, index) => (
-              <Picker.Item
-                label={data.label}
-                value={data.value}
-                color="#0094CE"
-                key={index}
-              />
-            ))}
-          </Picker>
+        <View style={styles.container}>
+          <View style={styles.pickerContainer}>
+            <Picker
+              style={styles.picker}
+              selectedValue={Number(location) || ""}
+              onValueChange={setLocation}
+            >
+              {isNewUser && (
+                <Picker.Item
+                  label={"都道府県"}
+                  value={""}
+                  color="#0094CE"
+                  key={"placeholder"}
+                  enabled={false}
+                  style={styles.pickerlabel}
+                />
+              )}
+              {prefectures.map((data, index) => (
+                <Picker.Item
+                  label={data.label}
+                  value={data.value}
+                  color="#0094CE"
+                  key={index}
+                />
+              ))}
+            </Picker>
+          </View>
         </View>
       </View>
-      <Text style={globalStyles.inputLabel}>性別を教えてください。</Text>
+      <View>
+        <Text style={globalStyles.inputLabel}>性別を教えてください。</Text>
 
-      <View style={styles.container}>
-        <View style={styles.pickerContainer}>
-          <Picker
-            style={styles.picker}
-            selectedValue={gender || ""}
-            onValueChange={setGender}
-          >
-            {isNewUser && (
-              <Picker.Item
-                label={"性別"}
-                value={""}
-                color="#0094CE"
-                key={"placeholder"}
-                enabled={false}
-                style={styles.pickerlabel}
-              />
-            )}
-            {genderOptions.map((data, index) => (
-              <Picker.Item
-                label={data.label}
-                value={data.value}
-                color="#0094CE"
-                key={index}
-              />
-            ))}
-          </Picker>
+        <View style={styles.container}>
+          <View style={styles.pickerContainer}>
+            <Picker
+              style={styles.picker}
+              selectedValue={gender || ""}
+              onValueChange={setGender}
+            >
+              {isNewUser && (
+                <Picker.Item
+                  label={"性別"}
+                  value={""}
+                  color="#0094CE"
+                  key={"placeholder"}
+                  enabled={false}
+                  style={styles.pickerlabel}
+                />
+              )}
+              {genderOptions.map((data, index) => (
+                <Picker.Item
+                  label={data.label}
+                  value={data.value}
+                  color="#0094CE"
+                  key={index}
+                />
+              ))}
+            </Picker>
+          </View>
         </View>
       </View>
-
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           onPress={() => {
