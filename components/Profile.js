@@ -76,7 +76,7 @@ export default function Profile({ navigation }) {
           <Text style={globalStyles.inputLabel}>自己紹介しましょう！</Text>
 
           <TextInput
-            style={[globalStyles.input, globalStyles.miltiInput]}
+            style={[globalStyles.input, globalStyles.multiInput]}
             onChangeText={setProfileText}
             value={profileText}
             placeholder="自己紹介しましょう！"
