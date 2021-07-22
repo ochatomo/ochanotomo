@@ -13,7 +13,7 @@ import {
   Alert,
 } from "react-native";
 
-export default function SingIn({ navigation }) {
+export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -88,7 +88,7 @@ export default function SingIn({ navigation }) {
             サインインする
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+        <TouchableOpacity onPress={() => navigation.navigate("OnBoarding")}>
           <Text
             style={[
               globalStyles.textBtn,
