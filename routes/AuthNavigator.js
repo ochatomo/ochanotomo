@@ -14,7 +14,6 @@ const { Navigator, Screen } = createStackNavigator();
 function AuthNavigator() {
   // console.log("Auth navigator");
   return (
-<<<<<<< HEAD
     <NavigationContainer>
       <Navigator
         screenOptions={{
@@ -29,23 +28,6 @@ function AuthNavigator() {
         <Screen name="PasswordConfirmation" component={PasswordConfirmation} />
       </Navigator>
     </NavigationContainer>
-=======
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Screen name="SignIn" component={SignIn} />
-          <Screen name="SignUp" component={SignUp} />
-          <Screen name="Confirmation" component={Confirmation} />
-          <Screen name="PasswordReset" component={PasswordReset} />
-          <Screen name="PasswordConfirmation" component={PasswordConfirmation} />
-        </Navigator>
-      </NavigationContainer>
-    </SafeAreaProvider>
->>>>>>> c13fd5345e2a308ea0b2fc53106a958cf8b2f700
   );
 }
 
