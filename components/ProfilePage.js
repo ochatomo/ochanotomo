@@ -96,7 +96,7 @@ const Profile = ({ userData }) => {
         <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
           自己紹介
         </Text>
-        {/* <ScrollView> */}
+        {/* <ScrollView style={styles.scrollviewContainer}> */}
         <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
           <Text style={{ fontSize: 15, fontWeight: "bold", color: "#0094CE" }}>
             {userData.profileText}
@@ -118,7 +118,10 @@ const styles = StyleSheet.create({
   },
   scrollviewContainer: {
     width: "100%",
-    maxHeight: Dimensions.get("window").height,
+    maxHeight: Dimensions.get("window").height * 2,
     // marginVertical: 5,
   },
+  // scrollviewContainer: {
+  //   maxHeight: "40%",
+  // },
 });
