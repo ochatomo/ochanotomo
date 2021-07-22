@@ -5,13 +5,23 @@
 //　全員スワイプしちゃったときの画面 or 文言
 
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
 
 import { UserContext } from "../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
 import { globalStyles } from "../styles/globalStyle";
 import { generateInterestLabel, prefectureList } from "../utils/helper";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function ProfilePage({ navigation }) {
   const { userDataInfo } = useContext(UserContext);
@@ -25,7 +35,7 @@ export default function ProfilePage({ navigation }) {
     }
   }
   return (
-    <View style={globalStyles.viewContainer}>
+    <SafeAreaView style={globalStyles.viewContainer}>
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity style={globalStyles.flexColumn} onPress={signOut}>
           <AntDesign name="logout" size={50} color="#F3B614" style={globalStyles.logo} />
@@ -46,54 +56,59 @@ export default function ProfilePage({ navigation }) {
         <Profile userData={userData} />
       </View>
 
-      <View style={globalStyles.flexColumn}>
-        <TouchableOpacity
-          onPress={() => {
-            // pass matches to MatchList
-            navigation.navigate("MatchPage");
-          }}
-        >
-          <Text style={globalStyles.label}>お茶トモを探そう！</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      <TouchableOpacity
+        onPress={() => {
+          // pass matches to MatchList
+          navigation.navigate("MatchPage");
+        }}
+      >
+        <Text style={globalStyles.label}>お茶トモを探そう！</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
 
 const Profile = ({ userData }) => {
   return (
-    <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
-      <Image
-        source={{ uri: `${userData.photo}?+${new Date()}` }}
-        style={styles.profilePhoto}
-      />
-      <Text style={globalStyles.header}>{userData.name}</Text>
-      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
-        都道府県
-      </Text>
-      <Text>{prefectureList[userData.location]}</Text>
-      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
-        趣味・関心事
-      </Text>
-      <View style={styles.interests}>{generateInterestLabel(userData.interests)}</View>
-      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
-        自己紹介
-      </Text>
-      <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
-        <Text style={{ fontSize: 15, fontWeight: "bold", color: "#0094CE" }}>
-          {userData.profileText}
+    <View
+      style={[
+        globalStyles.profileContainer,
+        globalStyles.flexColumn,
+        globalStyles.boxShadow,
+      ]}
+    >
+      <ScrollView
+        contentContainerStyle={[styles.scrollviewContainer, globalStyles.flexColumn]}
+      >
+        <Image
+          source={{ uri: `${userData.photo}?+${new Date()}` }}
+          style={globalStyles.profilePhoto}
+        />
+        <Text style={globalStyles.header}>{userData.name}</Text>
+        <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
+          都道府県
         </Text>
-      </View>
+        <Text style={globalStyles.text}>{prefectureList[userData.location]}</Text>
+        <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
+          趣味・関心事
+        </Text>
+        <View style={styles.interests}>{generateInterestLabel(userData.interests)}</View>
+        <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
+          自己紹介
+        </Text>
+        {/* <ScrollView style={styles.scrollviewContainer}> */}
+        <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
+          <Text style={{ fontSize: 15, fontWeight: "bold", color: "#0094CE" }}>
+            {userData.profileText}
+          </Text>
+        </View>
+        {/* </ScrollView> */}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  profilePhoto: {
-    width: 236,
-    height: 195,
-    // borderRadius: 100,
-  },
   profileTextContainer: {
     width: "100%",
     backgroundColor: "#F8F4F4",
@@ -101,4 +116,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
+  scrollviewContainer: {
+    width: "100%",
+    maxHeight: Dimensions.get("window").height * 2,
+    // marginVertical: 5,
+  },
+  // scrollviewContainer: {
+  //   maxHeight: "40%",
+  // },
 });

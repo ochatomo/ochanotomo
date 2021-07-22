@@ -28,8 +28,10 @@ export default function MatchList({ route, navigation }) {
       setMessage(
         `まだお茶トモがいません。\n「探す」メニューでお茶トモを見つけましょう！`
       );
+    } else {
+      setMessage("");
     }
-  }, []);
+  }, [matches]);
 
   function generateChatRoomId(id1, id2) {
     const array = [id1, id2];
@@ -42,7 +44,7 @@ export default function MatchList({ route, navigation }) {
 
     try {
       // 1. check if the chatroom already exists
-      console.log({ chatRoomId });
+      // console.log({ chatRoomId });
       const res = await API.graphql(
         graphqlOperation(getFullChatRoomInfo, { id: chatRoomId, sortDirection: "DESC" })
       );
@@ -69,48 +71,40 @@ export default function MatchList({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-
-      
       <View>
         <Text style={globalStyles.header}>Myお茶トモ</Text>
         {message !== "" && (
           <Text style={[globalStyles.text, { textAlign: "center" }]}>{message}</Text>
         )}
       </View>
-      <View style={{width: "100%", height: 500}}>
-      <ScrollView >
-      {matches.map((match, index) => {
-        return (
-          
-         
-            <View style={styles.container}>
-          <View style={styles.friendsListContainer} key={index}>
-            <View style={styles.avatarBox}>
-              <Image source={{ uri: match.photo }} style={styles.matchAvatar} />
-            </View>
+      <View style={{ width: "100%", height: 500 }}>
+        <ScrollView>
+          {matches.map((match, index) => {
+            return (
+              <View style={styles.container}>
+                <View style={styles.friendsListContainer} key={index}>
+                  <View style={styles.avatarBox}>
+                    <Image source={{ uri: match.photo }} style={styles.matchAvatar} />
+                  </View>
 
-            <View style={styles.matchedUserContainer}>
-              <Text style={globalStyles.name}>{match.name}</Text>
-            </View>
+                  <View style={styles.matchedUserContainer}>
+                    <Text style={globalStyles.name}>{match.name}</Text>
+                  </View>
 
-            <View style={styles.chatButtonContainer}>
-              <TouchableOpacity onPress={() => startChat(match)}>
-                <Text style={styles.chatButton}>お話をする</Text>
-              </TouchableOpacity>
-            </View>
-            </View>
-            </View>
-         
-        )
-      })
-      }
-       </ScrollView>
-       </View>
+                  <View style={styles.chatButtonContainer}>
+                    <TouchableOpacity onPress={() => startChat(match)}>
+                      <Text style={styles.chatButton}>お話をする</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </View>
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -129,8 +123,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   friendsListContainer: {
-    flexDirection: 'row',
-    flex: 1
+    flexDirection: "row",
+    flex: 1,
   },
   chatButtonContainer: {
     flex: 2,
