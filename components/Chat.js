@@ -187,8 +187,10 @@ export default function Chat({ route, navigation }) {
     </View>
   );
 }
+moment.locale('ja')
 
 const Message = (message) => {
+
   const { userDataInfo } = useContext(UserContext);
   const [userData] = userDataInfo;
   const isMyMessage = () => {

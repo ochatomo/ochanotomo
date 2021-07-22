@@ -134,7 +134,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  miltiInput: {
+  multiInput: {
     height: 200,
     // backgroundColor: "pink",
   },
@@ -147,10 +147,6 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     marginVertical: 5,
-  },
-  miltiInput: {
-    height: 200,
-    // backgroundColor: "pink",
   },
   categoryLabel: {
     fontWeight: "bold",
