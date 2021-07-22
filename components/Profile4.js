@@ -43,12 +43,13 @@ export default function Profile4({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      <View style={globalStyles.imgContainer}>
-        <Image style={globalStyles.largeLogo} source={require("../assets/photo.png")} />
+      <View>
+        <View style={globalStyles.imgContainer}>
+          <Image style={globalStyles.largeLogo} source={require("../assets/photo.png")} />
+        </View>
+        <Text style={globalStyles.header}>写真をアップロードする</Text>
+        <Text style={globalStyles.text}>ご自身の顔写真をアップロードしてください。</Text>
       </View>
-      <Text style={globalStyles.header}>写真をアップロードする</Text>
-      <Text style={globalStyles.text}>ご自身の顔写真をアップロードしてください。</Text>
-
       <Modal
         animationType="slide"
         transparent={true}
