@@ -28,6 +28,7 @@ export const getCustomer = /* GraphQL */ `
       name
       photo
       profileText
+      premiumUntil
       createdAt
       updatedAt
     }
@@ -58,6 +59,7 @@ export const listCustomers = /* GraphQL */ `
         name
         photo
         profileText
+        premiumUntil
         createdAt
         updatedAt
       }
@@ -89,6 +91,7 @@ export const getMatch = /* GraphQL */ `
         name
         photo
         profileText
+        premiumUntil
         createdAt
         updatedAt
       }
@@ -115,6 +118,7 @@ export const listMatches = /* GraphQL */ `
           name
           photo
           profileText
+          premiumUntil
           createdAt
           updatedAt
         }
@@ -129,7 +133,6 @@ export const getChatRoom = /* GraphQL */ `
   query GetChatRoom($id: ID!) {
     getChatRoom(id: $id) {
       id
-      users
       messages {
         items {
           id
@@ -156,7 +159,6 @@ export const listChatRooms = /* GraphQL */ `
     listChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        users
         messages {
           nextToken
         }
@@ -194,6 +196,7 @@ export const getMessage = /* GraphQL */ `
         name
         photo
         profileText
+        premiumUntil
         createdAt
         updatedAt
       }
@@ -215,6 +218,7 @@ export const getMessage = /* GraphQL */ `
         name
         photo
         profileText
+        premiumUntil
         createdAt
         updatedAt
       }
@@ -243,6 +247,7 @@ export const listMessages = /* GraphQL */ `
           name
           photo
           profileText
+          premiumUntil
           createdAt
           updatedAt
         }
@@ -253,6 +258,7 @@ export const listMessages = /* GraphQL */ `
           name
           photo
           profileText
+          premiumUntil
           createdAt
           updatedAt
         }
