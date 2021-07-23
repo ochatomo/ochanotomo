@@ -17,13 +17,19 @@
     "assetBundlePatterns": ["assets/*"],
     "ios": {
       "bundleIdentifier": "com.SilverLining.ochanotomo",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-4269855195582744~7442005314"
+      }
     },
     "android": {
       "package": "com.SilverLining.ochanotomo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/ochanotomo-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-4269855195582744~7442005314"
       }
     },
     "web": {
