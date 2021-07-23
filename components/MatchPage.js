@@ -21,16 +21,26 @@ import { calcLocation } from "../utils/location";
 import { calcCategory } from "../utils/category ";
 import { calcHobby } from "../utils/hobby";
 import { ScrollView } from "react-native-gesture-handler";
+import Interstitial from "./ads/Interstitial";
 
 export default function MatchPage({ navigation }) {
-  const { allCustomerData, userDataInfo, matchesData } = useContext(UserContext);
+  const { allCustomerData, userDataInfo, matchesData, premiumData } =
+    useContext(UserContext);
   const [allCustomers] = allCustomerData;
   const [userData] = userDataInfo;
+  const [isPremium] = premiumData;
   const [likes, setLikes] = useState(userData.likes);
   const [currentIdx, setIdx] = useState(0);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [message] = useState("");
   const [matches, setMatches] = matchesData;
+
+  useEffect(() => {
+    console.log("Inside matchpage", isPremium);
+    if (currentIdx % 5 === 0 && currentIdx !== 0 && !isPremium) {
+      Interstitial();
+    }
+  }, [currentIdx]);
 
   useEffect(() => {
     // filter out customers whose id is already registered in the likes of currentUser
@@ -57,7 +67,7 @@ export default function MatchPage({ navigation }) {
     if (userData.matches !== undefined) {
       // console.log("Matches", userData.matches.items);
       const matches = userData.matches.items.map((item, index) => {
-        console.log({ index, item });
+        // console.log({ index, item });
         return {
           name: item.customer.name,
           id: item.customer.id,
@@ -121,14 +131,6 @@ export default function MatchPage({ navigation }) {
 
     // console.log({ customerWithScore });
     return customerWithScore;
-  };
-
-  const incrementIdx = () => {
-    const max = filteredCustomers.length - 1;
-    if (currentIdx >= max) {
-      return;
-    }
-    setIdx(currentIdx + 1);
   };
 
   const saveLike = async (user2Info, user1Preference) => {
@@ -240,27 +242,12 @@ export default function MatchPage({ navigation }) {
 
   return (
     <View style={[globalStyles.viewContainer, { justifyContent: "space-evenly" }]}>
-      {/* <View style={globalStyles.iconContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            // view my profile page
-          }}
-          style={globalStyles.flexColumn}
-        >
-          <AntDesign name="leftcircle" size={50} color="#F3B614" style={{ opacity: 0 }} />
-        </TouchableOpacity> */}
+      {!isPremium && (
+        <TouchableOpacity onPress={() => navigation.navigate("Payment")}>
+          <Text style={globalStyles.textLink}>広告を非表示にしたいですか？</Text>
+        </TouchableOpacity>
+      )}
 
-      {/* <TouchableOpacity
-          onPress={() => {
-            // view my profile page
-            navigation.navigate("Profile");
-          }}
-          style={globalStyles.flexColumn}
-        >
-          <Image source={require("../assets/edit.png")} style={globalStyles.logo} />
-          <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
-        </TouchableOpacity> */}
-      {/* </View> */}
       <View style={globalStyles.rightContainer}>
         <TouchableOpacity
           onPress={() => {

@@ -17,8 +17,9 @@ export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
+
     if (password === "" || email === "") {
       Alert.alert(
         "入力エラー",
