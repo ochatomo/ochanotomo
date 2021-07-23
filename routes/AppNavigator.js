@@ -15,6 +15,7 @@ import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
 import ProfilePage from "../components/ProfilePage";
 import Loading from "../components/Loading";
+import Payment from "../components/Payment";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Colors } from "../styles/color";
@@ -104,6 +105,7 @@ export const AppNavigator = () => {
           component={ProfilePreview}
           options={{ title: "ProfilePreview" }}
         />
+        <Stack.Screen name="Payment" component={Payment} options={{ title: "Payment" }} />
         <Stack.Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -14,6 +14,16 @@
     "categories": {
       "auth": {
         "ochatomopro84df2325": {}
+      },
+      "function": {
+        "ochatomoPayment": {
+          "deploymentBucketName": "amplify-ochatomopro-dev-152330-deployment",
+          "s3Key": "amplify-builds/ochatomoPayment-4f6373594e545143304e-build.zip"
+        },
+        "ochatomoLambda": {
+          "deploymentBucketName": "amplify-ochatomopro-dev-152330-deployment",
+          "s3Key": "amplify-builds/ochatomoLambda-4d31664a467253506649-build.zip"
+        }
       }
     }
   },
