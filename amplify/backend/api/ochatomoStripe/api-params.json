@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "name": "/create-payment-intent",
+      "lambdaFunction": "ochatomoLambda",
+      "privacy": {
+        "open": true
+      },
+      "policyResourceName": "/create-payment-intent"
+    }
+  ],
+  "resourceName": "ochatomoStripe",
+  "apiName": "ochatomoStripe",
+  "functionArns": [
+    {
+      "lambdaFunction": "ochatomoLambda"
+    }
+  ],
+  "privacy": {
+    "auth": 0,
+    "unauth": 0,
+    "authRoleName": "amplify-ochatomopro-dev-152330-authRole",
+    "unAuthRoleName": "amplify-ochatomopro-dev-152330-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "ochatomoLambda",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}
