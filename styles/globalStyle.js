@@ -254,7 +254,7 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-evenly",
     alignItems: "center",
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     // borderWidth: 10,
     // borderColor: "pink",
