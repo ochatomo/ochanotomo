@@ -2,7 +2,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
 import Profile from "../components/profile/Profile";
@@ -39,8 +38,6 @@ const Home = () => (
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account-circle" color={color} size={size} />
         ),
-
-        // tabBarBadge: 0,
       }}
     />
     <Tab.Screen
