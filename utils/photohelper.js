@@ -1,31 +1,26 @@
 import * as ImagePicker from "expo-image-picker";
-import AWS from "aws-sdk";
 import * as FileSystem from "expo-file-system";
+import * as ImageManipulator from "expo-image-manipulator";
+
 import Amplify, { Storage } from "aws-amplify";
 
-// import fs from 'react-native-fs';
 import { decode } from "base64-arraybuffer";
 import config from "../src/aws-exports";
 
-const S3_BUCKET = config.aws_user_files_s3_bucket;
-const REGION = config.aws_user_files_s3_bucket_region;
+// const S3_BUCKET = config.aws_user_files_s3_bucket;
+// const REGION = config.aws_user_files_s3_bucket_region;
 
-Amplify.configure({
-  ...config,
-  Analytics: {
-    disabled: true,
-  },
-});
-
-// AWS.config.update({
-//   accessKeyId:,
-//   secretAccessKey:
+// Amplify.configure({
+//   ...config,
+//   Analytics: {
+//     disabled: true,
+//   },
 // });
 
-const myBucket = new AWS.S3({
-  params: { Bucket: S3_BUCKET },
-  region: REGION,
-});
+// const myBucket = new AWS.S3({
+//   params: { Bucket: S3_BUCKET },
+//   region: REGION,
+// });
 
 export const handleChoosePhoto = async (userId) => {
   let result = await ImagePicker.launchImageLibraryAsync({
@@ -51,42 +46,33 @@ export const handleTakePhoto = async (userId) => {
   return result.uri;
 };
 
-export const uploadFile = async (uri, filename) => {
-  //   console.log("+++++++++++++++", uri, id);
+const resizePhoto = async (uri) => {
+  try {
+    const resizedPhoto = await ImageManipulator.manipulateAsync(
+      uri,
+      [{ resize: { width: 800 } }],
+      { compress: 0.7, format: "jpeg" }
+    );
+    return resizedPhoto.uri;
+  } catch (e) {
+    console.log("error in resizing photo", e);
+  }
+};
 
-  // const base64 = await FileSystem.readFile(selectedFile.uri, 'base64');
+export const uploadFile = async (uri, filename) => {
+  const resizedUri = await resizePhoto(uri);
   let base64;
 
   try {
-    base64 = await FileSystem.readAsStringAsync(uri, {
+    base64 = await FileSystem.readAsStringAsync(resizedUri, {
       encoding: FileSystem.EncodingType.Base64,
     });
-    // console.log("*************", base64);
-    // console.log("starting decoding");
-    // const arrayBuffer = await decode(base64);
+
     const arrayBuffer = await decode(base64);
 
-    Storage.put(filename, arrayBuffer, { ACL: "public-read" })
-      .then((res) => console.log("successful upload", res))
-      .catch((err) => console.log("error in uploading", err));
-    // const params = {
-    //   ACL: "public-read",
-    //   Body: arrayBuffer,
-    //   Bucket: S3_BUCKET,
-    //   Key: filename, //user_idに変える
-    // };
-
-    // const res = await myBucket
-    //   .putObject(params)
-    //   .on("httpUploadProgress", (evt) => {
-    //     // setProgress(Math.round((evt.loaded / evt.total) * 100));
-    //   })
-    //   .send((err) => {
-    //     if (err) console.log(err);
-    //   });
-    // console.log("@@@@@@@@@@@@@", arrayBuffer.byteLength);
-    // return res;
-  } catch (e) {
-    console.log(e);
+    const res = Storage.put(filename, arrayBuffer, { ACL: "public-read" });
+    return res;
+  } catch (error) {
+    return error;
   }
 };

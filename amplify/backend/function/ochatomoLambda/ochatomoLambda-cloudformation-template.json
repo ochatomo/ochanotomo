@@ -15,6 +15,12 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "stripeSecretKey": {
+      "Type": "String"
+    },
+    "stripePublishableKey": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -69,6 +75,12 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "STRIPE_SECRET_KEY": {
+              "Ref": "stripeSecretKey"
+            },
+            "STRIPE_PUBLISHABLE_KEY": {
+              "Ref": "stripePublishableKey"
             }
           }
         },
