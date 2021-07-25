@@ -2,20 +2,28 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
+<<<<<<< HEAD
 import Profile from "../components/Profile";
 import Profile2 from "../components/Profile2";
 import Profile3 from "../components/Profile3";
 import Profile4 from "../components/Profile4";
 import ProfilePreview from "../components/ProfilePreview";
 import Tutorial from "../components/Tutorial";
+=======
+import Profile from "../components/profile/Profile";
+import Profile2 from "../components/profile/Profile2";
+import Profile3 from "../components/profile/Profile3";
+import Profile4 from "../components/profile/Profile4";
+import ProfilePreview from "../components/profile/ProfilePreview";
+import ProfilePage from "../components/profile/ProfilePage";
+>>>>>>> db9306e0face7a03468b3b150fb1d6609dc67184
 import Chat from "../components/Chat";
 import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
-import ProfilePage from "../components/ProfilePage";
 import Loading from "../components/Loading";
+import Payment from "../components/Payment";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Colors } from "../styles/color";
@@ -39,8 +47,6 @@ const Home = () => (
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account-circle" color={color} size={size} />
         ),
-
-        // tabBarBadge: 0,
       }}
     />
     <Tab.Screen
@@ -105,6 +111,7 @@ export const AppNavigator = () => {
           component={ProfilePreview}
           options={{ title: "ProfilePreview" }}
         />
+        <Stack.Screen name="Payment" component={Payment} options={{ title: "Payment" }} />
         <Stack.Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
         <Stack.Screen
           name="Tutorial"
