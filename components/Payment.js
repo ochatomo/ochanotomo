@@ -89,16 +89,23 @@ export default function Payment() {
       });
       const { client_secret, status, subscription_id, invoiceUrl } = response;
       if (subscription_id) {
+        Alert.alert("お支払い完了", "領収書を確認しますか？", [
+          {
+            text: "はい",
+            onPress: () => Linking.openURL(invoiceUrl),
+          },
+          {
+            text: "いいえ",
+            style: "cancel",
+          },
+        ]);
         // add subscription id to customer table
         const query = {
           id: userId,
           subscriptionID: subscription_id,
         };
         await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-        console.log({ invoiceUrl });
-        Alert.alert("お支払い完了", "領収書を確認しますか？", () =>
-          Linking.openURL(invoiceUrl)
-        );
+        console.log("payment successful", { invoiceUrl });
       }
 
       if (status === "requires_action") {
@@ -116,7 +123,7 @@ export default function Payment() {
             // The card was declined (i.e. insufficient funds, card has expired, etc)
           } else {
             console.log("You got the money!");
-            alert("Payment Successful");
+            // alert("Payment Successful");
             // Show a success message to your customer
           }
         });
