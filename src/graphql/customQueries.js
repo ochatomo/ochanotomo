@@ -2,7 +2,6 @@ export const getFullChatRoomInfo = /* GraphQL */ `
   query GetChatRoom($id: ID!) {
     getChatRoom(id: $id) {
       id
-      users
       messages {
         items {
           id
