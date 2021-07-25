@@ -4,40 +4,40 @@ import {
   StyleSheet,
   Image,
   Button,
+  TouchableOpacity,
+  View
 } from "react-native";
 import { globalStyles } from "../../styles/globalStyle";
 import Onboarding from 'react-native-onboarding-swiper';
 
-
-const Skip = ({ skipLabel, ...props }) => (
-  <Button
-    title='スキップする'
-    {...props}>
-  </Button>
-);
-
 const Next = ({ ...props }) => (
-  <Button
-    title={'次のページ'}
-    {...props}
-  />
+  <TouchableOpacity
+    {...props}>
+  <Text style={{fontSize:22, padding:15, marginBottom: 10}}>次</Text>
+  </TouchableOpacity>
 );
 
-// const Done = ({ ...props }) => (
-//   <TouchableOpacity
-//   style={{marginHorizontal:10}}
-//     {...props}
-//   > <Text style={{fontSize:18}}>Done</Text>
-//   </TouchableOpacity>
-// );
+const Skip = ({ ...props }) => (
+  <TouchableOpacity
+    {...props}>
+  <Text style={{fontSize:22, padding:15, marginBottom: 10}}>スキップ</Text>
+  </TouchableOpacity>
+);
+
+const Done = ({ ...props }) => (
+  <TouchableOpacity
+    {...props}>
+  <Text style={{fontSize:22, padding:15, marginBottom: 10}}>完成</Text>
+  </TouchableOpacity>
+);
 
 const OnBoarding = ({ navigation }) => (
   <Onboarding
     style={styles.container}
-    SkipButtonComponent={Skip}
     NextButtonComponent={Next}
-    // DoneButtonComponent={Done}
-        onSkip={() => navigation.navigate("SignUp")}
+    DoneButtonComponent={Done}
+    SkipButtonComponent={Skip}
+        
         onDone={() => navigation.navigate("SignUp")}
       pages={[
         {
@@ -57,8 +57,6 @@ const OnBoarding = ({ navigation }) => (
           backgroundColor: '#FEE589',
             image: <Image source={require('../../assets/tea-friends2.png')}
             style={styles.photo} />,
-          //   title: <Text style={styles.title}>簡単</Text>,
-          // subtitle: "Something here",
             title: <Text style={styles.title}>簡単</Text>,
           subtitle: <Text style={styles.subtitle}>人生を生きよう!</Text>,
         },
@@ -76,10 +74,13 @@ const styles = StyleSheet.create({
     },
     title: {
       fontSize: 38,
+      color: '#8E4D2F',
+      fontWeight: 'bold',
     },
     subtitle: {
       fontSize: 24,
-      alignItems: 'center'
+      alignItems: 'center',
+      color: '#8E4D2F',
     },
     photo: {
       width: 200,
