@@ -14,6 +14,7 @@ import {
   Alert,
   SafeAreaView,
   Dimensions,
+  Button
 } from "react-native";
 
 import { UserContext } from "../contexts/UserContext";
@@ -52,7 +53,14 @@ export default function ProfilePage({ navigation }) {
           <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
         </TouchableOpacity>
       </View>
+      <View>
+      <TouchableOpacity
+          onPress={() => { navigation.navigate("Tutorial") }}>
+          <Text>Watch tutorial</Text>
+        </TouchableOpacity>
+        </View>
       <View style={globalStyles.flexRow}>
+   
         <Profile userData={userData} />
       </View>
 

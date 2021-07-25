@@ -17,6 +17,7 @@ import { UserContext } from "../contexts/UserContext";
 import { createCustomer, updateCustomer } from "../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
+
 import { uploadFile } from "../utils/photohelper";
 
 export default function ProfilePreview({ route, navigation }) {
@@ -57,6 +58,7 @@ export default function ProfilePreview({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
+      
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           style={globalStyles.flexColumn}
@@ -71,6 +73,8 @@ export default function ProfilePreview({ route, navigation }) {
           <Text style={globalStyles.iconLabel}>やり直す</Text>
         </TouchableOpacity>
 
+       
+
         <TouchableOpacity
           style={globalStyles.flexColumn}
           onPress={async () => {
@@ -80,13 +84,27 @@ export default function ProfilePreview({ route, navigation }) {
 
             Alert.alert(
               "ユーザー情報が保存されました",
-              "早速お茶トモを探しにいきましょう！",
+              "チュートリアルを見てみませんか？",
               [
                 {
-                  text: "OK",
+                  text: "Start Tutorial",
+                  onPress: () => navigation.navigate("Tutorial")
+                },
+                {
+                  text: "Start Ochanotomo",
                   onPress: () => navigation.navigate("Home", { screen: "MatchPage" }),
                 },
               ]
+
+
+              // "ユーザー情報が保存されました",
+              // "早速お茶トモを探しにいきましょう！",
+              // [
+              //   {
+              //     text: "OK",
+              //     onPress: () => navigation.navigate("Home", { screen: "MatchPage" }),
+              //   },
+              // ]
             );
           }}
         >

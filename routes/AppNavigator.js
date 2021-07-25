@@ -10,6 +10,7 @@ import Profile2 from "../components/Profile2";
 import Profile3 from "../components/Profile3";
 import Profile4 from "../components/Profile4";
 import ProfilePreview from "../components/ProfilePreview";
+import Tutorial from "../components/Tutorial";
 import Chat from "../components/Chat";
 import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
@@ -105,6 +106,11 @@ export const AppNavigator = () => {
           options={{ title: "ProfilePreview" }}
         />
         <Stack.Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
+        <Stack.Screen
+          name="Tutorial"
+          component={Tutorial}
+          options={{ title: "Tutorial" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
