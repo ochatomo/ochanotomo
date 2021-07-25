@@ -1,0 +1,13 @@
+{
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "stripeSecretKey",
+      "environmentVariableName": "STRIPE_SECRET_KEY"
+    },
+    {
+      "cloudFormationParameterName": "stripePublishableKey",
+      "environmentVariableName": "STRIPE_PUBLISHABLE_KEY"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { Colors } from "./color";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -253,7 +254,7 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-evenly",
     alignItems: "center",
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     // borderWidth: 10,
     // borderColor: "pink",
