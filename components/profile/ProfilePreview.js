@@ -10,14 +10,14 @@ import {
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
-import { globalStyles } from "../styles/globalStyle";
-import { generateInterestLabel, prefectureList } from "../utils/helper";
-import { UserContext } from "../contexts/UserContext";
+import { globalStyles } from "../../styles/globalStyle";
+import { generateInterestLabel, prefectureList } from "../../utils/helper";
+import { UserContext } from "../../contexts/UserContext";
 
-import { createCustomer, updateCustomer } from "../src/graphql/mutations";
+import { createCustomer, updateCustomer } from "../../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
-import { uploadFile } from "../utils/photohelper";
+import { uploadFile } from "../../utils/photohelper";
 
 export default function ProfilePreview({ route, navigation }) {
   const { name, profileText, location, gender, category, hobby, photo, uri, filename } =
@@ -75,9 +75,7 @@ export default function ProfilePreview({ route, navigation }) {
           style={globalStyles.flexColumn}
           onPress={async () => {
             await uploadFile(uri, filename);
-
             await saveUserInfo();
-
             Alert.alert(
               "ユーザー情報が保存されました",
               "早速お茶トモを探しにいきましょう！",
@@ -90,7 +88,7 @@ export default function ProfilePreview({ route, navigation }) {
             );
           }}
         >
-          <Image source={require("../assets/save.png")} style={globalStyles.logo} />
+          <Image source={require("../../assets/save.png")} style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>保存する</Text>
         </TouchableOpacity>
       </View>
@@ -108,7 +106,7 @@ export default function ProfilePreview({ route, navigation }) {
 const Profile = ({ userData, uri }) => {
   return (
     <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
-      <Image source={{ uri: uri }} style={styles.profilePhoto} />
+      <Image source={{ uri: uri }} style={globalStyles.profilePhoto} />
       <Text style={globalStyles.header}>{userData.name}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         性別
@@ -133,12 +131,6 @@ const Profile = ({ userData, uri }) => {
 };
 
 const styles = StyleSheet.create({
-  profilePhoto: {
-    width: 236,
-    height: 195,
-
-    // borderRadius: 100,
-  },
   profileTextContainer: {
     width: "100%",
     backgroundColor: "#F8F4F4",

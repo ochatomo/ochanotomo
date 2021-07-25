@@ -17,11 +17,11 @@ import {
   StyleSheet,
 } from "react-native";
 
-import { globalStyles } from "../styles/globalStyle";
+import { globalStyles } from "../../styles/globalStyle";
 
 import { AntDesign } from "@expo/vector-icons";
 
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Profile({ navigation }) {
   const { isNewUserInfo, userDataInfo } = useContext(UserContext);
@@ -48,7 +48,7 @@ export default function Profile({ navigation }) {
         <View style={globalStyles.imgContainer}>
           <Image
             style={globalStyles.largeLogo}
-            source={require("../assets/profile_logo.png")}
+            source={require("../../assets/profile_logo.png")}
           />
           <Image
             style={globalStyles.largeLogo}

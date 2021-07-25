@@ -10,10 +10,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const Stripe = require("stripe");
-const stripe = Stripe(
-  "sk_test_51JDipHEb3m5UkCpeRhMqqpAAlSoqSYE28ozLbE9gFITmxdzfeAGS5ydZdc0U4IvUazsZWWEuAy4ADjqtPUr2KQPI00zs0hN67v",
-  { apiVersion: "2020-08-27" }
-);
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2020-08-27" });
 
 // declare a new express app
 var app = express();
@@ -30,8 +27,40 @@ app.use(function (req, res, next) {
 /**********************
  * Example get method *
  **********************/
+app.post("/payment/create-subscription", async (req, res) => {
+  const { email, payment_method } = req.body;
+  console.log({ email, payment_method });
 
-app.post("/create-payment-intent", async function (req, res) {
+  const customer = await stripe.customers.create({
+    payment_method: payment_method,
+    email: email,
+    invoice_settings: {
+      default_payment_method: payment_method,
+    },
+  });
+
+  const subscription = await stripe.subscriptions.create({
+    customer: customer.id,
+    items: [{ price: "price_1JDjW6Eb3m5UkCpe735QboWO" }],
+    expand: ["latest_invoice.payment_intent"],
+  });
+
+  const subscription_id = subscription.id;
+  const status = subscription["latest_invoice"]["payment_intent"]["status"];
+  const client_secret = subscription["latest_invoice"]["payment_intent"]["client_secret"];
+  const invoiceUrl = subscription["latest_invoice"]["hosted_invoice_url"];
+
+  res.json({ client_secret, status, subscription_id, invoiceUrl });
+});
+
+app.post("/payment/cancel-subscription", async function (req, res) {
+  const { subscriptionID } = req.body;
+  const deletedSubscription = await stripe.subscriptions.del(subscriptionID);
+  const status = deletedSubscription.status;
+  res.send({ status });
+});
+
+app.post("/payment/create-payment-intent", async function (req, res) {
   // Add your code here
   console.log("request received");
   // req.body にpriceを含める
@@ -57,57 +86,11 @@ app.post("/create-payment-intent", async function (req, res) {
   }
 });
 
-app.get("/create-payment-intent/", function (req, res) {
+app.get("/payment/pk", function (req, res) {
   // Add your code here
-  res.json({ success: "get call succeed!", url: req.url });
-});
-// app.get("/create-payment-intent/", function (req, res) {
-//   // Add your code here
-//   res.json({
-//     isBase64Encoded: false,
-//     statusCode: 200,
-//     body: "Hello from Lambda!",
-//     headers: {
-//       "content-type": "application/json",
-//     },
-//   });
-// });
-
-/****************************
- * Example post method *
- ****************************/
-
-// app.post("/create-payment-intent/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "post call succeed!", url: req.url, body: req.body });
-// });
-
-/****************************
- * Example put method *
- ****************************/
-
-app.put("/create-payment-intent", function (req, res) {
-  // Add your code here
-  res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
-
-app.put("/create-payment-intent/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
-
-/****************************
- * Example delete method *
- ****************************/
-
-app.delete("/create-payment-intent", function (req, res) {
-  // Add your code here
-  res.json({ success: "delete call succeed!", url: req.url });
-});
-
-app.delete("/create-payment-intent/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "delete call succeed!", url: req.url });
+  res.json({
+    pk: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
 });
 
 app.listen(3000, function () {
