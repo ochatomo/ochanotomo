@@ -1,6 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
 import { Auth } from "aws-amplify";
-import moment from "moment";
 
 import { listCustomers } from "../src/graphql/queries";
 
@@ -39,17 +38,17 @@ export function UserProvider(props) {
     return id;
   }
 
-  function checkPremium(premiumUntil) {
-    if (premiumUntil) {
-      const a = moment(premiumUntil);
-      const b = moment(new Date());
-      const diff = b.diff(a);
+  // function checkPremium(premiumUntil) {
+  //   if (premiumUntil) {
+  //     const a = moment(premiumUntil);
+  //     const b = moment(new Date());
+  //     const diff = b.diff(a);
 
-      if (diff < 0) {
-        setIsPremium(true);
-      }
-    }
-  }
+  //     if (diff < 0) {
+  //       setIsPremium(true);
+  //     }
+  //   }
+  // }
 
   async function getCurrentUserInfo(userId) {
     try {
@@ -60,7 +59,7 @@ export function UserProvider(props) {
       const userData = res.data.getCustomer;
       if (userData) {
         setUserData(userData);
-        checkPremium(userData.premiumUntil);
+        if (userData.subscriptionID) setIsPremium(true);
 
         const matches = userData.matches.items.map((item, index) => {
           // console.log({ index, item });

@@ -20,8 +20,8 @@ import { Picker } from "@react-native-picker/picker";
 
 import { AntDesign } from "@expo/vector-icons";
 
-import { UserContext } from "../contexts/UserContext";
-import { globalStyles } from "../styles/globalStyle";
+import { UserContext } from "../../contexts/UserContext";
+import { globalStyles } from "../../styles/globalStyle";
 
 export default function Profile2({ route, navigation }) {
   const { userDataInfo, isNewUserInfo } = useContext(UserContext);
@@ -50,7 +50,7 @@ export default function Profile2({ route, navigation }) {
         <View style={globalStyles.imgContainer}>
           <Image
             style={globalStyles.largeLogo}
-            source={require("../assets/profile_logo.png")}
+            source={require("../../assets/profile_logo.png")}
           />
         </View>
 

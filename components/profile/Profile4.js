@@ -22,14 +22,13 @@ import {
   uploadFile,
   getExtension,
   handleTakePhoto,
-} from "../utils/photohelper";
+} from "../../utils/photohelper";
 
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
-import { globalStyles } from "../styles/globalStyle.js";
+import { globalStyles } from "../../styles/globalStyle.js";
 
-import config from "../src/aws-exports";
-
+import config from "../../src/aws-exports";
 const S3_BUCKET = config.aws_user_files_s3_bucket;
 
 export default function Profile4({ route, navigation }) {
@@ -45,7 +44,10 @@ export default function Profile4({ route, navigation }) {
     <View style={globalStyles.viewContainer}>
       <View>
         <View style={globalStyles.imgContainer}>
-          <Image style={globalStyles.largeLogo} source={require("../assets/photo.png")} />
+          <Image
+            style={globalStyles.largeLogo}
+            source={require("../../assets/photo.png")}
+          />
         </View>
         <Text style={globalStyles.header}>写真をアップロードする</Text>
         <Text style={globalStyles.text}>ご自身の顔写真をアップロードしてください。</Text>
@@ -138,7 +140,10 @@ export default function Profile4({ route, navigation }) {
             }
           }}
         >
-          <Image style={styles.cameraLogo} source={require("../assets/cellphone.png")} />
+          <Image
+            style={styles.cameraLogo}
+            source={require("../../assets/cellphone.png")}
+          />
           <Text style={styles.label}>携帯から</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -157,7 +162,7 @@ export default function Profile4({ route, navigation }) {
         >
           <Image
             style={styles.cameraLogo}
-            source={require("../assets/photo-upload.png")}
+            source={require("../../assets/photo-upload.png")}
           />
           <Text style={styles.label}>今写真を撮る</Text>
         </TouchableOpacity>

@@ -1,14 +1,7 @@
-// TODO
-// * allusersからlikeにidがないユーザーだけを抽出
-// * 評価関数を走らせる
-
-//　全員スワイプしちゃったときの画面 or 文言
-
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
 
 import { UserContext } from "../contexts/UserContext";
-import { AntDesign } from "@expo/vector-icons";
 
 import { globalStyles } from "../styles/globalStyle";
 import { generateInterestLabel } from "../utils/helper";
@@ -32,7 +25,6 @@ export default function MatchPage({ navigation }) {
   const [likes, setLikes] = useState(userData.likes);
   const [currentIdx, setIdx] = useState(0);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
-  const [message] = useState("");
   const [matches, setMatches] = matchesData;
 
   useEffect(() => {
@@ -101,15 +93,12 @@ export default function MatchPage({ navigation }) {
       },
     });
 
-    // console.log("this is chatroom messages", chatRoomData.messages.items);
-
     return () => {
       subscription.unsubscribe();
     };
   }, []);
 
   const calcScore = (customers) => {
-    // console.log("CALC-----", userData);
     const myLocation = userData.location; // int
     const myCategory = userData.interests[0].category; // int
     const myHobby = userData.interests[0].hobby; // int

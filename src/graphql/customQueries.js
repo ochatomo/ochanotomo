@@ -69,9 +69,8 @@ export const getCustomerWithMatches = /* GraphQL */ `
       name
       photo
       profileText
-      createdAt
-      updatedAt
       premiumUntil
+      subscriptionID
     }
   }
 `;
