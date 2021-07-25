@@ -32,6 +32,8 @@ export const createCustomer = /* GraphQL */ `
       photo
       profileText
       premiumUntil
+      premium
+      subscriptionID
       createdAt
       updatedAt
     }
@@ -68,6 +70,8 @@ export const updateCustomer = /* GraphQL */ `
       photo
       profileText
       premiumUntil
+      premium
+      subscriptionID
       createdAt
       updatedAt
     }
@@ -104,6 +108,8 @@ export const deleteCustomer = /* GraphQL */ `
       photo
       profileText
       premiumUntil
+      premium
+      subscriptionID
       createdAt
       updatedAt
     }
@@ -137,6 +143,8 @@ export const createMatch = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -173,6 +181,8 @@ export const updateMatch = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -209,6 +219,8 @@ export const deleteMatch = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -320,6 +332,8 @@ export const createMessage = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -342,6 +356,8 @@ export const createMessage = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -380,6 +396,8 @@ export const updateMessage = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -402,6 +420,8 @@ export const updateMessage = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -440,6 +460,8 @@ export const deleteMessage = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -462,6 +484,8 @@ export const deleteMessage = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }

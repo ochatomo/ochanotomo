@@ -9,6 +9,8 @@ type Customer @model {
   photo: String
   profileText: String
   premiumUntil: AWSDate
+  premium: Boolean
+  subscriptionID: String
 }
 
 type Interest {
