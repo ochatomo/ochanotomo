@@ -8,6 +8,9 @@ type Customer @model {
   name: String!
   photo: String
   profileText: String
+  premiumUntil: AWSDate
+  premium: Boolean
+  subscriptionID: String
 }
 
 type Interest {
@@ -29,7 +32,6 @@ type Like {
 
 type ChatRoom @model {
   id: ID!
-  users: [String]
   messages: [Message] @connection(keyName: "byChatRoom", fields: ["id"])
 }
 
