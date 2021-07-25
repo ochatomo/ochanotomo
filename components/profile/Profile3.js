@@ -16,10 +16,10 @@ import {
 
 import { AntDesign } from "@expo/vector-icons";
 
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
-import { interestTable } from "../utils/helper";
-import { globalStyles } from "../styles/globalStyle.js";
+import { interestTable } from "../../utils/helper";
+import { globalStyles } from "../../styles/globalStyle.js";
 
 export default function Profile3({ route, navigation }) {
   const { isNewUserInfo } = useContext(UserContext);
@@ -73,7 +73,7 @@ export default function Profile3({ route, navigation }) {
         <View style={globalStyles.imgContainer}>
           <Image
             style={globalStyles.largeLogo}
-            source={require("../assets/active_icon.png")}
+            source={require("../../assets/active_icon.png")}
           />
         </View>
         <Text style={globalStyles.header}>

@@ -1,9 +1,3 @@
-// TODO
-// * allusersからlikeにidがないユーザーだけを抽出
-// * 評価関数を走らせる
-
-//　全員スワイプしちゃったときの画面 or 文言
-
 import React, { useContext } from "react";
 import {
   View,
@@ -16,11 +10,11 @@ import {
   Dimensions,
 } from "react-native";
 
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
-import { globalStyles } from "../styles/globalStyle";
-import { generateInterestLabel, prefectureList } from "../utils/helper";
+import { globalStyles } from "../../styles/globalStyle";
+import { generateInterestLabel, prefectureList } from "../../utils/helper";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function ProfilePage({ navigation }) {
@@ -48,7 +42,7 @@ export default function ProfilePage({ navigation }) {
             navigation.navigate("Profile");
           }}
         >
-          <Image source={require("../assets/edit.png")} style={globalStyles.logo} />
+          <Image source={require("../../assets/edit.png")} style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
         </TouchableOpacity>
       </View>
@@ -119,9 +113,5 @@ const styles = StyleSheet.create({
   scrollviewContainer: {
     width: "100%",
     maxHeight: Dimensions.get("window").height * 2,
-    // marginVertical: 5,
   },
-  // scrollviewContainer: {
-  //   maxHeight: "40%",
-  // },
 });

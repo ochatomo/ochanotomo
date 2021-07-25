@@ -29,6 +29,8 @@ export const getCustomer = /* GraphQL */ `
       photo
       profileText
       premiumUntil
+      premium
+      subscriptionID
       createdAt
       updatedAt
     }
@@ -60,6 +62,8 @@ export const listCustomers = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -92,6 +96,8 @@ export const getMatch = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -119,6 +125,8 @@ export const listMatches = /* GraphQL */ `
           photo
           profileText
           premiumUntil
+          premium
+          subscriptionID
           createdAt
           updatedAt
         }
@@ -197,6 +205,8 @@ export const getMessage = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -219,6 +229,8 @@ export const getMessage = /* GraphQL */ `
         photo
         profileText
         premiumUntil
+        premium
+        subscriptionID
         createdAt
         updatedAt
       }
@@ -248,6 +260,8 @@ export const listMessages = /* GraphQL */ `
           photo
           profileText
           premiumUntil
+          premium
+          subscriptionID
           createdAt
           updatedAt
         }
@@ -259,6 +273,8 @@ export const listMessages = /* GraphQL */ `
           photo
           profileText
           premiumUntil
+          premium
+          subscriptionID
           createdAt
           updatedAt
         }

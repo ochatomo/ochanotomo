@@ -5,15 +5,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
-import Profile from "../components/Profile";
-import Profile2 from "../components/Profile2";
-import Profile3 from "../components/Profile3";
-import Profile4 from "../components/Profile4";
-import ProfilePreview from "../components/ProfilePreview";
+import Profile from "../components/profile/Profile";
+import Profile2 from "../components/profile/Profile2";
+import Profile3 from "../components/profile/Profile3";
+import Profile4 from "../components/profile/Profile4";
+import ProfilePreview from "../components/profile/ProfilePreview";
+import ProfilePage from "../components/profile/ProfilePage";
 import Chat from "../components/Chat";
 import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
-import ProfilePage from "../components/ProfilePage";
 import Loading from "../components/Loading";
 import Payment from "../components/Payment";
 import React, { useContext } from "react";
