@@ -31,7 +31,7 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: "white",
     width: "80%",
-    maxHeight: HEIGHT * 0.65,
+    maxHeight: HEIGHT,
     marginVertical: 5,
   },
   textBtn: {
@@ -135,9 +135,9 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 16,
   },
   profileText: {
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 20,
     color: Colors.primary1,
+    fontFamily: FONT,
   },
   inputLabel: {
     margin: 5,
@@ -158,6 +158,14 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     marginVertical: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   categoryLabel: {
     fontWeight: "bold",
@@ -168,6 +176,14 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 24,
     marginHorizontal: 3,
     marginVertical: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   selectedCategoryLabel: {
     fontWeight: "bold",
@@ -180,6 +196,14 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 24,
     marginHorizontal: 3,
     marginVertical: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   modalContainer: {
     flex: 1,
@@ -219,6 +243,14 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 24,
     marginHorizontal: 3,
     marginVertical: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   smallHobbyLabel: {
     fontWeight: "bold",
@@ -229,6 +261,14 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 3,
     marginVertical: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   selectedLabel: {
     fontWeight: "bold",
@@ -241,6 +281,14 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 24,
     marginHorizontal: 3,
     marginVertical: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   iconRight: {
     marginHorizontal: 15,

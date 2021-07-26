@@ -22,6 +22,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { UserContext } from "../../contexts/UserContext";
 import { globalStyles } from "../../styles/globalStyle";
+import { Colors } from "../../styles/color";
 
 export default function Profile2({ route, navigation }) {
   const { userDataInfo, isNewUserInfo } = useContext(UserContext);
@@ -70,7 +71,7 @@ export default function Profile2({ route, navigation }) {
                 <Picker.Item
                   label={"都道府県"}
                   value={""}
-                  color="#0094CE"
+                  color={Colors.primary1}
                   key={"placeholder"}
                   enabled={false}
                   style={styles.pickerlabel}
@@ -80,15 +81,14 @@ export default function Profile2({ route, navigation }) {
                 <Picker.Item
                   label={data.label}
                   value={data.value}
-                  color="#0094CE"
+                  color={Colors.primary1}
                   key={index}
                 />
               ))}
             </Picker>
           </View>
         </View>
-      </View>
-      <View>
+
         <Text style={globalStyles.inputLabel}>性別を教えてください。</Text>
 
         <View style={styles.container}>
@@ -102,7 +102,7 @@ export default function Profile2({ route, navigation }) {
                 <Picker.Item
                   label={"性別"}
                   value={""}
-                  color="#0094CE"
+                  color={Colors.primary1}
                   key={"placeholder"}
                   enabled={false}
                   style={styles.pickerlabel}
@@ -112,7 +112,7 @@ export default function Profile2({ route, navigation }) {
                 <Picker.Item
                   label={data.label}
                   value={data.value}
-                  color="#0094CE"
+                  color={Colors.primary1}
                   key={index}
                 />
               ))}
@@ -126,7 +126,7 @@ export default function Profile2({ route, navigation }) {
             navigation.navigate("Profile");
           }}
         >
-          <AntDesign name="leftcircle" size={56} color="#F3B614" />
+          <AntDesign name="leftcircle" size={56} color={Colors.secondary1} />
         </TouchableOpacity>
         <Text style={globalStyles.header}> 2 of 4 </Text>
 
@@ -150,7 +150,7 @@ export default function Profile2({ route, navigation }) {
             }
           }}
         >
-          <AntDesign name="rightcircle" size={56} color="#27AE60" />
+          <AntDesign name="rightcircle" size={56} color={Colors.primary2} />
         </TouchableOpacity>
       </View>
     </View>
@@ -221,10 +221,11 @@ const styles = StyleSheet.create({
   pickerContainer: {
     width: 280,
     borderWidth: 2,
-    borderColor: "#0094CE",
+    borderColor: Colors.primary1,
     alignItems: "center",
     borderRadius: 16,
     paddingHorizontal: 10,
+    marginBottom: 10,
   },
   container: {
     alignItems: "center",
