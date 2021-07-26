@@ -27,34 +27,36 @@ const OnBoarding = ({ navigation }) => (
     NextButtonComponent={Next}
     DoneButtonComponent={Done}
     SkipButtonComponent={Skip}
-        onSkip={() => navigation.navigate("SignUp")}
-        onDone={() => navigation.navigate("SignUp")}
-      pages={[
-        {
-          backgroundColor: '#ffff',
-              image: <Image source={require('../../assets/tea-friends0.png')} style={styles.photo}/>,      
-          title: <Text style={styles.title}>楽しい</Text>,
-          subtitle: <Text style={styles.subtitle}>あなたは決して一人ではない</Text>,
-        },
-        {
-          backgroundColor: '#BEB87E',
-            image: <Image source={require('../../assets/tea-friends1.png')}
-                          style={styles.photo}/>,
-          title: <Text style={styles.title}>安全</Text>,
-          subtitle: <Text style={styles.subtitle}>友達を探す！</Text>,
-        },
-        {
-          backgroundColor: '#FEE589',
-            image: <Image source={require('../../assets/tea-friends2.png')}
-            style={styles.photo} />,
-            title: <Text style={styles.title}>簡単</Text>,
-          subtitle: <Text style={styles.subtitle}>人生を生きよう!</Text>,
-        },
-      ]}
-  /> 
-  );
-  
-  export default OnBoarding;
+    onSkip={() => navigation.navigate("SignUp")}
+    onDone={() => navigation.navigate("SignUp")}
+    pages={[
+      {
+        backgroundColor: "#ffff",
+        image: (
+          <Image source={require("../../assets/tea-friends0.png")} style={styles.photo} />
+        ),
+        title: <Text style={styles.title}>楽しい</Text>,
+        subtitle: <Text style={styles.subtitle}>あなたは決して一人ではない</Text>,
+      },
+      {
+        backgroundColor: "#BEB87E",
+        image: (
+          <Image source={require("../../assets/tea-friends1.png")} style={styles.photo} />
+        ),
+        title: <Text style={styles.title}>安全</Text>,
+        subtitle: <Text style={styles.subtitle}>友達を探す！</Text>,
+      },
+      {
+        backgroundColor: "#FEE589",
+        image: (
+          <Image source={require("../../assets/tea-friends2.png")} style={styles.photo} />
+        ),
+        title: <Text style={styles.title}>簡単</Text>,
+        subtitle: <Text style={styles.subtitle}>人生を生きよう!</Text>,
+      },
+    ]}
+  />
+);
 
 export default OnBoarding;
 
