@@ -71,10 +71,12 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
-  text: {
-    fontSize: 15,
+  infoText: {
+    fontSize: 20,
     fontWeight: "bold",
-    color: Colors.primary2,
+    color: Colors.primary1,
+    fontFamily: FONT,
+    marginBottom: 5,
   },
   buttonContainer: {
     width: "100%",
@@ -92,8 +94,8 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
   },
   smallTextLabel: {
-    color: Colors.primary1,
-    fontSize: 15,
+    color: Colors.primary2,
+    fontSize: 18,
     fontWeight: "bold",
     paddingVertical: 3,
   },
@@ -198,7 +200,7 @@ export const globalStyles = StyleSheet.create({
   smallCategoryLabel: {
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: Colors.primary2,
+    backgroundColor: Colors.primary1,
     borderRadius: 44,
     paddingVertical: 6,
     paddingHorizontal: 10,
@@ -221,7 +223,7 @@ export const globalStyles = StyleSheet.create({
   smallHobbyLabel: {
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: Colors.primary1,
+    backgroundColor: Colors.secondary4,
     borderRadius: 44,
     paddingVertical: 6,
     paddingHorizontal: 10,
