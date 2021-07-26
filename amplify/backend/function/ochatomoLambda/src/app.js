@@ -57,7 +57,8 @@ app.post("/payment/cancel-subscription", async function (req, res) {
   const { subscriptionID } = req.body;
   const deletedSubscription = await stripe.subscriptions.del(subscriptionID);
   const status = deletedSubscription.status;
-  res.send({ status });
+  const current_period_end = deletedSubscription["current_period_end"];
+  res.send({ status, current_period_end });
 });
 
 app.post("/payment/create-payment-intent", async function (req, res) {

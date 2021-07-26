@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -20,11 +20,14 @@ import { generateInterestLabel, prefectureList } from "../../utils/helper";
 import { ScrollView } from "react-native-gesture-handler";
 import { API, graphqlOperation } from "aws-amplify";
 import { updateCustomer } from "../../src/graphql/mutations";
+import { handleTakePhoto } from "../../utils/photohelper";
+import moment from "moment";
 
 export default function ProfilePage({ navigation }) {
   const { userDataInfo, premiumData } = useContext(UserContext);
   const [userData] = userDataInfo;
   const [isPremium, setIsPremium] = premiumData;
+  const [loading, setLoading] = useState(false);
 
   async function signOut() {
     try {
@@ -34,21 +37,50 @@ export default function ProfilePage({ navigation }) {
     }
   }
 
+  async function hanldeCancel() {
+    Alert.alert("確認", "本当にプレミアム会員を止めますか", [
+      {
+        text: "いいえ",
+        style: "cancel",
+      },
+      {
+        text: "はい",
+        onPress: cancelSubscription,
+      },
+    ]);
+  }
+
   async function cancelSubscription() {
-    if (!userData.subscriptionID) return;
+    if (!isPremium) return;
+
+    setLoading(true);
+    console.log("cancel subscription");
     const response = await API.post("ochatomoStripe", "/payment/cancel-subscription", {
       body: { subscriptionID: userData.subscriptionID },
     });
+    const { status, current_period_end } = response;
     console.log(response);
-    if (response.status === "canceled") {
+    const premiumUntil = moment.unix(current_period_end).format("YYYY-MM-DD");
+    if (status === "canceled") {
+      console.log({ premiumUntil });
       const query = {
         id: userData.id,
-        subscriptionID: null,
+        subscriptionID: premiumUntil,
       };
       await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-      setIsPremium(false);
-      alert("subscriptionが中止されました。");
+      // setIsPremium(false);
+      Alert.alert(
+        "完了",
+        `プレミアム会員がキャンセルされました。\n現在のメンバーシップは${premiumUntil}まで有効です。`,
+        [
+          {
+            text: "OK",
+            onPress: () => {},
+          },
+        ]
+      );
     }
+    setLoading(false);
   }
   return (
     <SafeAreaView style={globalStyles.viewContainer}>
@@ -71,8 +103,9 @@ export default function ProfilePage({ navigation }) {
 
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
-          onPress={cancelSubscription}
+          onPress={hanldeCancel}
           style={{ display: isPremium ? "flex" : "none" }}
+          disabled={loading}
         >
           <Text style={globalStyles.textLink}>プレミアム会員をやめる</Text>
         </TouchableOpacity>
@@ -86,7 +119,7 @@ export default function ProfilePage({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={globalStyles.flexRow}>
-        <Profile userData={userData} />
+        <Profile userData={userData} isPremium={isPremium} />
       </View>
 
       <TouchableOpacity
@@ -101,7 +134,7 @@ export default function ProfilePage({ navigation }) {
   );
 }
 
-const Profile = ({ userData }) => {
+const Profile = ({ userData, isPremium }) => {
   return (
     <View
       style={[
@@ -118,7 +151,15 @@ const Profile = ({ userData }) => {
           source={{ uri: `${userData.photo}?+${new Date()}` }}
           style={globalStyles.profilePhoto}
         />
-        <Text style={[globalStyles.header, styles.username]}>{userData.name}</Text>
+        <View style={[globalStyles.flexRow]}>
+          <Text style={[globalStyles.header, styles.username]}>{userData.name}</Text>
+          {isPremium && (
+            <Image
+              style={styles.badge}
+              source={require("../../assets/premium-user-g.png")}
+            />
+          )}
+        </View>
         <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
           都道府県
         </Text>
@@ -143,6 +184,7 @@ const Profile = ({ userData }) => {
 const styles = StyleSheet.create({
   username: {
     color: Colors.secondary2,
+    width: "100%",
   },
   profileTextContainer: {
     width: "100%",
@@ -154,5 +196,11 @@ const styles = StyleSheet.create({
   scrollviewContainer: {
     width: "100%",
     maxHeight: Dimensions.get("window").height * 2,
+  },
+  badge: {
+    width: 45,
+    height: 45,
+    position: "absolute",
+    right: 10,
   },
 });
