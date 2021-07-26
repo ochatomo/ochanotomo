@@ -17,12 +17,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { createCustomer, updateCustomer } from "../../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 
-<<<<<<< HEAD:components/ProfilePreview.js
-
-import { uploadFile } from "../utils/photohelper";
-=======
 import { uploadFile } from "../../utils/photohelper";
->>>>>>> db9306e0face7a03468b3b150fb1d6609dc67184:components/profile/ProfilePreview.js
 
 export default function ProfilePreview({ route, navigation }) {
   const { name, profileText, location, gender, category, hobby, photo, uri, filename } =
