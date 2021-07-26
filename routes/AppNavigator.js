@@ -4,29 +4,22 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Entypo } from "@expo/vector-icons";
 
-<<<<<<< HEAD
-import Profile from "../components/Profile";
-import Profile2 from "../components/Profile2";
-import Profile3 from "../components/Profile3";
-import Profile4 from "../components/Profile4";
-import ProfilePreview from "../components/ProfilePreview";
-import Tutorial from "../components/Tutorial";
-=======
 import Profile from "../components/profile/Profile";
 import Profile2 from "../components/profile/Profile2";
 import Profile3 from "../components/profile/Profile3";
 import Profile4 from "../components/profile/Profile4";
 import ProfilePreview from "../components/profile/ProfilePreview";
 import ProfilePage from "../components/profile/ProfilePage";
->>>>>>> db9306e0face7a03468b3b150fb1d6609dc67184
 import Chat from "../components/Chat";
 import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
 import Loading from "../components/Loading";
 import Payment from "../components/Payment";
+import Tutorial from "../components/Tutorial";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Colors } from "../styles/color";
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

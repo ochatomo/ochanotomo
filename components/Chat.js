@@ -156,7 +156,7 @@ export default function Chat({ route, navigation }) {
               }} >
               <Text style={styles.topicButton}>何を話そう？</Text> 
         </TouchableOpacity>
-       //make responsive input box
+      
         <TouchableOpacity
           onPress={async () => {
               try {
