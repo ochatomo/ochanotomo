@@ -18,7 +18,7 @@ export const globalStyles = StyleSheet.create({
   },
   iconLabel: {
     fontSize: 14,
-    color: "#0094CE",
+    color: "#D54E31",
     fontWeight: "bold",
   },
   flexRow: {
