@@ -105,7 +105,7 @@ export default function Chat({ route, navigation }) {
               console.log(e);
             }
             }} >
-            <MaterialCommunityIcons name="send-circle" size={80} color="#0094CE" alignItems ='center'/>
+            <MaterialCommunityIcons name="send-circle" size={80} color="#8B8C14" alignItems ='center'/>
           </TouchableOpacity>
           </View>
         <View style={styles.topicContainer}>
@@ -209,19 +209,20 @@ const Message = (message) => {
           marginRight: isMyMessage() ? 0 : 5,
         }} />
           <Text style={styles.sender, {
-            fontFamily: "Roboto",
+            fontFamily: "KosugiMaru_400Regular",
             fontSize: 20,
             fontWeight: "700",
-            color: "#B725D4",
+            color: "#D64F32",
             paddingLeft: 5
           }}>{sender_name}</Text>
            </View>
         <Text style={styles.message, {
-          backgroundColor: isMyMessage() ? '#D6F5FF' : 'white',
+          backgroundColor: isMyMessage() ? '#F6DFD4' :'#F2F2D4',
           fontSize: 20,
           borderRadius: 16,
-          color: "#004DA9",
-          fontWeight: "700",
+          fontFamily: "KosugiMaru_400Regular",
+          color: "#8E4D2F",
+          fontWeight: "600",
           padding: 10
           }}>{content}</Text>
          
@@ -243,11 +244,12 @@ const styles = StyleSheet.create({
   },
   header: {
     textAlign: "center",
-    color: "#B725D4",
+    color: "#D64F32",
     fontSize: 28,
     fontWeight: "bold",
     fontWeight: "700",
     padding: 10,
+    fontFamily: "KosugiMaru_400Regular"
   },
   chatContainer: {
     width: "100%",
@@ -267,13 +269,14 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: "#004DA9",
+    backgroundColor: "#8E4D2F",
+    fontFamily: "KosugiMaru_400Regular"
   },
   chatInputElements: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: 'pink'
+    backgroundColor: 'white'
 
   },
   chatInputContainer: {
@@ -291,21 +294,25 @@ const styles = StyleSheet.create({
   },
   message: {},
   inputBox: {
-    // width: 270,
-    // height: 80,
+    padding: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    width: '75%',
+    height: '90%',
     justifyContent: "center",
     borderRadius: 16,
     borderStyle: "solid",
     borderWidth: 2,
-    borderColor: "rgba(0, 147, 237, 1.0)",
+    borderColor: "#8E4D2F",
     fontSize: 18,
+    fontFamily: "KosugiMaru_400Regular"
   },
   sender: {
     padding: 12,
-    fontFamily: "Roboto",
+    fontFamily: "KosugiMaru_400Regular",
     fontSize: 18,
     fontWeight: "700",
-    color: "#B725D4",
+    color: "#8E4D2F",
   },
   time: {},
   user: {
