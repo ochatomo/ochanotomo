@@ -8,19 +8,26 @@ import {
   Image,
   View,
   StyleSheet,
-  AntDesign
 } from "react-native";
+import { globalStyles } from "../styles/globalStyle";
+
+import { AntDesign } from "@expo/vector-icons";
 
 export default function Tutorial({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.tutorialHeading}>
-      <TouchableOpacity>
-          <Text>戻る</Text>
+        <Text style={globalStyles.header}>御茶ノ水トモの使い方</Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("ProfilePage")
+          }}
+        >
+          <Text style={globalStyles.iconLabel}>プロフィールページに戻る</Text>
         </TouchableOpacity>
-        <Text>How to use this app</Text>
         </View>
       <View style={styles.tutorialContainer}>
+        
         <Image
           style={styles.tutorialVideo}
           source={require("../assets/screencap.gif")} />
@@ -28,7 +35,7 @@ export default function Tutorial({ navigation }) {
       <View style={styles.startAppContainer}>
         <TouchableOpacity
         onPress={() => navigation.navigate("ProfilePage")}>
-          <Text>Start OchaNoTomo!</Text>
+          <Text　style={globalStyles.label}>御茶ノトモを開始します!</Text>
         </TouchableOpacity>
         </View>
     </View>
@@ -48,17 +55,18 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   tutorialContainer: {
-    backgroundColor: 'blue',
+    backgroundColor: '#F6DFD4',
     flex: 4,
     alignItems: 'center',
   },
   startAppContainer: {
+    backgroundColor: 'white',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   tutorialVideo: {
-    width: '80%',
+    width: '75%',
     height: '100%',
     alignItems: 'center',
     alignSelf: 'center',
