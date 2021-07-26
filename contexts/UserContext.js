@@ -8,6 +8,7 @@ import {
   onUpdateCustomerWithMatches,
 } from "../src/graphql/customQueries";
 import { API, graphqlOperation } from "aws-amplify";
+import moment from "moment";
 
 export const UserContext = createContext();
 
@@ -59,7 +60,22 @@ export function UserProvider(props) {
       const userData = res.data.getCustomer;
       if (userData) {
         setUserData(userData);
-        if (userData.subscriptionID) setIsPremium(true);
+        console.log({ userData });
+        if (userData.subscriptionID) {
+          // check premium until date
+
+          if (userData.subscriptionID[0] !== "s") {
+            const a = moment(userData.subscriptionID);
+            const b = moment(new Date());
+            const diff = b.diff(a);
+
+            if (diff < 0) {
+              setIsPremium(true);
+            }
+          } else {
+            setIsPremium(true);
+          }
+        }
 
         const matches = userData.matches.items.map((item, index) => {
           // console.log({ index, item });

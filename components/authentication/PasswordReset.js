@@ -70,16 +70,6 @@ export default function PasswordReset({ navigation }) {
             placeholder="メールアドレス"
             required
           />
-          {/* 
-          <Text style={globalStyles.inputLabel}>パスワード</Text>
-
-          <TextInput
-            style={globalStyles.input}
-            onChangeText={setPassword}
-            value={password}
-            placeholder="パスワード"
-            secureTextEntry={true}
-          /> */}
         </View>
         <TouchableOpacity onPress={handleReset}>
           <Text
