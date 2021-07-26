@@ -45,7 +45,7 @@ export const globalStyles = StyleSheet.create({
   },
   name: {
     fontSize: 24,
-    color: "#004DA9",
+    color: Colors.primary1,
     fontWeight: "bold",
   },
   photo: {
@@ -74,7 +74,7 @@ export const globalStyles = StyleSheet.create({
   text: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#0094CE",
+    color: Colors.primary2,
   },
   buttonContainer: {
     width: "100%",
@@ -92,7 +92,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
   },
   smallTextLabel: {
-    color: "#004DA9",
+    color: Colors.primary1,
     fontSize: 15,
     fontWeight: "bold",
     paddingVertical: 3,
@@ -127,14 +127,19 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 2,
     padding: 8,
     paddingHorizontal: 20,
-    borderColor: "#0093ED",
-    color: "#0093ED",
+    borderColor: Colors.primary1,
+    color: Colors.primary1,
     fontSize: 20,
     borderRadius: 16,
   },
+  profileText: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: Colors.primary1,
+  },
   inputLabel: {
     margin: 5,
-    color: "#0094CE",
+    color: Colors.primary2,
     fontSize: 20,
     fontWeight: "bold",
   },
@@ -146,7 +151,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: "#B725D4",
+    backgroundColor: Colors.primary2,
     borderRadius: 44,
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -155,7 +160,7 @@ export const globalStyles = StyleSheet.create({
   categoryLabel: {
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: "#0094CE",
+    backgroundColor: Colors.primary2,
     borderRadius: 44,
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -165,7 +170,7 @@ export const globalStyles = StyleSheet.create({
   selectedCategoryLabel: {
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: "#004DA9",
+    backgroundColor: Colors.primary1,
     borderRadius: 44,
     paddingBottom: 12,
     paddingTop: 12,
@@ -193,7 +198,7 @@ export const globalStyles = StyleSheet.create({
   smallCategoryLabel: {
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: "#0094CE",
+    backgroundColor: Colors.primary2,
     borderRadius: 44,
     paddingVertical: 6,
     paddingHorizontal: 10,
@@ -204,7 +209,7 @@ export const globalStyles = StyleSheet.create({
   hobbyLabel: {
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: "#B725D4",
+    backgroundColor: Colors.primary1,
     borderRadius: 44,
     paddingBottom: 12,
     paddingTop: 12,
@@ -216,7 +221,7 @@ export const globalStyles = StyleSheet.create({
   smallHobbyLabel: {
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: "#B725D4",
+    backgroundColor: Colors.primary1,
     borderRadius: 44,
     paddingVertical: 6,
     paddingHorizontal: 10,
@@ -226,7 +231,7 @@ export const globalStyles = StyleSheet.create({
   selectedLabel: {
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: "#004DA9",
+    backgroundColor: Colors.primary2,
     borderRadius: 44,
     paddingBottom: 12,
     paddingTop: 12,
