@@ -8,7 +8,7 @@ import {
   Alert,
   SafeAreaView,
   Dimensions,
-  Button
+  Button,
 } from "react-native";
 
 import { UserContext } from "../../contexts/UserContext";
@@ -17,10 +17,13 @@ import { Auth } from "aws-amplify";
 import { globalStyles } from "../../styles/globalStyle";
 import { generateInterestLabel, prefectureList } from "../../utils/helper";
 import { ScrollView } from "react-native-gesture-handler";
+import { API, graphqlOperation } from "aws-amplify";
+import { updateCustomer } from "../../src/graphql/mutations";
 
 export default function ProfilePage({ navigation }) {
-  const { userDataInfo } = useContext(UserContext);
+  const { userDataInfo, premiumData } = useContext(UserContext);
   const [userData] = userDataInfo;
+  const [isPremium, setIsPremium] = premiumData;
 
   async function signOut() {
     try {
@@ -29,11 +32,28 @@ export default function ProfilePage({ navigation }) {
       console.log("error signing out: ", error);
     }
   }
+
+  async function cancelSubscription() {
+    if (!userData.subscriptionID) return;
+    const response = await API.post("ochatomoStripe", "/payment/cancel-subscription", {
+      body: { subscriptionID: userData.subscriptionID },
+    });
+    console.log(response);
+    if (response.status === "canceled") {
+      const query = {
+        id: userData.id,
+        subscriptionID: null,
+      };
+      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
+      setIsPremium(false);
+      alert("subscriptionが中止されました。");
+    }
+  }
   return (
     <SafeAreaView style={globalStyles.viewContainer}>
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity style={globalStyles.flexColumn} onPress={signOut}>
-          <AntDesign name="logout" size={50} color="#F3B614" style={globalStyles.logo} />
+          <AntDesign name="logout" size={30} color="#F3B614" style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>ログアウトする</Text>
         </TouchableOpacity>
 
@@ -47,14 +67,24 @@ export default function ProfilePage({ navigation }) {
           <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
         </TouchableOpacity>
       </View>
-      <View>
-      <TouchableOpacity
-          onPress={() => { navigation.navigate("Tutorial") }}>
-          <Text>Watch tutorial</Text>
+
+      <View style={globalStyles.iconContainer}>
+        <TouchableOpacity
+          onPress={cancelSubscription}
+          style={{ display: isPremium ? "flex" : "none" }}
+        >
+          <Text style={globalStyles.textLink}>プレミアム会員をやめる</Text>
         </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Tutorial");
+          }}
+        >
+          <Text style={[globalStyles.textLink]}>御茶ノ友の使い方</Text>
+        </TouchableOpacity>
+      </View>
       <View style={globalStyles.flexRow}>
-   
         <Profile userData={userData} />
       </View>
 
