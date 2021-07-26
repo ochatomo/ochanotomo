@@ -53,7 +53,7 @@ export default function ProfilePage({ navigation }) {
     <SafeAreaView style={globalStyles.viewContainer}>
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity style={globalStyles.flexColumn} onPress={signOut}>
-          <AntDesign name="logout" size={50} color="#F3B614" style={globalStyles.logo} />
+          <AntDesign name="logout" size={30} color="#F3B614" style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>ログアウトする</Text>
         </TouchableOpacity>
 
