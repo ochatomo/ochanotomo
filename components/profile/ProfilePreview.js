@@ -77,20 +77,29 @@ export default function ProfilePreview({ route, navigation }) {
           onPress={async () => {
             await uploadFile(uri, filename);
             await saveUserInfo();
-            Alert.alert(
-              "ユーザー情報が保存されました",
-              "チュートリアルを見てみませんか？",
-              [
-                {
-                  text: "Start Tutorial",
-                  onPress: () => navigation.navigate("Tutorial"),
-                },
-                {
-                  text: "Start Ochanotomo",
-                  onPress: () => navigation.navigate("Home", { screen: "MatchPage" }),
-                },
-              ]
-            );
+            if (isNewUser)
+            {
+              Alert.alert(
+                "ユーザー情報が保存されました",
+                "チュートリアルを見てみませんか？",
+                [
+                  {
+                    text: "Start Tutorial",
+                    onPress: () => navigation.navigate("Tutorial"),
+                  },
+                  {
+                    text: "Start Ochanotomo",
+                    onPress: () => navigation.navigate("Home", { screen: "MatchPage" }),
+                  },
+                ]
+              );
+            }
+            else
+            {
+              Alert.alert(
+                "ユーザー情報が保存されました")
+              navigation.navigate("Home", { screen: "MatchPage" });
+            }
           }}
         >
           <Image source={require("../../assets/save.png")} style={globalStyles.logo} />
