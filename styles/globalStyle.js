@@ -103,8 +103,8 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 10,
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     marginBottom: 5,
   },
   largeLogo: {

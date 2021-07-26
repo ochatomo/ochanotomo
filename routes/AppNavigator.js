@@ -15,9 +15,11 @@ import MatchList from "../components/MatchList";
 import MatchPage from "../components/MatchPage";
 import Loading from "../components/Loading";
 import Payment from "../components/Payment";
+import Tutorial from "../components/Tutorial";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Colors } from "../styles/color";
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -104,6 +106,11 @@ export const AppNavigator = () => {
         />
         <Stack.Screen name="Payment" component={Payment} options={{ title: "Payment" }} />
         <Stack.Screen name="Chat" component={Chat} options={{ title: "Chat" }} />
+        <Stack.Screen
+          name="Tutorial"
+          component={Tutorial}
+          options={{ title: "Tutorial" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
