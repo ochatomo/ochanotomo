@@ -72,7 +72,7 @@ export default function MatchList({ route, navigation }) {
   return (
     <View style={globalStyles.viewContainer}>
       <View>
-        <Text style={globalStyles.header}>Myお茶トモ</Text>
+        <Text style={styles.header}>Myお茶トモ</Text>
         {message !== "" && (
           <Text style={[globalStyles.text, { textAlign: "center" }]}>{message}</Text>
         )}
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   header: {
     textAlign: "center",
-    color: "#B725D4",
+    color: "#D64F32",
     fontSize: 28,
     fontWeight: "bold",
     fontWeight: "700",
@@ -156,6 +156,6 @@ const styles = StyleSheet.create({
     color: "white",
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: "#0094CE",
+    backgroundColor: "#8B8C14",
   },
 });
