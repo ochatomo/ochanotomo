@@ -5,18 +5,11 @@ import 'moment/locale/ja'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { prompts, greeting, closing } from "../utils/prompts";
-
-
-
-
 import { API, graphqlOperation } from "aws-amplify";
 import { createMessage } from "../src/graphql/mutations";
 import { onCreateMessage } from "../src/graphql/subscriptions";
 import { globalStyles } from "../styles/globalStyle";
 import { AntDesign } from "@expo/vector-icons";
-
-
-
 
 export default function Chat({ route, navigation }) {
   const scrollViewRef = useRef();
@@ -280,6 +273,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
+    backgroundColor: 'pink'
+
   },
   chatInputContainer: {
     width: '100%',

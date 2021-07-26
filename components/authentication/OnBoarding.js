@@ -37,7 +37,7 @@ const OnBoarding = ({ navigation }) => (
     NextButtonComponent={Next}
     DoneButtonComponent={Done}
     SkipButtonComponent={Skip}
-        
+        onSkip={() => navigation.navigate("SignUp")}
         onDone={() => navigation.navigate("SignUp")}
       pages={[
         {
