@@ -7,7 +7,7 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Button,
+  Image,
   Alert,
   TouchableOpacity,
 } from "react-native";
@@ -214,6 +214,12 @@ export default function Payment({ navigation }) {
             />
             <Text style={globalStyles.iconLabel}>戻る</Text>
           </TouchableOpacity>
+          <View style={globalStyles.imgContainer}>
+            <Image
+              style={globalStyles.largeLogo}
+              source={require("../assets/premium-user-g.png")}
+            />
+          </View>
           <Text style={[globalStyles.header]}>{`御茶ノ友\nプレミアム会員になる`}</Text>
           <View style={styles.ulContainer}>
             <Text style={styles.ul}>* 広告の非表示</Text>
@@ -231,6 +237,7 @@ export default function Payment({ navigation }) {
             onChange={(value) => setEmail(value.nativeEvent.text)}
             style={styles.input}
           />
+          <Text style={styles.label}>クレジットカード番号</Text>
           <CardField
             postalCodeEnabled={true}
             placeholder={{
@@ -269,14 +276,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary2,
     width: 150,
   },
+  label: {
+    color: Colors.primary1,
+    marginTop: 10,
+    marginBottom: 5,
+    fontSize: 18,
+  },
   container: {
     width: "100%",
     height: "100%",
     justifyContent: "center",
     paddingHorizontal: 10,
     backgroundColor: Colors.bg1,
-    // borderWidth: 2,
-    // borderColor: "black",
     borderRadius: 16,
   },
   input: {
@@ -291,14 +302,14 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     height: 50,
-    marginVertical: 30,
+    marginBottom: 30,
   },
   ulContainer: {
     paddingHorizontal: 50,
     marginVertical: 10,
   },
   ul: {
-    fontSize: 22,
+    fontSize: 20,
     color: Colors.primary1,
     // fontWeight: "bold",
     fontFamily: "KosugiMaru_400Regular",
