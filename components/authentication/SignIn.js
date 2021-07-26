@@ -2,6 +2,7 @@ import { Auth } from "aws-amplify";
 import React, { useState } from "react";
 
 import { globalStyles } from "../../styles/globalStyle";
+import { Colors } from "../../styles/color";
 
 import {
   View,
@@ -79,7 +80,7 @@ export default function SignIn({ navigation }) {
             style={[
               globalStyles.textBtn,
               {
-                backgroundColor: "#004DA9",
+                backgroundColor: Colors.primary1,
                 width: 200,
                 marginVertical: 5,
                 textAlign: "center",
@@ -94,7 +95,7 @@ export default function SignIn({ navigation }) {
             style={[
               globalStyles.textBtn,
               {
-                backgroundColor: "#27AE60",
+                backgroundColor: Colors.primary2,
                 width: 200,
                 marginVertical: 5,
                 textAlign: "center",
