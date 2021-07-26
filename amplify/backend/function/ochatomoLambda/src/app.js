@@ -41,7 +41,7 @@ app.post("/payment/create-subscription", async (req, res) => {
 
   const subscription = await stripe.subscriptions.create({
     customer: customer.id,
-    items: [{ price: "price_1JDjW6Eb3m5UkCpe735QboWO" }],
+    items: [{ price: "price_1JHNHXEb3m5UkCpexzpdxRd3" }],
     expand: ["latest_invoice.payment_intent"],
   });
 
