@@ -55,32 +55,37 @@ export default function ProfilePage({ navigation }) {
 
     setLoading(true);
     console.log("cancel subscription");
-    const response = await API.post("ochatomoStripe", "/payment/cancel-subscription", {
-      body: { subscriptionID: userData.subscriptionID },
-    });
-    const { status, current_period_end } = response;
-    console.log(response);
-    const premiumUntil = moment.unix(current_period_end).format("YYYY-MM-DD");
-    if (status === "canceled") {
-      console.log({ premiumUntil });
-      const query = {
-        id: userData.id,
-        subscriptionID: premiumUntil,
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-      // setIsPremium(false);
-      Alert.alert(
-        "完了",
-        `プレミアム会員がキャンセルされました。\n現在のメンバーシップは${premiumUntil}まで有効です。`,
-        [
-          {
-            text: "OK",
-            onPress: () => {},
-          },
-        ]
-      );
+    try {
+      const response = await API.post("ochatomoStripe", "/payment/cancel-subscription", {
+        body: { subscriptionID: userData.subscriptionID },
+      });
+      const { status, current_period_end } = response;
+      console.log(response);
+      const premiumUntil = moment.unix(current_period_end).format("YYYY-MM-DD");
+      if (status === "canceled") {
+        console.log({ premiumUntil });
+        const query = {
+          id: userData.id,
+          subscriptionID: null,
+          premiumUntil: premiumUntil,
+        };
+        await API.graphql(graphqlOperation(updateCustomer, { input: query }));
+        // setIsPremium(false);
+        Alert.alert(
+          "完了",
+          `プレミアム会員がキャンセルされました。\n現在のメンバーシップは${premiumUntil}まで有効です。`,
+          [
+            {
+              text: "OK",
+              onPress: () => {},
+            },
+          ]
+        );
+      }
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
     }
-    setLoading(false);
   }
   return (
     <SafeAreaView style={globalStyles.viewContainer}>
@@ -104,7 +109,7 @@ export default function ProfilePage({ navigation }) {
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           onPress={hanldeCancel}
-          style={{ display: isPremium ? "flex" : "none" }}
+          style={{ display: userData.subscriptionID ? "flex" : "none" }}
           disabled={loading}
         >
           <Text style={globalStyles.textLink}>プレミアム会員をやめる</Text>
@@ -156,7 +161,7 @@ const Profile = ({ userData, isPremium }) => {
           {isPremium && (
             <Image
               style={styles.badge}
-              source={require("../../assets/premium-user-g.png")}
+              source={require("../../assets/premium-user-r.png")}
             />
           )}
         </View>

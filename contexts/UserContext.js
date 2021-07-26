@@ -39,18 +39,6 @@ export function UserProvider(props) {
     return id;
   }
 
-  // function checkPremium(premiumUntil) {
-  //   if (premiumUntil) {
-  //     const a = moment(premiumUntil);
-  //     const b = moment(new Date());
-  //     const diff = b.diff(a);
-
-  //     if (diff < 0) {
-  //       setIsPremium(true);
-  //     }
-  //   }
-  // }
-
   async function getCurrentUserInfo(userId) {
     try {
       // check Customer table to find the current user
@@ -64,8 +52,8 @@ export function UserProvider(props) {
         if (userData.subscriptionID) {
           // check premium until date
 
-          if (userData.subscriptionID[0] !== "s") {
-            const a = moment(userData.subscriptionID);
+          if (userData.premiumUntil) {
+            const a = moment(userData.premiumUntil);
             const b = moment(new Date());
             const diff = b.diff(a);
 
