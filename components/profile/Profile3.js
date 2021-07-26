@@ -20,6 +20,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 import { interestTable } from "../../utils/helper";
 import { globalStyles } from "../../styles/globalStyle.js";
+import { Colors } from "../../styles/color";
 
 export default function Profile3({ route, navigation }) {
   const { isNewUserInfo } = useContext(UserContext);
@@ -76,7 +77,7 @@ export default function Profile3({ route, navigation }) {
             source={require("../../assets/active_icon.png")}
           />
         </View>
-        <Text style={globalStyles.header}>
+        <Text style={[globalStyles.header, { color: Colors.secondary2 }]}>
           {isNewUser ? "趣味を教えてください" : "趣味を編集する"}
         </Text>
       </View>
@@ -121,7 +122,7 @@ export default function Profile3({ route, navigation }) {
                     setShowModal(false);
                   }}
                 >
-                  <AntDesign name="closecircle" size={56} color="#EC5E56" />
+                  <AntDesign name="closecircle" size={56} color={Colors.secondary2} />
                 </TouchableOpacity>
               </View>
 
@@ -196,7 +197,7 @@ export default function Profile3({ route, navigation }) {
             navigation.navigate("Profile2");
           }}
         >
-          <AntDesign name="leftcircle" size={56} color="#F3B614" />
+          <AntDesign name="leftcircle" size={56} color={Colors.secondary1} />
         </TouchableOpacity>
         <Text style={globalStyles.header}> 3 of 4 </Text>
 
@@ -224,7 +225,7 @@ export default function Profile3({ route, navigation }) {
             }
           }}
         >
-          <AntDesign name="rightcircle" size={56} color="#27AE60" />
+          <AntDesign name="rightcircle" size={56} color={Colors.primary2} />
         </TouchableOpacity>
       </View>
     </View>
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   labelContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: Colors.bg1,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 16,
