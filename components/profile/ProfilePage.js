@@ -28,6 +28,22 @@ export default function ProfilePage({ navigation }) {
       console.log("error signing out: ", error);
     }
   }
+
+  async function cancelSubscription() {
+    if (!userData.subscriptionID) return;
+    const response = await API.post("ochatomoStripe", "/payment/cancel-subscription", {
+      body: { subscriptionID: userData.subscriptionID },
+    });
+    console.log(response);
+    if (response.status === "canceled") {
+      const query = {
+        id: userId,
+        subscriptionID: null,
+      };
+      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
+      alert("subscriptionが中止されました。");
+    }
+  }
   return (
     <SafeAreaView style={globalStyles.viewContainer}>
       <View style={globalStyles.iconContainer}>
@@ -46,6 +62,9 @@ export default function ProfilePage({ navigation }) {
           <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={cancelSubscription}>
+        <Text style={globalStyles.textLink}>サブスクリプションを中止する</Text>
+      </TouchableOpacity>
       <View style={globalStyles.flexRow}>
         <Profile userData={userData} />
       </View>
