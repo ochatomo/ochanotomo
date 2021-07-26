@@ -3,6 +3,7 @@ import { Colors } from "./color";
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
+const FONT = "KosugiMaru_400Regular";
 
 export const globalStyles = StyleSheet.create({
   boxShadow: {
@@ -40,6 +41,7 @@ export const globalStyles = StyleSheet.create({
     color: "white",
     paddingVertical: 12,
     paddingHorizontal: 24,
+    fontFamily: FONT,
   },
   name: {
     fontSize: 24,
@@ -98,9 +100,10 @@ export const globalStyles = StyleSheet.create({
   header: {
     fontSize: 28,
     textAlign: "center",
-    color: "#004DA9",
+    color: Colors.primary1,
     fontWeight: "bold",
     paddingVertical: 10,
+    fontFamily: FONT,
   },
   logo: {
     width: 30,
@@ -185,6 +188,7 @@ export const globalStyles = StyleSheet.create({
     color: "white",
     paddingVertical: 12,
     paddingHorizontal: 24,
+    textAlign: "center",
   },
   smallCategoryLabel: {
     fontWeight: "bold",
