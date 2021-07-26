@@ -14,13 +14,15 @@ import { getFullChatRoomInfo } from "../src/graphql/customQueries";
 import { globalStyles } from "../styles/globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import { UserContext } from "../contexts/UserContext";
+import BannerAd from "./ads/Banner";
 
 export default function MatchList({ route, navigation }) {
-  const { userIdInfo, userDataInfo, matchesData } = useContext(UserContext);
+  const { userIdInfo, userDataInfo, matchesData, premiumData } = useContext(UserContext);
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
   const [matches, setMatches] = matchesData;
   const [message, setMessage] = useState("");
+  const [isPremium] = premiumData;
 
   useEffect(() => {
     // console.log("MATCHES----", matches)
@@ -71,6 +73,7 @@ export default function MatchList({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
+      {!isPremium && <BannerAd />}
       <View>
         <Text style={styles.header}>Myお茶トモ</Text>
         {message !== "" && (

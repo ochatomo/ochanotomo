@@ -11,6 +11,7 @@ import {
 
 import { AntDesign } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/globalStyle";
+import { Colors } from "../../styles/color";
 import { generateInterestLabel, prefectureList } from "../../utils/helper";
 import { UserContext } from "../../contexts/UserContext";
 
@@ -57,7 +58,6 @@ export default function ProfilePreview({ route, navigation }) {
 
   return (
     <View style={globalStyles.viewContainer}>
-      
       <View style={globalStyles.iconContainer}>
         <TouchableOpacity
           style={globalStyles.flexColumn}
@@ -65,44 +65,41 @@ export default function ProfilePreview({ route, navigation }) {
         >
           <AntDesign
             name="leftcircle"
-            size={50}
+            size={30}
             color="#F3B614"
             style={globalStyles.logo}
           />
           <Text style={globalStyles.iconLabel}>やり直す</Text>
         </TouchableOpacity>
 
-       
-
         <TouchableOpacity
           style={globalStyles.flexColumn}
           onPress={async () => {
             await uploadFile(uri, filename);
             await saveUserInfo();
-            Alert.alert(
-              "ユーザー情報が保存されました",
-              "チュートリアルを見てみませんか？",
-              [
-                {
-                  text: "Start Tutorial",
-                  onPress: () => navigation.navigate("Tutorial")
-                },
-                {
-                  text: "Start Ochanotomo",
-                  onPress: () => navigation.navigate("Home", { screen: "MatchPage" }),
-                },
-              ]
-
-
-              // "ユーザー情報が保存されました",
-              // "早速お茶トモを探しにいきましょう！",
-              // [
-              //   {
-              //     text: "OK",
-              //     onPress: () => navigation.navigate("Home", { screen: "MatchPage" }),
-              //   },
-              // ]
-            );
+            if (isNewUser)
+            {
+              Alert.alert(
+                "ユーザー情報が保存されました",
+                "チュートリアルを見てみませんか？",
+                [
+                  {
+                    text: "Start Tutorial",
+                    onPress: () => navigation.navigate("Tutorial"),
+                  },
+                  {
+                    text: "Start Ochanotomo",
+                    onPress: () => navigation.navigate("Home", { screen: "MatchPage" }),
+                  },
+                ]
+              );
+            }
+            else
+            {
+              Alert.alert(
+                "ユーザー情報が保存されました")
+              navigation.navigate("Home", { screen: "MatchPage" });
+            }
           }}
         >
           <Image source={require("../../assets/save.png")} style={globalStyles.logo} />
@@ -111,11 +108,10 @@ export default function ProfilePreview({ route, navigation }) {
       </View>
       <View>
         <Text style={globalStyles.header}>確認画面</Text>
-        <Text style={globalStyles.text}>保存してよろしいですか？</Text>
+        <Text style={globalStyles.infoText}>保存してよろしいですか？</Text>
       </View>
-      <View style={globalStyles.flexRow}>
-        <Profile userData={currentUserData} uri={uri} />
-      </View>
+
+      <Profile userData={currentUserData} uri={uri} />
     </View>
   );
 }
@@ -124,15 +120,15 @@ const Profile = ({ userData, uri }) => {
   return (
     <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
       <Image source={{ uri: uri }} style={globalStyles.profilePhoto} />
-      <Text style={globalStyles.header}>{userData.name}</Text>
+      <Text style={[globalStyles.header, styles.username]}>{userData.name}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         性別
       </Text>
-      <Text style={globalStyles.text}>{userData.gender}</Text>
+      <Text style={globalStyles.infoText}>{userData.gender}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         都道府県
       </Text>
-      <Text style={globalStyles.text}>{prefectureList[userData.location]}</Text>
+      <Text style={globalStyles.infoText}>{prefectureList[userData.location]}</Text>
       <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
         趣味・関心事
       </Text>
@@ -141,7 +137,7 @@ const Profile = ({ userData, uri }) => {
         自己紹介
       </Text>
       <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
-        <Text style={globalStyles.text}>{userData.profileText}</Text>
+        <Text style={globalStyles.infoText}>{userData.profileText}</Text>
       </View>
     </View>
   );
@@ -154,5 +150,8 @@ const styles = StyleSheet.create({
     borderRadius: 19,
     paddingHorizontal: 20,
     paddingVertical: 20,
+  },
+  username: {
+    color: Colors.secondary2,
   },
 });

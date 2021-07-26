@@ -93,16 +93,21 @@ export default function Payment({ navigation }) {
       });
       const { client_secret, status, subscription_id, invoiceUrl } = response;
       if (subscription_id) {
+        setIsPremium(true);
         // add subscription id to customer table
         const query = {
           id: userId,
           subscriptionID: subscription_id,
         };
+
         await API.graphql(graphqlOperation(updateCustomer, { input: query }));
         Alert.alert("お支払い完了", "領収書を確認しますか？", [
           {
             text: "いいえ",
             style: "cancel",
+            onPress: () => {
+              navigation.navigate("ProfilePage");
+            },
           },
           {
             text: "はい",
@@ -226,9 +231,7 @@ export default function Payment({ navigation }) {
             <Text style={styles.ul}>* プレミアムバッジ</Text>
           </View>
           <View style={globalStyles.flexRow}>
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={[globalStyles.textBtn, styles.btn]}>500円 / 月</Text>
-            </TouchableOpacity>
+            <Text style={[globalStyles.textBtn, styles.btn]}>500円 / 月</Text>
           </View>
           <TextInput
             autoCapitalize="none"

@@ -2,6 +2,7 @@ import { Auth } from "aws-amplify";
 import React, { useState } from "react";
 
 import { globalStyles } from "../../styles/globalStyle";
+import { Colors } from "../../styles/color";
 import { createAlert } from "../../utils/helper";
 
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
@@ -77,7 +78,7 @@ export default function Comfirmation({ route, navigation }) {
           style={[
             globalStyles.textBtn,
             {
-              backgroundColor: "#004DA9",
+              backgroundColor: Colors.primary1,
               width: 200,
               marginVertical: 5,
               textAlign: "center",
@@ -92,7 +93,7 @@ export default function Comfirmation({ route, navigation }) {
           style={[
             globalStyles.textBtn,
             {
-              backgroundColor: "#27AE60",
+              backgroundColor: Colors.primary2,
               width: 200,
               marginVertical: 5,
               textAlign: "center",
