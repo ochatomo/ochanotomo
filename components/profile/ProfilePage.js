@@ -17,10 +17,13 @@ import { Auth } from "aws-amplify";
 import { globalStyles } from "../../styles/globalStyle";
 import { generateInterestLabel, prefectureList } from "../../utils/helper";
 import { ScrollView } from "react-native-gesture-handler";
+import { API, graphqlOperation } from "aws-amplify";
+import { updateCustomer } from "../../src/graphql/mutations";
 
 export default function ProfilePage({ navigation }) {
-  const { userDataInfo } = useContext(UserContext);
+  const { userDataInfo, premiumData } = useContext(UserContext);
   const [userData] = userDataInfo;
+  const [isPremium, setIsPremium] = premiumData;
 
   async function signOut() {
     try {
@@ -38,10 +41,11 @@ export default function ProfilePage({ navigation }) {
     console.log(response);
     if (response.status === "canceled") {
       const query = {
-        id: userId,
+        id: userData.id,
         subscriptionID: null,
       };
       await API.graphql(graphqlOperation(updateCustomer, { input: query }));
+      setIsPremium(false);
       alert("subscriptionが中止されました。");
     }
   }
@@ -63,16 +67,21 @@ export default function ProfilePage({ navigation }) {
           <Text style={globalStyles.iconLabel}>プロフィール編集</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={cancelSubscription}>
-        <Text style={globalStyles.textLink}>サブスクリプションを中止する</Text>
-      </TouchableOpacity>
-      <View>
+
+      <View style={globalStyles.iconContainer}>
+        <TouchableOpacity
+          onPress={cancelSubscription}
+          style={{ display: isPremium ? "flex" : "none" }}
+        >
+          <Text style={globalStyles.textLink}>プレミアム会員をやめる</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Tutorial");
           }}
         >
-          <Text>Watch tutorial</Text>
+          <Text style={[globalStyles.textLink]}>御茶ノ友の使い方</Text>
         </TouchableOpacity>
       </View>
       <View style={globalStyles.flexRow}>

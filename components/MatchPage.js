@@ -15,6 +15,7 @@ import { calcCategory } from "../utils/category ";
 import { calcHobby } from "../utils/hobby";
 import { ScrollView } from "react-native-gesture-handler";
 import Interstitial from "./ads/Interstitial";
+import BannerAd from "./ads/Banner";
 
 export default function MatchPage({ navigation }) {
   const { allCustomerData, userDataInfo, matchesData, premiumData } =
@@ -29,12 +30,13 @@ export default function MatchPage({ navigation }) {
 
   useEffect(() => {
     console.log("Inside matchpage", isPremium);
-    if (currentIdx % 5 === 0 && currentIdx !== 0 && !isPremium) {
+    if (currentIdx % 2 === 0 && currentIdx !== 0 && !isPremium) {
       Interstitial();
     }
   }, [currentIdx]);
 
   useEffect(() => {
+    console.log("subscription", isPremium);
     // filter out customers whose id is already registered in the likes of currentUser
     // && also exclude youself
 
@@ -231,7 +233,8 @@ export default function MatchPage({ navigation }) {
 
   return (
     <View style={[globalStyles.viewContainer, { justifyContent: "space-evenly" }]}>
-      {isPremium && (
+      <BannerAd />
+      {!isPremium && (
         <TouchableOpacity onPress={() => navigation.navigate("Payment")}>
           <Text style={globalStyles.textLink}>広告を非表示にしたいですか？</Text>
         </TouchableOpacity>
