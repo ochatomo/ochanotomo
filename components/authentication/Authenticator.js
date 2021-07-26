@@ -21,7 +21,6 @@ export default function Authenticator() {
     (async () => {
       try {
         const user = await Auth.currentUserInfo();
-        // console.log("user-----", user);
         setUserChecked(true);
         if (user) return;
       } catch (e) {

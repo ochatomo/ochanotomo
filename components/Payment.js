@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import * as Linking from "expo-linking";
 
+import { Colors } from "../styles/color";
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
-  Button,
+  Image,
   Alert,
   TouchableOpacity,
 } from "react-native";
@@ -21,17 +22,19 @@ import { API, graphqlOperation } from "aws-amplify";
 import { UserContext } from "../contexts/UserContext";
 import moment from "moment";
 import { updateCustomer } from "../src/graphql/mutations";
+import { AntDesign } from "@expo/vector-icons";
 
-export default function Payment() {
+export default function Payment({ navigation }) {
   const { premiumData, userIdInfo, userDataInfo } = useContext(UserContext);
   const [isPremium, setIsPremium] = premiumData;
   const [userId] = userIdInfo;
   const [userData] = userDataInfo;
   const [email, setEmail] = useState();
   const [cardDetails, setCardDetails] = useState();
-  const { confirmPayment, loading } = useConfirmPayment();
+  const { confirmPayment } = useConfirmPayment();
   const [price, setPrice] = useState();
   const [publishableKey, setPublishableKey] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchKey();
@@ -69,9 +72,10 @@ export default function Payment() {
 
   const createSubscription = async () => {
     if (!cardDetails?.complete || !email) {
-      Alert.alert("Please enter Complete card details and Email");
+      Alert.alert("入力エラー", "カード情報とメールアドレスを入力してください。");
       return;
     }
+    setLoading(true);
     const result = await createPaymentMethod({
       type: "Card",
       card: cardDetails,
@@ -89,23 +93,27 @@ export default function Payment() {
       });
       const { client_secret, status, subscription_id, invoiceUrl } = response;
       if (subscription_id) {
-        Alert.alert("お支払い完了", "領収書を確認しますか？", [
-          {
-            text: "はい",
-            onPress: () => Linking.openURL(invoiceUrl),
-          },
-          {
-            text: "いいえ",
-            style: "cancel",
-          },
-        ]);
         // add subscription id to customer table
         const query = {
           id: userId,
           subscriptionID: subscription_id,
         };
         await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-        console.log("payment successful", { invoiceUrl });
+        Alert.alert("お支払い完了", "領収書を確認しますか？", [
+          {
+            text: "いいえ",
+            style: "cancel",
+          },
+          {
+            text: "はい",
+            onPress: () => {
+              Linking.openURL(invoiceUrl);
+              navigation.navigate("ProfilePage");
+            },
+          },
+        ]);
+
+        setLoading(false);
       }
 
       if (status === "requires_action") {
@@ -122,14 +130,14 @@ export default function Payment() {
             // Display error message in your UI.
             // The card was declined (i.e. insufficient funds, card has expired, etc)
           } else {
-            console.log("You got the money!");
+            console.log("Payment successful");
             // alert("Payment Successful");
             // Show a success message to your customer
           }
         });
       } else {
-        console.log("You got the money!");
-        alert("Payment Successful");
+        console.log("Payment successful");
+        // alert("Payment Successful");
         // No additional information was needed
         // Show a success message to your customer
       }
@@ -141,7 +149,7 @@ export default function Payment() {
   const handlePayPress = async () => {
     //1.Gather the customer's billing information (e.g., email)
     if (!cardDetails?.complete || !email) {
-      Alert.alert("Please enter Complete card details and Email");
+      Alert.alert("入力エラー", "カード情報とメールアドレスを入力してください。");
       return;
     }
     const billingDetails = {
@@ -192,77 +200,118 @@ export default function Payment() {
 
   return (
     <StripeProvider publishableKey={publishableKey}>
-      <View style={styles.container}>
-        <Text>Price: {price}</Text>
-        <View style={globalStyles.buttonContainer}>
+      <View style={globalStyles.viewContainer}>
+        <View style={[styles.container, globalStyles.boxShadow]}>
           <TouchableOpacity
-            onPress={() => {
-              setPrice(500);
-            }}
+            style={[globalStyles.flexColumn, { alignItems: "flex-start" }]}
+            onPress={() => navigation.navigate("MatchPage")}
           >
-            <Text style={[globalStyles.textBtn, { backgroundColor: "#EC5E56" }]}>
-              500円（1ヶ月）
-            </Text>
+            <AntDesign
+              name="logout"
+              size={30}
+              color="#F3B614"
+              style={globalStyles.logo}
+            />
+            <Text style={globalStyles.iconLabel}>戻る</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              // view my profile page
-              setPrice(2000);
+          <View style={globalStyles.imgContainer}>
+            <Image
+              style={globalStyles.largeLogo}
+              source={require("../assets/premium-user-g.png")}
+            />
+          </View>
+          <Text style={[globalStyles.header]}>{`御茶ノ友\nプレミアム会員になる`}</Text>
+          <View style={styles.ulContainer}>
+            <Text style={styles.ul}>* 広告の非表示</Text>
+            <Text style={styles.ul}>* プレミアムバッジ</Text>
+          </View>
+          <View style={globalStyles.flexRow}>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={[globalStyles.textBtn, styles.btn]}>500円 / 月</Text>
+            </TouchableOpacity>
+          </View>
+          <TextInput
+            autoCapitalize="none"
+            placeholder="メールアドレス"
+            keyboardType="email-address"
+            onChange={(value) => setEmail(value.nativeEvent.text)}
+            style={styles.input}
+          />
+          <Text style={styles.label}>クレジットカード番号</Text>
+          <CardField
+            postalCodeEnabled={true}
+            placeholder={{
+              number: "4242 4242 4242 4242",
             }}
-          >
-            <Text style={[globalStyles.textBtn, { backgroundColor: "#27AE60" }]}>
-              2000円（6ヶ月）
-            </Text>
-          </TouchableOpacity>
+            style={styles.cardContainer}
+            onCardChange={(cardDetails) => {
+              setCardDetails(cardDetails);
+            }}
+          />
+          <View style={globalStyles.flexRow}>
+            <TouchableOpacity
+              onPress={createSubscription}
+              disabled={loading}
+              activeOpacity={!loading ? 1 : 0.7}
+            >
+              <Text
+                style={[
+                  globalStyles.textBtn,
+                  { backgroundColor: Colors.primary1, width: 150 },
+                ]}
+              >
+                支払う
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <TextInput
-          autoCapitalize="none"
-          placeholder="E-mail"
-          keyboardType="email-address"
-          onChange={(value) => setEmail(value.nativeEvent.text)}
-          style={styles.input}
-        />
-        <CardField
-          postalCodeEnabled={true}
-          placeholder={{
-            number: "4242 4242 4242 4242",
-          }}
-          cardStyle={styles.card}
-          style={styles.cardContainer}
-          onCardChange={(cardDetails) => {
-            setCardDetails(cardDetails);
-          }}
-        />
-        <Button onPress={createSubscription} title="Pay" disabled={loading} />
-        <TouchableOpacity onPress={cancelSubscription}>
-          <Text style={globalStyles.textLink}>サブスクリプションを中止する</Text>
-        </TouchableOpacity>
       </View>
     </StripeProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  btn: {
+    marginBottom: 10,
+    backgroundColor: Colors.primary2,
+    width: 150,
+  },
+  label: {
+    color: Colors.primary1,
+    marginTop: 10,
+    marginBottom: 5,
+    fontSize: 18,
+  },
   container: {
-    flex: 1,
+    width: "100%",
+    height: "100%",
     justifyContent: "center",
-    margin: 20,
+    paddingHorizontal: 10,
+    backgroundColor: Colors.bg1,
+    borderRadius: 16,
   },
   input: {
-    backgroundColor: "#efefefef",
-
+    backgroundColor: "#fff",
     borderRadius: 8,
     fontSize: 20,
     height: 50,
     padding: 10,
   },
   card: {
-    backgroundColor: "#efefefef",
+    backgroundColor: "#fff",
   },
   cardContainer: {
     height: 50,
-    marginVertical: 30,
+    marginBottom: 30,
+  },
+  ulContainer: {
+    paddingHorizontal: 50,
+    marginVertical: 10,
+  },
+  ul: {
+    fontSize: 20,
+    color: Colors.primary1,
+    // fontWeight: "bold",
+    fontFamily: "KosugiMaru_400Regular",
   },
 });
