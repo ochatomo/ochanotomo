@@ -42,6 +42,14 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     fontFamily: FONT,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   name: {
     fontSize: 24,
