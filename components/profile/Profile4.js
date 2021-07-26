@@ -27,6 +27,7 @@ import {
 import { UserContext } from "../../contexts/UserContext";
 
 import { globalStyles } from "../../styles/globalStyle.js";
+import { Colors } from "../../styles/color";
 
 import config from "../../src/aws-exports";
 const S3_BUCKET = config.aws_user_files_s3_bucket;
@@ -49,8 +50,12 @@ export default function Profile4({ route, navigation }) {
             source={require("../../assets/photo.png")}
           />
         </View>
-        <Text style={globalStyles.header}>写真をアップロードする</Text>
-        <Text style={globalStyles.text}>ご自身の顔写真をアップロードしてください。</Text>
+        <Text style={[globalStyles.header, { color: Colors.secondary2 }]}>
+          写真をアップロードする
+        </Text>
+        <Text style={[globalStyles.infoText, { textAlign: "center" }]}>
+          {`ご自身の顔写真を\nアップロードしてください。`}
+        </Text>
       </View>
       <Modal
         animationType="slide"
@@ -74,7 +79,7 @@ export default function Profile4({ route, navigation }) {
                   setPhotoSelected(false);
                 }}
               >
-                <AntDesign name="closecircle" size={56} color="#EC5E56" />
+                <AntDesign name="closecircle" size={56} color={Colors.secondary2} />
               </TouchableOpacity>
             </View>
             <Image
@@ -90,7 +95,7 @@ export default function Profile4({ route, navigation }) {
                 setPhotoSelected(false);
               }}
             >
-              <Text style={[styles.textBtn, { backgroundColor: "#EC5E56" }]}>
+              <Text style={[styles.textBtn, { backgroundColor: Colors.secondary2 }]}>
                 やり直す
               </Text>
             </TouchableOpacity>
@@ -118,7 +123,7 @@ export default function Profile4({ route, navigation }) {
                 });
               }}
             >
-              <Text style={[styles.textBtn, { backgroundColor: "#27AE60" }]}>
+              <Text style={[styles.textBtn, { backgroundColor: Colors.primary2 }]}>
                 これにする！
               </Text>
             </TouchableOpacity>
@@ -198,6 +203,9 @@ export default function Profile4({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
+  prompt: {
+    fontSize: 20,
+  },
   textBtn: {
     borderRadius: 44,
     fontSize: 15,
@@ -236,7 +244,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   label: {
-    backgroundColor: "#8B8C14",
+    backgroundColor: Colors.primary1,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 44,
