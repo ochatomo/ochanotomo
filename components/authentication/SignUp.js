@@ -10,6 +10,7 @@ import { createAlert } from "../../utils/helper";
 import { Picker } from "@react-native-picker/picker";
 
 import { globalStyles } from "../../styles/globalStyle";
+import { Colors } from "../../styles/color";
 
 import {
   View,
@@ -135,7 +136,7 @@ export default function SignUp({ navigation }) {
                 <Picker.Item
                   label={"年"}
                   value={""}
-                  color="#0094CE"
+                  color={Colors.primary1}
                   key={"placeholder"}
                   enabled={false}
                   style={styles.pickerlabel}
@@ -144,7 +145,7 @@ export default function SignUp({ navigation }) {
                   <Picker.Item
                     label={data.label}
                     value={data.value}
-                    color="#0094CE"
+                    color={Colors.primary1}
                     key={index}
                     style={styles.pickerlabel}
                   />
@@ -160,7 +161,7 @@ export default function SignUp({ navigation }) {
                 <Picker.Item
                   label={"月"}
                   value={""}
-                  color="#0094CE"
+                  color={Colors.primary1}
                   key={"placeholder"}
                   enabled={false}
                   style={styles.pickerlabel}
@@ -169,7 +170,7 @@ export default function SignUp({ navigation }) {
                   <Picker.Item
                     label={data.label}
                     value={data.value}
-                    color="#0094CE"
+                    color={Colors.primary1}
                     key={index}
                     style={styles.pickerlabel}
                   />
@@ -181,7 +182,7 @@ export default function SignUp({ navigation }) {
                 <Picker.Item
                   label={"日"}
                   value={""}
-                  color="#0094CE"
+                  color={Colors.primary1}
                   key={"placeholder"}
                   enabled={false}
                   style={styles.pickerlabel}
@@ -190,7 +191,7 @@ export default function SignUp({ navigation }) {
                   <Picker.Item
                     label={data.label}
                     value={data.value}
-                    color="#0094CE"
+                    color={Colors.primary1}
                     key={index}
                     style={styles.pickerlabel}
                   />
@@ -204,7 +205,7 @@ export default function SignUp({ navigation }) {
             style={[
               globalStyles.textBtn,
               {
-                backgroundColor: "#004DA9",
+                backgroundColor: Colors.primary1,
                 width: 200,
                 marginVertical: 5,
                 textAlign: "center",
@@ -223,7 +224,7 @@ export default function SignUp({ navigation }) {
               color: "white",
               paddingVertical: 8,
               paddingHorizontal: 24,
-              backgroundColor: "#27AE60",
+              backgroundColor: Colors.primary2,
               width: 200,
               textAlign: "center",
             }}
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     width: "38%",
     borderWidth: 2,
-    borderColor: "#0094CE",
+    borderColor: Colors.primary1,
     textAlign: "center",
     borderRadius: 16,
     marginHorizontal: 1,
@@ -266,7 +267,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     flexDirection: "column",
     borderWidth: 2,
-    borderColor: "#0094CE",
+    borderColor: Colors.primary1,
     textAlign: "center",
     borderRadius: 16,
     marginHorizontal: 1,

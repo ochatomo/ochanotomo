@@ -118,11 +118,11 @@ const Profile = ({ userData }) => {
           source={{ uri: `${userData.photo}?+${new Date()}` }}
           style={globalStyles.profilePhoto}
         />
-        <Text style={globalStyles.header}>{userData.name}</Text>
+        <Text style={[globalStyles.header, styles.username]}>{userData.name}</Text>
         <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
           都道府県
         </Text>
-        <Text style={globalStyles.text}>{prefectureList[userData.location]}</Text>
+        <Text style={globalStyles.infoText}>{prefectureList[userData.location]}</Text>
         <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
           趣味・関心事
         </Text>
@@ -141,6 +141,9 @@ const Profile = ({ userData }) => {
 };
 
 const styles = StyleSheet.create({
+  username: {
+    color: Colors.secondary2,
+  },
   profileTextContainer: {
     width: "100%",
     backgroundColor: "#F8F4F4",
