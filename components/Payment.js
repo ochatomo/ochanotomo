@@ -54,22 +54,6 @@ export default function Payment({ navigation }) {
     return { clientSecret, error };
   };
 
-  const cancelSubscription = async () => {
-    if (!userData.subscriptionID) return;
-    const response = await API.post("ochatomoStripe", "/payment/cancel-subscription", {
-      body: { subscriptionID: userData.subscriptionID },
-    });
-    console.log(response);
-    if (response.status === "canceled") {
-      const query = {
-        id: userId,
-        subscriptionID: null,
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-      alert("subscriptionが中止されました。");
-    }
-  };
-
   const createSubscription = async () => {
     if (!cardDetails?.complete || !email) {
       Alert.alert("入力エラー", "カード情報とメールアドレスを入力してください。");
@@ -83,6 +67,7 @@ export default function Payment({ navigation }) {
         email: email,
       },
     });
+    console.log({ result });
 
     try {
       const response = await API.post("ochatomoStripe", "/payment/create-subscription", {
