@@ -117,6 +117,7 @@ export function UserProvider(props) {
             profileText: newUserData.profileText,
             likes: newUserData.likes,
             matches: userData.matches,
+            subscriptionID: newUserData.subscriptionID,
           };
           // console.log("updateCustomer", update);
 
