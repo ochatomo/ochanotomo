@@ -10,6 +10,7 @@ import {
   Dimensions,
   Button,
 } from "react-native";
+import { Colors } from "../../styles/color";
 
 import { UserContext } from "../../contexts/UserContext";
 import { AntDesign } from "@expo/vector-icons";
@@ -107,6 +108,7 @@ const Profile = ({ userData }) => {
         globalStyles.profileContainer,
         globalStyles.flexColumn,
         globalStyles.boxShadow,
+        { backgroundColor: Colors.bg2 },
       ]}
     >
       <ScrollView
@@ -130,9 +132,7 @@ const Profile = ({ userData }) => {
         </Text>
         {/* <ScrollView style={styles.scrollviewContainer}> */}
         <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
-          <Text style={{ fontSize: 15, fontWeight: "bold", color: "#0094CE" }}>
-            {userData.profileText}
-          </Text>
+          <Text style={globalStyles.profileText}>{userData.profileText}</Text>
         </View>
         {/* </ScrollView> */}
       </ScrollView>
