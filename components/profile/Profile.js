@@ -18,6 +18,7 @@ import {
 } from "react-native";
 
 import { globalStyles } from "../../styles/globalStyle";
+import { Colors } from "../../styles/color";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -93,7 +94,7 @@ export default function Profile({ navigation }) {
           <AntDesign
             name="leftcircle"
             size={56}
-            color="#F3B614"
+            color={Colors.secondary1}
             style={{ opacity: isNewUser ? 0 : 1 }}
           />
         </TouchableOpacity>
@@ -113,7 +114,7 @@ export default function Profile({ navigation }) {
             }
           }}
         >
-          <AntDesign name="rightcircle" size={56} color="#27AE60" />
+          <AntDesign name="rightcircle" size={56} color={Colors.primary2} />
         </TouchableOpacity>
       </View>
     </View>

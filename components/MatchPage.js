@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-na
 import { UserContext } from "../contexts/UserContext";
 
 import { globalStyles } from "../styles/globalStyle";
+import { Colors } from "../styles/color";
 import { generateInterestLabel } from "../utils/helper";
 
 import { updateCustomer, createMatch } from "../src/graphql/mutations";
@@ -29,8 +30,7 @@ export default function MatchPage({ navigation }) {
   const [matches, setMatches] = matchesData;
 
   useEffect(() => {
-    console.log("Inside matchpage", isPremium);
-    if (currentIdx % 2 === 0 && currentIdx !== 0 && !isPremium) {
+    if (currentIdx % 5 === 0 && currentIdx !== 0 && !isPremium) {
       Interstitial();
     }
   }, [currentIdx]);
@@ -259,7 +259,9 @@ export default function MatchPage({ navigation }) {
                 handleDislike(filteredCustomers[currentIdx]);
               }}
             >
-              <Text style={[globalStyles.textBtn, { backgroundColor: "#EC5E56" }]}>
+              <Text
+                style={[globalStyles.textBtn, { backgroundColor: Colors.secondary2 }]}
+              >
                 ちょっと……
               </Text>
             </TouchableOpacity>
@@ -270,7 +272,7 @@ export default function MatchPage({ navigation }) {
                 handleLike(filteredCustomers[currentIdx]);
               }}
             >
-              <Text style={[globalStyles.textBtn, { backgroundColor: "#27AE60" }]}>
+              <Text style={[globalStyles.textBtn, { backgroundColor: Colors.primary2 }]}>
                 お茶したい！
               </Text>
             </TouchableOpacity>
@@ -293,6 +295,7 @@ const CustomerProfile = ({ customer }) => {
           globalStyles.profileContainer,
           globalStyles.flexColumn,
           globalStyles.boxShadow,
+          { backgroundColor: Colors.bg1 },
         ]}
       >
         <Image
@@ -302,11 +305,13 @@ const CustomerProfile = ({ customer }) => {
           }}
         />
         {/* <Image source={{}} style={styles.photo} /> */}
-        <Text style={styles.name}>{customer.name}</Text>
+        <Text style={globalStyles.header}>{customer.name}</Text>
         <View style={styles.interests}>{generateInterestLabel(customer.interests)}</View>
+        {/* <View style={[styles.profileTextContainer, globalStyles.boxShadow]}> */}
         <ScrollView style={styles.scrollviewContainer}>
-          <Text style={styles.profileText}>{customer.profileText}</Text>
+          <Text style={globalStyles.profileText}>{customer.profileText}</Text>
         </ScrollView>
+        {/* </View> */}
       </View>
     </View>
   );
@@ -333,6 +338,6 @@ const styles = StyleSheet.create({
   profileText: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#0094CE",
+    color: Colors.primary1,
   },
 });

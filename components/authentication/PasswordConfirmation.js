@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import moment from "moment";
 
 import { globalStyles } from "../../styles/globalStyle";
+import { Colors } from "../../styles/color";
 
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { createAlert } from "../../utils/helper";
@@ -67,7 +68,7 @@ export default function PasswordComfirmation({ route, navigation }) {
           style={[
             globalStyles.textBtn,
             {
-              backgroundColor: "#27AE60",
+              backgroundColor: Colors.primary2,
               width: 200,
               marginVertical: 5,
               textAlign: "center",
