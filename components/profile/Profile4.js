@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   label: {
-    backgroundColor: "#004DA9",
+    backgroundColor: "#8B8C14",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 44,
