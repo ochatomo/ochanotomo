@@ -31,7 +31,7 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: "white",
     width: "80%",
-    maxHeight: HEIGHT * 0.8,
+    maxHeight: HEIGHT * 0.6,
     marginVertical: 5,
   },
   textBtn: {
