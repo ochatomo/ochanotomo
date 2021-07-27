@@ -8,6 +8,10 @@
     {
       "cloudFormationParameterName": "stripePublishableKey",
       "environmentVariableName": "STRIPE_PUBLISHABLE_KEY"
+    },
+    {
+      "cloudFormationParameterName": "priceId",
+      "environmentVariableName": "PRICE_ID"
     }
   ]
 }

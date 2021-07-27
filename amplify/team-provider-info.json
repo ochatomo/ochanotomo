@@ -22,9 +22,10 @@
         },
         "ochatomoLambda": {
           "deploymentBucketName": "amplify-ochatomopro-dev-152330-deployment",
-          "s3Key": "amplify-builds/ochatomoLambda-43596f6c644377515649-build.zip",
+          "s3Key": "amplify-builds/ochatomoLambda-4130596a587a51734d59-build.zip",
           "stripeSecretKey": "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",
-          "stripePublishableKey": "pk_live_51JDipHEb3m5UkCpeFYrqktrHjokvMgZUPsoS6mQgsQpApVftIoVgNpkcoaNvfzceaP2cXEH6dDyZSuKRR0UWPzao00uNsvVRkN"
+          "stripePublishableKey": "pk_live_51JDipHEb3m5UkCpeFYrqktrHjokvMgZUPsoS6mQgsQpApVftIoVgNpkcoaNvfzceaP2cXEH6dDyZSuKRR0UWPzao00uNsvVRkN",
+          "priceId": "price_1JDjW6Eb3m5UkCpe735QboWO"
         }
       }
     }

@@ -7,6 +7,8 @@ import {
   Image,
   Alert,
   SafeAreaView,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -124,31 +126,39 @@ export default function ProfilePreview({ route, navigation }) {
 const Profile = ({ userData, uri }) => {
   return (
     <View style={[globalStyles.profileContainer, globalStyles.flexColumn]}>
-      <Image source={{ uri: uri }} style={globalStyles.profilePhoto} />
-      <Text style={[globalStyles.header, styles.username]}>{userData.name}</Text>
-      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
-        性別
-      </Text>
-      <Text style={globalStyles.infoText}>{userData.gender}</Text>
-      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
-        都道府県
-      </Text>
-      <Text style={globalStyles.infoText}>{prefectureList[userData.location]}</Text>
-      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
-        趣味・関心事
-      </Text>
-      <View style={styles.interests}>{generateInterestLabel(userData.interests)}</View>
-      <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
-        自己紹介
-      </Text>
-      <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
-        <Text style={globalStyles.infoText}>{userData.profileText}</Text>
-      </View>
+      <ScrollView
+        contentContainerStyle={[styles.scrollviewContainer, globalStyles.flexColumn]}
+      >
+        <Image source={{ uri: uri }} style={globalStyles.profilePhoto} />
+        <Text style={[globalStyles.header, styles.username]}>{userData.name}</Text>
+        <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
+          性別
+        </Text>
+        <Text style={globalStyles.infoText}>{userData.gender}</Text>
+        <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
+          都道府県
+        </Text>
+        <Text style={globalStyles.infoText}>{prefectureList[userData.location]}</Text>
+        <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
+          趣味・関心事
+        </Text>
+        <View style={styles.interests}>{generateInterestLabel(userData.interests)}</View>
+        <Text style={[globalStyles.smallTextLabel, { textAlign: "left", width: "100%" }]}>
+          自己紹介
+        </Text>
+        <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
+          <Text style={globalStyles.infoText}>{userData.profileText}</Text>
+        </View>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollviewContainer: {
+    width: "100%",
+    maxHeight: Dimensions.get("window").height * 2,
+  },
   profileTextContainer: {
     width: "100%",
     backgroundColor: "#F8F4F4",

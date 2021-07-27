@@ -10,6 +10,7 @@ import {
   Image,
   Alert,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import {
   CardField,
@@ -237,10 +238,11 @@ export default function Payment({ navigation }) {
             }}
           />
           <View style={globalStyles.flexRow}>
-            <TouchableOpacity
+            <Button title="支払う" disbaled={!loading} onPress={createSubscription} />
+            {/* <TouchableOpacity
               onPress={createSubscription}
               disabled={loading}
-              activeOpacity={!loading ? 1 : 0.7}
+              activeOpacity={!loading ? 1 : 0.2}
             >
               <Text
                 style={[
@@ -250,7 +252,7 @@ export default function Payment({ navigation }) {
               >
                 支払う
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </View>
