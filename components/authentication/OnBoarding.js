@@ -35,24 +35,28 @@ const OnBoarding = ({ navigation }) => (
         image: (
           <Image source={require("../../assets/tea-friends0.png")} style={styles.photo} />
         ),
-        title: <Text style={styles.title}>楽しい</Text>,
-        subtitle: <Text style={styles.subtitle}>あなたは決して一人ではない</Text>,
+        title: <Text style={styles.title}>{`新しい友達、\nお茶トモを作ろう`}</Text>,
+        subtitle: <Text style={styles.subtitle}>趣味が近いユーザーをアプリが提案</Text>,
       },
       {
         backgroundColor: "#BEB87E",
         image: (
           <Image source={require("../../assets/tea-friends1.png")} style={styles.photo} />
         ),
-        title: <Text style={styles.title}>安全</Text>,
-        subtitle: <Text style={styles.subtitle}>友達を探す！</Text>,
+        title: <Text style={styles.title}>趣味を分かち合おう</Text>,
+        subtitle: <Text style={styles.subtitle}>お茶トモとチャットで話そう</Text>,
       },
       {
         backgroundColor: "#FEE589",
         image: (
           <Image source={require("../../assets/tea-friends2.png")} style={styles.photo} />
         ),
-        title: <Text style={styles.title}>簡単</Text>,
-        subtitle: <Text style={styles.subtitle}>人生を生きよう!</Text>,
+        title: <Text style={styles.title}>{`人生経験豊かな\n大人専用だから安心`}</Text>,
+        subtitle: (
+          <Text style={styles.subtitle}>
+            {`「友達作り」を目的とした、\n50歳以上限定のアプリ`}
+          </Text>
+        ),
       },
     ]}
   />
@@ -64,16 +68,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 38,
     color: "#8E4D2F",
     fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10,
   },
   subtitle: {
     fontSize: 24,
     alignItems: "center",
     color: "#8E4D2F",
+    textAlign: "center",
   },
   photo: {
     width: 200,
