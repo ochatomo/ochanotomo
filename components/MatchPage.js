@@ -233,7 +233,6 @@ export default function MatchPage({ navigation }) {
 
   return (
     <View style={[globalStyles.viewContainer, { justifyContent: "space-evenly" }]}>
-      <BannerAd />
       {!isPremium && (
         <TouchableOpacity onPress={() => navigation.navigate("Payment")}>
           <Text style={globalStyles.textLink}>広告を非表示にしたいですか？</Text>

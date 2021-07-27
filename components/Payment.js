@@ -10,6 +10,7 @@ import {
   Image,
   Alert,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import {
   CardField,
@@ -54,22 +55,6 @@ export default function Payment({ navigation }) {
     return { clientSecret, error };
   };
 
-  const cancelSubscription = async () => {
-    if (!userData.subscriptionID) return;
-    const response = await API.post("ochatomoStripe", "/payment/cancel-subscription", {
-      body: { subscriptionID: userData.subscriptionID },
-    });
-    console.log(response);
-    if (response.status === "canceled") {
-      const query = {
-        id: userId,
-        subscriptionID: null,
-      };
-      await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-      alert("subscriptionが中止されました。");
-    }
-  };
-
   const createSubscription = async () => {
     if (!cardDetails?.complete || !email) {
       Alert.alert("入力エラー", "カード情報とメールアドレスを入力してください。");
@@ -83,6 +68,7 @@ export default function Payment({ navigation }) {
         email: email,
       },
     });
+    console.log({ result });
 
     try {
       const response = await API.post("ochatomoStripe", "/payment/create-subscription", {
@@ -252,10 +238,18 @@ export default function Payment({ navigation }) {
             }}
           />
           <View style={globalStyles.flexRow}>
-            <TouchableOpacity
+            <View style={styles.payBtn}>
+              <Button
+                title="支払う"
+                disabled={loading}
+                onPress={createSubscription}
+                color={Colors.primary1}
+              />
+            </View>
+            {/* <TouchableOpacity
               onPress={createSubscription}
               disabled={loading}
-              activeOpacity={!loading ? 1 : 0.7}
+              activeOpacity={!loading ? 1 : 0.2}
             >
               <Text
                 style={[
@@ -265,7 +259,7 @@ export default function Payment({ navigation }) {
               >
                 支払う
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </View>
@@ -274,11 +268,15 @@ export default function Payment({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  payBtn: {
+    width: 150,
+  },
   btn: {
     marginBottom: 10,
     backgroundColor: Colors.primary2,
     width: 150,
   },
+
   label: {
     color: Colors.primary1,
     marginTop: 10,
