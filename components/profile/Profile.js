@@ -51,12 +51,6 @@ export default function Profile({ navigation }) {
             style={globalStyles.largeLogo}
             source={require("../../assets/profile_logo.png")}
           />
-          <Image
-            style={globalStyles.largeLogo}
-            source={{
-              uri: "s3://photo101957-production/public/fd7acc30-9475-49fe-b5c2-f4d62a51fb1b.jpg",
-            }}
-          />
         </View>
 
         <Text style={globalStyles.header}>

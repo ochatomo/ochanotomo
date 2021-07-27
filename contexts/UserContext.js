@@ -51,16 +51,13 @@ export function UserProvider(props) {
         console.log({ userData });
         if (userData.subscriptionID) {
           // check premium until date
+          setIsPremium(true);
+        } else if (userData.premiumUntil) {
+          const a = moment(userData.premiumUntil);
+          const b = moment(new Date());
+          const diff = b.diff(a);
 
-          if (userData.premiumUntil) {
-            const a = moment(userData.premiumUntil);
-            const b = moment(new Date());
-            const diff = b.diff(a);
-
-            if (diff < 0) {
-              setIsPremium(true);
-            }
-          } else {
+          if (diff < 0) {
             setIsPremium(true);
           }
         }
