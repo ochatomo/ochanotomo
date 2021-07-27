@@ -238,7 +238,14 @@ export default function Payment({ navigation }) {
             }}
           />
           <View style={globalStyles.flexRow}>
-            <Button title="支払う" disbaled={!loading} onPress={createSubscription} />
+            <View style={styles.payBtn}>
+              <Button
+                title="支払う"
+                disabled={loading}
+                onPress={createSubscription}
+                color={Colors.primary1}
+              />
+            </View>
             {/* <TouchableOpacity
               onPress={createSubscription}
               disabled={loading}
@@ -261,11 +268,15 @@ export default function Payment({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  payBtn: {
+    width: 150,
+  },
   btn: {
     marginBottom: 10,
     backgroundColor: Colors.primary2,
     width: 150,
   },
+
   label: {
     color: Colors.primary1,
     marginTop: 10,

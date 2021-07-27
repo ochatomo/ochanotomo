@@ -22,9 +22,9 @@
         },
         "ochatomoLambda": {
           "deploymentBucketName": "amplify-ochatomopro-dev-152330-deployment",
-          "s3Key": "amplify-builds/ochatomoLambda-4130596a587a51734d59-build.zip",
-          "stripeSecretKey": "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",
-          "stripePublishableKey": "pk_live_51JDipHEb3m5UkCpeFYrqktrHjokvMgZUPsoS6mQgsQpApVftIoVgNpkcoaNvfzceaP2cXEH6dDyZSuKRR0UWPzao00uNsvVRkN",
+          "s3Key": "amplify-builds/ochatomoLambda-68304731745655325763-build.zip",
+          "stripeSecretKey": "sk_test_51JDipHEb3m5UkCpeRhMqqpAAlSoqSYE28ozLbE9gFITmxdzfeAGS5ydZdc0U4IvUazsZWWEuAy4ADjqtPUr2KQPI00zs0hN67v",
+          "stripePublishableKey": "pk_test_51JDipHEb3m5UkCpe9HwHakLr3PblRlTUlz3Wfa9mHHjc4vfMRHID4rVbBWX9j9dzVh0bXbUuvlBqW1pwoZsRIK6h00mImJTLWj",
           "priceId": "price_1JDjW6Eb3m5UkCpe735QboWO"
         }
       }
@@ -54,8 +54,9 @@
         "ochatomoLambda": {
           "stripePublishableKey": "pk_live_51JDipHEb3m5UkCpeFYrqktrHjokvMgZUPsoS6mQgsQpApVftIoVgNpkcoaNvfzceaP2cXEH6dDyZSuKRR0UWPzao00uNsvVRkN",
           "deploymentBucketName": "amplify-ochatomopro-production-101957-deployment",
-          "s3Key": "amplify-builds/ochatomoLambda-43596f6c644377515649-build.zip",
-          "stripeSecretKey": "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"
+          "s3Key": "amplify-builds/ochatomoLambda-68304731745655325763-build.zip",
+          "stripeSecretKey": "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",
+          "priceId": "price_1JHNHXEb3m5UkCpexzpdxRd3"
         }
       }
     }
