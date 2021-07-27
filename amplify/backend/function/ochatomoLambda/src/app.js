@@ -11,6 +11,10 @@ var bodyParser = require("body-parser");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2020-08-27" });
+// const stripe = Stripe(
+//   "sk_test_51JDipHEb3m5UkCpeRhMqqpAAlSoqSYE28ozLbE9gFITmxdzfeAGS5ydZdc0U4IvUazsZWWEuAy4ADjqtPUr2KQPI00zs0hN67v",
+//   { apiVersion: "2020-08-27" }
+// );
 
 // declare a new express app
 var app = express();
@@ -41,7 +45,7 @@ app.post("/payment/create-subscription", async (req, res) => {
 
   const subscription = await stripe.subscriptions.create({
     customer: customer.id,
-    items: [{ price: "price_1JDjW6Eb3m5UkCpe735QboWO" }],
+    items: [{ price: process.env.PRICE_ID }],
     expand: ["latest_invoice.payment_intent"],
   });
 
@@ -91,6 +95,7 @@ app.get("/payment/pk", function (req, res) {
   // Add your code here
   res.json({
     pk: process.env.STRIPE_PUBLISHABLE_KEY,
+    // pk: "pk_test_51JDipHEb3m5UkCpe9HwHakLr3PblRlTUlz3Wfa9mHHjc4vfMRHID4rVbBWX9j9dzVh0bXbUuvlBqW1pwoZsRIK6h00mImJTLWj",
   });
 });
 

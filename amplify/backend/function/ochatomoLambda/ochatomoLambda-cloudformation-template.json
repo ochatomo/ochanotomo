@@ -21,6 +21,9 @@
     },
     "stripePublishableKey": {
       "Type": "String"
+    },
+    "priceId": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -81,6 +84,9 @@
             },
             "STRIPE_PUBLISHABLE_KEY": {
               "Ref": "stripePublishableKey"
+            },
+            "PRICE_ID": {
+              "Ref": "priceId"
             }
           }
         },

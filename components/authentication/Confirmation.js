@@ -60,6 +60,7 @@ export default function Comfirmation({ route, navigation }) {
           onChangeText={setCode}
           value={code}
           placeholder="認証コード"
+          keyboardType="number-pad"
         />
       </View>
       {email === "" && (

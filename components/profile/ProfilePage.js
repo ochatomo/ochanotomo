@@ -115,13 +115,13 @@ export default function ProfilePage({ navigation }) {
           <Text style={globalStyles.textLink}>プレミアム会員をやめる</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             navigation.navigate("Tutorial");
           }}
         >
           <Text style={[globalStyles.textLink]}>御茶ノ友の使い方</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={globalStyles.flexRow}>
         <Profile userData={userData} isPremium={isPremium} />

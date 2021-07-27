@@ -102,13 +102,16 @@ export default function Profile4({ route, navigation }) {
 
             <TouchableOpacity
               onPress={async () => {
+                // console.log("前-----", { photoSelected });
                 if (!photoSelected) return;
                 const extension = getExtension(uri);
-                //   console.log({ extension });
+                // console.log({ extension });
                 const photoUrl = `https://${S3_BUCKET}.s3.ap-northeast-1.amazonaws.com/public/${userId}.${extension}`;
                 // console.log("photourl", photoUrl);
                 // const res = await uploadFile(uri, userData.id, extension);
                 //   console.log("response------", res.error);
+                setPhotoSelected(false);
+                console.log({ photoSelected });
 
                 navigation.navigate("ProfilePreview", {
                   name,
