@@ -44,6 +44,18 @@
     "categories": {
       "auth": {
         "ochatomopro84df2325": {}
+      },
+      "function": {
+        "ochatomoPayment": {
+          "deploymentBucketName": "amplify-ochatomopro-production-101957-deployment",
+          "s3Key": "amplify-builds/ochatomoPayment-4f6373594e545143304e-build.zip"
+        },
+        "ochatomoLambda": {
+          "stripePublishableKey": "pk_live_51JDipHEb3m5UkCpeFYrqktrHjokvMgZUPsoS6mQgsQpApVftIoVgNpkcoaNvfzceaP2cXEH6dDyZSuKRR0UWPzao00uNsvVRkN",
+          "deploymentBucketName": "amplify-ochatomopro-production-101957-deployment",
+          "s3Key": "amplify-builds/ochatomoLambda-43596f6c644377515649-build.zip",
+          "stripeSecretKey": "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"
+        }
       }
     }
   }
