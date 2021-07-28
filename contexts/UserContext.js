@@ -13,6 +13,7 @@ import moment from "moment";
 export const UserContext = createContext();
 
 export function UserProvider(props) {
+  const setSignedIn = props.setSignedIn;
   const [isNewUser, setIsNewUser] = useState();
   const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState({
@@ -31,11 +32,8 @@ export function UserProvider(props) {
   const [allCustomers, setAllCustomers] = useState([]);
 
   async function getCurrentAuthenticatedUser() {
-    const userInfo = await Auth.currentUserInfo();
-    const id = userInfo.username;
+    const id = (await Auth.currentUserInfo()).username;
     setUserId(id);
-
-    // console.log(`%c user_id : ${id} `, consoleStyle2);
     return id;
   }
 
@@ -63,7 +61,6 @@ export function UserProvider(props) {
         }
 
         const matches = userData.matches.items.map((item, index) => {
-          // console.log({ index, item });
           return {
             name: item.customer.name,
             id: item.customer.id,
@@ -71,11 +68,7 @@ export function UserProvider(props) {
           };
         });
         setMatches(matches);
-        // setMatches(userData.matches.items);
         setIsNewUser(false);
-
-        // console.log("setting userdata", userData);
-        // console.log(`%c username: ${userData.name}`, consoleStyle2);
       } else {
         setIsNewUser(true);
       }
@@ -93,7 +86,6 @@ export function UserProvider(props) {
     getCurrentAuthenticatedUser().then(async (id) => {
       await fetchAllCustomers();
       await getCurrentUserInfo(id);
-
       // subscribe to realtime database, listen to onUpdateCustomer
     });
   }, []);
@@ -120,7 +112,6 @@ export function UserProvider(props) {
             matches: userData.matches,
             subscriptionID: newUserData.subscriptionID,
           };
-          // console.log("updateCustomer", update);
 
           setUserData(update);
         }
@@ -140,14 +131,10 @@ export function UserProvider(props) {
         allCustomerData: [allCustomers, setAllCustomers],
         matchesData: [matches, setMatches],
         premiumData: [isPremium, setIsPremium],
+        signInState: [setSignedIn],
       }}
     >
       {props.children}
     </UserContext.Provider>
   );
 }
-
-const consoleStyle =
-  "font-weight: bold; font-size: 50px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)";
-
-const consoleStyle2 = "background:red;color:white;font-size:20px";
