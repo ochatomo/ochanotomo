@@ -24,14 +24,16 @@ import { handleTakePhoto } from "../../utils/photohelper";
 import moment from "moment";
 
 export default function ProfilePage({ navigation }) {
-  const { userDataInfo, premiumData } = useContext(UserContext);
+  const { userDataInfo, premiumData, signInState } = useContext(UserContext);
   const [userData] = userDataInfo;
   const [isPremium, setIsPremium] = premiumData;
   const [loading, setLoading] = useState(false);
+  const [setSignedIn] = signInState;
 
   async function signOut() {
     try {
       await Auth.signOut();
+      setSignedIn(false);
     } catch (error) {
       console.log("error signing out: ", error);
     }

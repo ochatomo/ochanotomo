@@ -14,7 +14,7 @@ import {
   Alert,
 } from "react-native";
 
-export default function SignIn({ navigation }) {
+export default function SignIn({ navigation, setSignedIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,7 +36,7 @@ export default function SignIn({ navigation }) {
   async function signIn() {
     try {
       const user = await Auth.signIn(email, password);
-      // console.log(user);
+      setSignedIn(true);
     } catch (error) {
       console.log("SignIn error", error);
       Alert.alert(
