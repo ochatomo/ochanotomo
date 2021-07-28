@@ -66,7 +66,6 @@ export default function SignUp({ navigation }) {
     if (password.length < 8) {
       errors.push("* 8文字以上のパスワードを入力してください。");
     }
-    // console.log({ errors });
 
     return errors;
   };
@@ -118,6 +117,7 @@ export default function SignUp({ navigation }) {
             value={email}
             placeholder="メールアドレス"
             required
+            keyboardType="email-address"
           />
 
           <Text style={globalStyles.inputLabel}>パスワード</Text>

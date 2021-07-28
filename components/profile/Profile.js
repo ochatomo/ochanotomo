@@ -67,7 +67,6 @@ export default function Profile({ navigation }) {
             placeholder="名前（ニックネーム）"
             required
           />
-
           <Text style={globalStyles.inputLabel}>自己紹介しましょう！</Text>
 
           <TextInput

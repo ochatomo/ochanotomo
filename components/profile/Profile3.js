@@ -142,6 +142,7 @@ export default function Profile3({ route, navigation }) {
                         ]);
                         return;
                       }
+                      console.log("Profile3 Hobby", { hobby }, item.value);
 
                       Alert.alert(
                         "趣味はこちらよろしいですか？",
@@ -165,7 +166,7 @@ export default function Profile3({ route, navigation }) {
                                 profileText,
                                 gender,
                                 location,
-                                hobby,
+                                hobby: item.value,
                                 category,
                               });
                             },
