@@ -2,7 +2,7 @@
   "expo": {
     "name": "御茶ノ友",
     "slug": "ochanotomo",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/ochanotomo-icon.png",
     "splash": {
@@ -23,6 +23,7 @@
       }
     },
     "android": {
+      "versionCode": 3,
       "package": "com.SilverLining.ochanotomo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/ochanotomo-icon.png",

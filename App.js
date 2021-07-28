@@ -7,6 +7,8 @@ Amplify.configure({
   },
 });
 
+// LogBox.ignoreAllLogs(disbale);
+
 import { UserProvider } from "./contexts/UserContext";
 
 import AppLoading from "expo-app-loading";
@@ -21,6 +23,7 @@ import { withAuthenticator } from "aws-amplify-react-native";
 import React from "react";
 
 function App() {
+  console.disableYellowBox = true;
   let [fontsLoaded] = useFonts({
     KosugiMaru_400Regular,
   });

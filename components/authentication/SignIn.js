@@ -63,6 +63,7 @@ export default function SignIn({ navigation }) {
             value={email}
             placeholder="メールアドレス"
             required
+            keyboardType="email-address"
           />
 
           <Text style={globalStyles.inputLabel}>パスワード</Text>

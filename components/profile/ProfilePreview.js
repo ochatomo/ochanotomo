@@ -46,6 +46,7 @@ export default function ProfilePreview({ route, navigation }) {
         likes: [],
       };
       setUserData(user);
+      console.log({ user });
 
       await API.graphql(graphqlOperation(createCustomer, { input: user }));
       setIsNewUser(false);
@@ -54,6 +55,8 @@ export default function ProfilePreview({ route, navigation }) {
         id: userId,
         ...currentUserData,
       };
+      console.log({ query });
+
       await API.graphql(graphqlOperation(updateCustomer, { input: query }));
     }
   };

@@ -41,6 +41,10 @@ export default function Profile4({ route, navigation }) {
   const [uri, setUri] = useState("");
   const [photoSelected, setPhotoSelected] = useState(false);
 
+  useEffect(() => {
+    console.log("Profile4", { hobby });
+  }, []);
+
   return (
     <View style={globalStyles.viewContainer}>
       <View>
