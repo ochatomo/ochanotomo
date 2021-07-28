@@ -54,7 +54,7 @@
         "ochatomoLambda": {
           "stripePublishableKey": "pk_live_51JDipHEb3m5UkCpeFYrqktrHjokvMgZUPsoS6mQgsQpApVftIoVgNpkcoaNvfzceaP2cXEH6dDyZSuKRR0UWPzao00uNsvVRkN",
           "deploymentBucketName": "amplify-ochatomopro-production-101957-deployment",
-          "s3Key": "amplify-builds/ochatomoLambda-68304731745655325763-build.zip",
+          "s3Key": "amplify-builds/ochatomoLambda-734a3662307744694a50-build.zip",
           "stripeSecretKey": "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",
           "priceId": "price_1JHNHXEb3m5UkCpexzpdxRd3"
         }

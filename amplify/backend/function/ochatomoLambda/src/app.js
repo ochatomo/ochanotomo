@@ -11,10 +11,6 @@ var bodyParser = require("body-parser");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2020-08-27" });
-// const stripe = Stripe(
-//   "sk_test_51JDipHEb3m5UkCpeRhMqqpAAlSoqSYE28ozLbE9gFITmxdzfeAGS5ydZdc0U4IvUazsZWWEuAy4ADjqtPUr2KQPI00zs0hN67v",
-//   { apiVersion: "2020-08-27" }
-// );
 
 // declare a new express app
 var app = express();
@@ -66,16 +62,15 @@ app.post("/payment/cancel-subscription", async function (req, res) {
 });
 
 app.post("/payment/create-payment-intent", async function (req, res) {
-  // Add your code here
   console.log("request received");
-  // req.body にpriceを含める
+
   const { price } = req.body;
   console.log("price---", price);
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: price, //lowest denomination of particular currency
+      amount: price,
       currency: "jpy",
-      payment_method_types: ["card"], //by default
+      payment_method_types: ["card"],
     });
 
     console.log({ paymentIntent });
@@ -92,10 +87,8 @@ app.post("/payment/create-payment-intent", async function (req, res) {
 });
 
 app.get("/payment/pk", function (req, res) {
-  // Add your code here
   res.json({
     pk: process.env.STRIPE_PUBLISHABLE_KEY,
-    // pk: "pk_test_51JDipHEb3m5UkCpe9HwHakLr3PblRlTUlz3Wfa9mHHjc4vfMRHID4rVbBWX9j9dzVh0bXbUuvlBqW1pwoZsRIK6h00mImJTLWj",
   });
 });
 
