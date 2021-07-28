@@ -29,7 +29,6 @@ app.use(function (req, res, next) {
  **********************/
 app.post("/payment/create-subscription", async (req, res) => {
   const { email, payment_method } = req.body;
-  console.log({ email, payment_method });
 
   const customer = await stripe.customers.create({
     payment_method: payment_method,
@@ -62,10 +61,7 @@ app.post("/payment/cancel-subscription", async function (req, res) {
 });
 
 app.post("/payment/create-payment-intent", async function (req, res) {
-  console.log("request received");
-
   const { price } = req.body;
-  console.log("price---", price);
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: price,
@@ -73,15 +69,12 @@ app.post("/payment/create-payment-intent", async function (req, res) {
       payment_method_types: ["card"],
     });
 
-    console.log({ paymentIntent });
-
     const clientSecret = paymentIntent.client_secret;
 
     res.json({
       clientSecret: clientSecret,
     });
   } catch (e) {
-    console.log(e.message);
     res.json({ error: e.message });
   }
 });

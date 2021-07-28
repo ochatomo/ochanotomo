@@ -1,6 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, Image, Button, TouchableOpacity, View } from "react-native";
-import { globalStyles } from "../../styles/globalStyle";
+import { Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
 
 const Next = ({ ...props }) => (

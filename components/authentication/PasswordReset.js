@@ -16,7 +16,6 @@ import {
 
 export default function PasswordReset({ navigation }) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleReset = () => {
     if (email === "") {
