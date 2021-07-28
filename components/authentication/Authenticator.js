@@ -6,8 +6,6 @@ import config from "../../src/aws-exports";
 import Loading from "../Loading";
 import { View, Dimensions } from "react-native";
 
-import { globalStyles } from "../../styles/globalStyle";
-
 Amplify.configure({
   ...config,
   Analytics: {
