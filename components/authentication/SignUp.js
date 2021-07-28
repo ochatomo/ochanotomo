@@ -51,7 +51,6 @@ export default function SignUp({ navigation }) {
     const errors = [];
 
     if (!birthdateAuthentication(year, month, date)) {
-      // console.log("birthdate error");
       errors.push("* 御茶ノ友は50歳以上の方のみご利用いただけます。");
       return;
     }

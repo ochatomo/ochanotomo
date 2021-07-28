@@ -4,7 +4,7 @@ import Amplify, { Auth } from "aws-amplify";
 import AuthNavigator from "../../routes/AuthNavigator";
 import config from "../../src/aws-exports";
 import Loading from "../Loading";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, LogBox } from "react-native";
 
 Amplify.configure({
   ...config,
@@ -14,13 +14,16 @@ Amplify.configure({
 });
 
 export default function Authenticator() {
+  LogBox.ignoreAllLogs();
   const [userChecked, setUserChecked] = useState(false);
+
   useEffect(() => {
+    console.log({ userChecked });
     (async () => {
       try {
         const user = await Auth.currentUserInfo();
-        setUserChecked(true);
         if (user) return;
+        setUserChecked(true);
       } catch (e) {
         console.log(e);
       }
