@@ -6,22 +6,16 @@ Amplify.configure({
     disabled: true,
   },
 });
-
-import { UserProvider } from "./contexts/UserContext";
-
+import React, { useState, useEffect } from "react";
+import { LogBox } from "react-native";
+import "react-native-gesture-handler";
 import AppLoading from "expo-app-loading";
 
+import { UserProvider } from "./contexts/UserContext";
 import { useFonts, KosugiMaru_400Regular } from "@expo-google-fonts/kosugi-maru";
 
-import "react-native-gesture-handler";
-import { AppNavigator } from "./routes/AppNavigator";
-
+import AppNavigator from "./routes/AppNavigator";
 import AuthNavigator from "./routes/AuthNavigator";
-import Authenticator from "./components/authentication/Authenticator";
-import { withAuthenticator } from "aws-amplify-react-native";
-import { Text, View, LogBox } from "react-native";
-
-import React, { useState, useEffect } from "react";
 
 function App() {
   LogBox.ignoreAllLogs();
@@ -32,6 +26,7 @@ function App() {
   });
 
   const checkUser = async () => {
+    // check if the user is already signedIn
     const user = await Auth.currentUserInfo();
     user ? setSignedIn(true) : setSignedIn(false);
     setUserChecked(true);
@@ -45,6 +40,7 @@ function App() {
     return <AppLoading />;
   }
 
+  // if signedin, show AppNavigator, if not show AuthNavigator
   if (!signedIn) {
     return <AuthNavigator setSignedIn={setSignedIn} />;
   } else {
