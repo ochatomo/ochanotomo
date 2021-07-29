@@ -1,5 +1,2 @@
-# ochatomo-pro
+# Ochanotomo - Matching app for making friends targeted at people over 50
 
-
-ATTENTION!!!!
-test branchにcredentialが載っているので、ブランチ削除した後、repoを公開
