@@ -1,2 +1,2 @@
-# Ochanotomo - Matching app for making friends targeted at people over 50
+# Ochanotomo - Matching app for people over the age of 50
 
