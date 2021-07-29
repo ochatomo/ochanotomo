@@ -62,7 +62,7 @@ const Home = () => (
   </Tab.Navigator>
 );
 
-export const AppNavigator = () => {
+const AppNavigator = () => {
   const { isNewUserInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
 
@@ -112,3 +112,5 @@ export const AppNavigator = () => {
     </NavigationContainer>
   );
 };
+
+export default AppNavigator;
