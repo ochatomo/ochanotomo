@@ -13,10 +13,10 @@ export default function BannerAd() {
         adSize="fullbanner"
         adUnitID={
           __DEV__
-            ? "ca-app-pub-3940256099942544/6300978111" // テスト広告
+            ? "ca-app-pub-3940256099942544/6300978111"
             : Platform.select({
-                ios: "ca-app-pub-4269855195582744/7177215774", // iOS
-                android: "ca-app-pub-4269855195582744/7177215774", // android
+                ios: "ca-app-pub-4269855195582744/7177215774",
+                android: "ca-app-pub-4269855195582744/7177215774",
               })
         }
         onDidFailToReceiveAdWithError={bannerError}

@@ -8,12 +8,10 @@ import Tutorial from "../components/Tutorial";
 import Confirmation from "../components/authentication/Confirmation";
 import PasswordReset from "../components/authentication/PasswordReset";
 import PasswordConfirmation from "../components/authentication/PasswordConfirmation";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const { Navigator, Screen } = createStackNavigator();
 
-function AuthNavigator() {
-  // console.log("Auth navigator");
+function AuthNavigator({ setSignedIn }) {
   return (
     <NavigationContainer>
       <Navigator
@@ -21,7 +19,9 @@ function AuthNavigator() {
           headerShown: false,
         }}
       >
-        <Screen name="SignIn" component={SignIn} />
+        <Screen name="SignIn">
+          {(props) => <SignIn {...props} setSignedIn={setSignedIn} />}
+        </Screen>
         <Screen name="OnBoarding" component={OnBoarding} />
         <Screen name="Tutorial" component={Tutorial} />
         <Screen name="SignUp" component={SignUp} />

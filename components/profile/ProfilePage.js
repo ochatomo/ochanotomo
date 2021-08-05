@@ -8,7 +8,6 @@ import {
   Alert,
   SafeAreaView,
   Dimensions,
-  Button,
 } from "react-native";
 import { Colors } from "../../styles/color";
 
@@ -20,18 +19,19 @@ import { generateInterestLabel, prefectureList } from "../../utils/helper";
 import { ScrollView } from "react-native-gesture-handler";
 import { API, graphqlOperation } from "aws-amplify";
 import { updateCustomer } from "../../src/graphql/mutations";
-import { handleTakePhoto } from "../../utils/photohelper";
 import moment from "moment";
 
 export default function ProfilePage({ navigation }) {
-  const { userDataInfo, premiumData } = useContext(UserContext);
+  const { userDataInfo, premiumData, signInState } = useContext(UserContext);
   const [userData] = userDataInfo;
-  const [isPremium, setIsPremium] = premiumData;
+  const [isPremium] = premiumData;
   const [loading, setLoading] = useState(false);
+  const [setSignedIn] = signInState;
 
   async function signOut() {
     try {
       await Auth.signOut();
+      setSignedIn(false);
     } catch (error) {
       console.log("error signing out: ", error);
     }
@@ -54,13 +54,11 @@ export default function ProfilePage({ navigation }) {
     if (!isPremium) return;
 
     setLoading(true);
-    console.log("cancel subscription");
     try {
       const response = await API.post("ochatomoStripe", "/payment/cancel-subscription", {
         body: { subscriptionID: userData.subscriptionID },
       });
       const { status, current_period_end } = response;
-      console.log(response);
       const premiumUntil = moment.unix(current_period_end).format("YYYY-MM-DD");
       if (status === "canceled") {
         console.log({ premiumUntil });
@@ -70,7 +68,6 @@ export default function ProfilePage({ navigation }) {
           premiumUntil: premiumUntil,
         };
         await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-        // setIsPremium(false);
         Alert.alert(
           "完了",
           `プレミアム会員がキャンセルされました。\n現在のメンバーシップは${premiumUntil}まで有効です。`,
@@ -114,14 +111,6 @@ export default function ProfilePage({ navigation }) {
         >
           <Text style={globalStyles.textLink}>プレミアム会員をやめる</Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Tutorial");
-          }}
-        >
-          <Text style={[globalStyles.textLink]}>御茶ノ友の使い方</Text>
-        </TouchableOpacity> */}
       </View>
       <View style={globalStyles.flexRow}>
         <Profile userData={userData} isPremium={isPremium} />
@@ -176,11 +165,9 @@ const Profile = ({ userData, isPremium }) => {
         <Text style={[globalStyles.smallTextLabel, { alignSelf: "flex-start" }]}>
           自己紹介
         </Text>
-        {/* <ScrollView style={styles.scrollviewContainer}> */}
         <View style={[styles.profileTextContainer, globalStyles.boxShadow]}>
           <Text style={globalStyles.profileText}>{userData.profileText}</Text>
         </View>
-        {/* </ScrollView> */}
       </ScrollView>
     </View>
   );

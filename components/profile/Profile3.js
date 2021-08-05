@@ -1,7 +1,3 @@
-// TODO
-// *  editしたプロフィールなどがリアルタイムで見れるようにする。
-// * only update the modified field in updateCustomer
-
 import React, { useState, useContext, useEffect } from "react";
 import {
   Text,
@@ -15,9 +11,7 @@ import {
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
-
 import { UserContext } from "../../contexts/UserContext";
-
 import { interestTable } from "../../utils/helper";
 import { globalStyles } from "../../styles/globalStyle.js";
 import { Colors } from "../../styles/color";
@@ -43,7 +37,6 @@ export default function Profile3({ route, navigation }) {
   }, [category]);
 
   const validateInput = () => {
-    // console.log("validating");
     switch (true) {
       case category === "":
         setError((error) => [...error, "趣味を教えてください。"]);
@@ -142,6 +135,7 @@ export default function Profile3({ route, navigation }) {
                         ]);
                         return;
                       }
+                      console.log("Profile3 Hobby", { hobby }, item.value);
 
                       Alert.alert(
                         "趣味はこちらよろしいですか？",
@@ -165,7 +159,7 @@ export default function Profile3({ route, navigation }) {
                                 profileText,
                                 gender,
                                 location,
-                                hobby,
+                                hobby: item.value,
                                 category,
                               });
                             },
@@ -210,10 +204,6 @@ export default function Profile3({ route, navigation }) {
             }
             const isValid = validateInput();
             if (isValid) {
-              // console.log("moving to profile4");
-              // saveUserInfo();
-              // console.log("successfully saved the data");
-
               navigation.navigate("Profile4", {
                 name,
                 profileText,

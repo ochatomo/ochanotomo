@@ -1,42 +1,29 @@
-// TODO
-// *  editしたプロフィールなどがリアルタイムで見れるようにする。
-// * only update the modified field in updateCustomer
-
 import React, { useState, useContext, useEffect } from "react";
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   StyleSheet,
   Image,
   View,
   Alert,
-  Button,
   Modal,
 } from "react-native";
-
 import { AntDesign } from "@expo/vector-icons";
-
 import {
   handleChoosePhoto,
-  uploadFile,
   getExtension,
   handleTakePhoto,
 } from "../../utils/photohelper";
 
 import { UserContext } from "../../contexts/UserContext";
-
 import { globalStyles } from "../../styles/globalStyle.js";
 import { Colors } from "../../styles/color";
-
 import config from "../../src/aws-exports";
 const S3_BUCKET = config.aws_user_files_s3_bucket;
 
 export default function Profile4({ route, navigation }) {
   const { isNewUserInfo, userIdInfo, userDataInfo } = useContext(UserContext);
-  const [isNewUser] = isNewUserInfo;
   const [userId] = userIdInfo;
-  const [userData, setUserData] = userDataInfo;
   const { name, location, profileText, gender, category, hobby } = route.params;
   const [uri, setUri] = useState("");
   const [photoSelected, setPhotoSelected] = useState(false);
@@ -102,17 +89,10 @@ export default function Profile4({ route, navigation }) {
 
             <TouchableOpacity
               onPress={async () => {
-                // console.log("前-----", { photoSelected });
                 if (!photoSelected) return;
                 const extension = getExtension(uri);
-                // console.log({ extension });
                 const photoUrl = `https://${S3_BUCKET}.s3.ap-northeast-1.amazonaws.com/public/${userId}.${extension}`;
-                // console.log("photourl", photoUrl);
-                // const res = await uploadFile(uri, userData.id, extension);
-                //   console.log("response------", res.error);
                 setPhotoSelected(false);
-                console.log({ photoSelected });
-
                 navigation.navigate("ProfilePreview", {
                   name,
                   profileText,
@@ -139,9 +119,7 @@ export default function Profile4({ route, navigation }) {
           style={[globalStyles.flexColumn, styles.logoContainer]}
           onPress={async () => {
             setPhotoSelected(false);
-
             const result = await handleChoosePhoto();
-            // console.log({ result });
             if (result !== undefined) {
               setUri(result);
               setPhotoSelected(true);
@@ -157,11 +135,8 @@ export default function Profile4({ route, navigation }) {
         <TouchableOpacity
           style={[globalStyles.flexColumn, styles.logoContainer]}
           onPress={async () => {
-            // console.log("handle take photo running");
             setPhotoSelected(false);
             const result = await handleTakePhoto();
-            // console.log("take photo result", result);
-
             if (result !== undefined) {
               setUri(result);
               setPhotoSelected(true);
@@ -186,18 +161,7 @@ export default function Profile4({ route, navigation }) {
         </TouchableOpacity>
         <Text style={globalStyles.header}> 4 of 4 </Text>
 
-        <TouchableOpacity
-          onPress={() => {
-            // move to profile preview for final confirmation
-            // const isValid = validateInput();
-            // if (isValid) {
-            //   console.log("data is valid, saving to database");
-            //   saveUserInfo();
-            //   console.log("successfully saved the data");
-            //   navigation.navigate("Home", { screen: "MatchPage" });
-            // }
-          }}
-        >
+        <TouchableOpacity>
           <AntDesign name="rightcircle" size={56} style={{ opacity: 0 }} />
         </TouchableOpacity>
       </View>

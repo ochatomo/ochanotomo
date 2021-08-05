@@ -4,6 +4,16 @@ import { Colors } from "./color";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 const FONT = "KosugiMaru_400Regular";
+const SHADOW = {
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.22,
+  shadowRadius: 2.22,
+  elevation: 3,
+};
 
 export const globalStyles = StyleSheet.create({
   boxShadow: {
@@ -42,14 +52,7 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     fontFamily: FONT,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    ...SHADOW,
   },
   name: {
     fontSize: 24,
@@ -130,10 +133,9 @@ export const globalStyles = StyleSheet.create({
     height: 200,
   },
   input: {
-    // width: 283,
     height: 40,
     marginBottom: 12,
-    // marginHorizontal: 50,
+
     borderWidth: 2,
     padding: 8,
     paddingHorizontal: 20,
@@ -155,7 +157,6 @@ export const globalStyles = StyleSheet.create({
   },
   multiInput: {
     height: 200,
-    // backgroundColor: "pink",
   },
   label: {
     fontSize: 18,
@@ -166,14 +167,7 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     marginVertical: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    ...SHADOW,
   },
   categoryLabel: {
     fontWeight: "bold",
@@ -184,14 +178,7 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 24,
     marginHorizontal: 3,
     marginVertical: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    ...SHADOW,
   },
   selectedCategoryLabel: {
     fontWeight: "bold",
@@ -204,14 +191,7 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 24,
     marginHorizontal: 3,
     marginVertical: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    ...SHADOW,
   },
   modalContainer: {
     flex: 1,
@@ -251,14 +231,7 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 24,
     marginHorizontal: 3,
     marginVertical: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    ...SHADOW,
   },
   smallHobbyLabel: {
     fontWeight: "bold",
@@ -269,14 +242,7 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 3,
     marginVertical: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    ...SHADOW,
   },
   selectedLabel: {
     fontWeight: "bold",
@@ -289,14 +255,7 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 24,
     marginHorizontal: 3,
     marginVertical: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    ...SHADOW,
   },
   iconRight: {
     marginHorizontal: 15,
@@ -323,7 +282,5 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 10,
-    // borderWidth: 10,
-    // borderColor: "pink",
   },
 });

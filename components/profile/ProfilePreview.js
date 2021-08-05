@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  SafeAreaView,
   ScrollView,
   Dimensions,
 } from "react-native";
@@ -16,10 +15,8 @@ import { globalStyles } from "../../styles/globalStyle";
 import { Colors } from "../../styles/color";
 import { generateInterestLabel, prefectureList } from "../../utils/helper";
 import { UserContext } from "../../contexts/UserContext";
-
 import { createCustomer, updateCustomer } from "../../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
-
 import { uploadFile } from "../../utils/photohelper";
 
 export default function ProfilePreview({ route, navigation }) {
@@ -46,7 +43,6 @@ export default function ProfilePreview({ route, navigation }) {
         likes: [],
       };
       setUserData(user);
-
       await API.graphql(graphqlOperation(createCustomer, { input: user }));
       setIsNewUser(false);
     } else {
@@ -54,6 +50,8 @@ export default function ProfilePreview({ route, navigation }) {
         id: userId,
         ...currentUserData,
       };
+      console.log({ query });
+
       await API.graphql(graphqlOperation(updateCustomer, { input: query }));
     }
   };
@@ -79,25 +77,6 @@ export default function ProfilePreview({ route, navigation }) {
           onPress={async () => {
             await uploadFile(uri, filename);
             await saveUserInfo();
-            // if (isNewUser)
-            // {
-            //   Alert.alert(
-            //     "ユーザー情報が保存されました",
-            //     "チュートリアルを見てみませんか？",
-            //     [
-            //       {
-            //         text: "Start Tutorial",
-            //         onPress: () => navigation.navigate("Tutorial"),
-            //       },
-            //       {
-            //         text: "Start Ochanotomo",
-            //         onPress: () => navigation.navigate("Home", { screen: "MatchPage" }),
-            //       },
-            //     ]
-            //   );
-            // }
-            // else
-            // {
             Alert.alert("成功", "ユーザー情報が保存されました", [
               {
                 text: "OK",
@@ -107,7 +86,6 @@ export default function ProfilePreview({ route, navigation }) {
               },
             ]);
           }}
-          // }
         >
           <Image source={require("../../assets/save.png")} style={globalStyles.logo} />
           <Text style={globalStyles.iconLabel}>保存する</Text>
@@ -117,7 +95,6 @@ export default function ProfilePreview({ route, navigation }) {
         <Text style={globalStyles.header}>確認画面</Text>
         <Text style={globalStyles.infoText}>保存してよろしいですか？</Text>
       </View>
-
       <Profile userData={currentUserData} uri={uri} />
     </View>
   );
