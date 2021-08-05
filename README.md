@@ -12,6 +12,7 @@ Once the other person clicks "お茶したい" with you, it's a match! You can c
 
 <div style="display:flex;justify-content:space-between;width:100%">
 <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/signin.png" width=200/>
+ <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/onboarding.png" width=200/>
 <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/profile.png" width=200/>
 <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/matchpage.png" width=200/>
  <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/matchpage2.png" width=200/>
