@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 import { globalStyles } from "../../styles/globalStyle";
 import { Colors } from "../../styles/color";
+import { createAlert } from "../../utils/helper";
 
 import {
   View,
@@ -29,17 +30,9 @@ export default function PasswordReset({ navigation }) {
 
   async function reset() {
     try {
-      console.log("input email", email);
-      const res = await Auth.forgotPassword(email);
-      console.log(res);
-      Alert.alert("認証コードを送信しました", "メールをご確認ください。", [
-        {
-          text: "OK",
-          onPress: () => navigation.navigate("PasswordConfirmation", { email }),
-        },
-      ]);
+      await Auth.forgotPassword(email);
+      createAlert("認証コードを送信しました", "メールをご確認ください。");
     } catch (error) {
-      console.log(error);
       if (error.name === "LimitExceededException") {
         createAlert(
           "認証エラー",
@@ -110,8 +103,3 @@ const styles = StyleSheet.create({
     width: 280,
   },
 });
-const createAlert = (title, message) => {
-  Alert.alert(title, message, [
-    { text: "OK", onPress: () => console.log("alert closed") },
-  ]);
-};

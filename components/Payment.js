@@ -26,14 +26,12 @@ import { updateCustomer } from "../src/graphql/mutations";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function Payment({ navigation }) {
-  const { premiumData, userIdInfo, userDataInfo } = useContext(UserContext);
+  const { premiumData, userIdInfo } = useContext(UserContext);
   const [isPremium, setIsPremium] = premiumData;
   const [userId] = userIdInfo;
-  const [userData] = userDataInfo;
   const [email, setEmail] = useState();
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment } = useConfirmPayment();
-  const [price, setPrice] = useState();
   const [publishableKey, setPublishableKey] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -45,14 +43,6 @@ export default function Payment({ navigation }) {
     const response = await API.get("ochatomoStripe", "/payment/pk");
     const { pk } = response;
     setPublishableKey(pk);
-  };
-
-  const fetchPaymentIntentClientSecret = async () => {
-    const response = await API.post("ochatomoStripe", "/payment/create-payment-intent", {
-      body: { price: price },
-    });
-    const { clientSecret, error } = response;
-    return { clientSecret, error };
   };
 
   const createSubscription = async () => {
@@ -68,7 +58,6 @@ export default function Payment({ navigation }) {
         email: email,
       },
     });
-    console.log({ result });
 
     try {
       const response = await API.post("ochatomoStripe", "/payment/create-subscription", {
@@ -108,7 +97,6 @@ export default function Payment({ navigation }) {
       }
 
       if (status === "requires_action") {
-        console.log("if statement running");
         confirmPayment(client_secret, {
           type: "Card",
           billing_details: {
@@ -116,78 +104,34 @@ export default function Payment({ navigation }) {
           },
         }).then(function (result) {
           if (result.error) {
-            console.log("There was an issue!");
-            console.log(result.error);
-            // Display error message in your UI.
-            // The card was declined (i.e. insufficient funds, card has expired, etc)
+            alert(`支払いエラーが発生しました。 \n{result.error}`);
           } else {
             console.log("Payment successful");
-            // alert("Payment Successful");
-            // Show a success message to your customer
           }
         });
       } else {
-        console.log("Payment successful");
-        // alert("Payment Successful");
-        // No additional information was needed
-        // Show a success message to your customer
+        Alert.alert("お支払い完了", "領収書を確認しますか？", [
+          {
+            text: "いいえ",
+            style: "cancel",
+            onPress: () => {
+              navigation.navigate("ProfilePage");
+            },
+          },
+          {
+            text: "はい",
+            onPress: () => {
+              Linking.openURL(invoiceUrl);
+              navigation.navigate("ProfilePage");
+            },
+          },
+        ]);
+        setLoading(false);
       }
     } catch (e) {
       console.log("error", e);
     }
   };
-
-  const handlePayPress = async () => {
-    //1.Gather the customer's billing information (e.g., email)
-    if (!cardDetails?.complete || !email) {
-      Alert.alert("入力エラー", "カード情報とメールアドレスを入力してください。");
-      return;
-    }
-    const billingDetails = {
-      email: email,
-    };
-    //2.Fetch the intent client secret from the backend
-    try {
-      const { clientSecret, error } = await fetchPaymentIntentClientSecret();
-      //2. confirm the payment
-      if (error) {
-        console.log("Unable to process payment");
-      } else {
-        const { paymentIntent, error } = await confirmPayment(clientSecret, {
-          type: "Card",
-          billingDetails: billingDetails,
-        });
-        if (error) {
-          alert(`Payment Confirmation Error ${error.message}`);
-        } else if (paymentIntent) {
-          alert("Payment Successful");
-          addPremiumMembership();
-          setIsPremium(true);
-          console.log("Payment successful ", paymentIntent);
-        }
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    //3.Confirm the payment with the card details
-  };
-
-  async function addPremiumMembership() {
-    let premiumUntil;
-    if (price === 500) {
-      premiumUntil = moment().add(1, "M").format("YYYY-MM-DD");
-    } else {
-      premiumUntil = moment().add(6, "M").format("YYYY-MM-DD");
-    }
-
-    console.log("premium Until", premiumUntil);
-
-    const query = {
-      id: userId,
-      premiumUntil,
-    };
-    await API.graphql(graphqlOperation(updateCustomer, { input: query }));
-  }
 
   return (
     <StripeProvider publishableKey={publishableKey}>
@@ -246,20 +190,6 @@ export default function Payment({ navigation }) {
                 color={Colors.primary1}
               />
             </View>
-            {/* <TouchableOpacity
-              onPress={createSubscription}
-              disabled={loading}
-              activeOpacity={!loading ? 1 : 0.2}
-            >
-              <Text
-                style={[
-                  globalStyles.textBtn,
-                  { backgroundColor: Colors.primary1, width: 150 },
-                ]}
-              >
-                支払う
-              </Text>
-            </TouchableOpacity> */}
           </View>
         </View>
       </View>

@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import { globalStyles } from "../styles/globalStyle";
 
-import { AntDesign } from "@expo/vector-icons";
-
 export default function Tutorial({ navigation }) {
   return (
     <View style={styles.container}>
@@ -20,24 +18,20 @@ export default function Tutorial({ navigation }) {
         <Text style={globalStyles.header}>御茶ノ水トモの使い方</Text>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("ProfilePage")
+            navigation.navigate("ProfilePage");
           }}
         >
           <Text style={globalStyles.iconLabel}>プロフィールページに戻る</Text>
         </TouchableOpacity>
-        </View>
+      </View>
       <View style={styles.tutorialContainer}>
-        
-        <Image
-          style={styles.tutorialVideo}
-          source={require("../assets/screencap.gif")} />
-        </View>
+        <Image style={styles.tutorialVideo} source={require("../assets/screencap.gif")} />
+      </View>
       <View style={styles.startAppContainer}>
-        <TouchableOpacity
-        onPress={() => navigation.navigate("ProfilePage")}>
-          <Text　style={globalStyles.label}>御茶ノトモを開始します!</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("ProfilePage")}>
+          <Text style={globalStyles.label}>御茶ノトモを開始します!</Text>
         </TouchableOpacity>
-        </View>
+      </View>
     </View>
   );
 }
@@ -45,30 +39,30 @@ export default function Tutorial({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'grey',
-    flexDirection: 'column',
+    backgroundColor: "grey",
+    flexDirection: "column",
   },
   tutorialHeading: {
     flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
   tutorialContainer: {
-    backgroundColor: '#F6DFD4',
+    backgroundColor: "#F6DFD4",
     flex: 4,
-    alignItems: 'center',
+    alignItems: "center",
   },
   startAppContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   tutorialVideo: {
-    width: '75%',
-    height: '100%',
-    alignItems: 'center',
-    alignSelf: 'center',
+    width: "75%",
+    height: "100%",
+    alignItems: "center",
+    alignSelf: "center",
   },
 });

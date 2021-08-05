@@ -1,17 +1,11 @@
 import { Auth } from "aws-amplify";
 import React, { useState } from "react";
-
-import moment from "moment";
-
 import { dateObject } from "../../utils/data/birthdate";
 import { validateEmail } from "../../utils/helper";
 import { createAlert } from "../../utils/helper";
-
 import { Picker } from "@react-native-picker/picker";
-
 import { globalStyles } from "../../styles/globalStyle";
 import { Colors } from "../../styles/color";
-
 import {
   View,
   Text,
@@ -20,7 +14,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  ScrollView,
 } from "react-native";
 
 export default function SignUp({ navigation }) {
@@ -49,12 +42,6 @@ export default function SignUp({ navigation }) {
 
   const validateInput = () => {
     const errors = [];
-
-    if (!birthdateAuthentication(year, month, date)) {
-      errors.push("* 御茶ノ友は50歳以上の方のみご利用いただけます。");
-      return;
-    }
-
     if (!validateEmail(email)) {
       errors.push("* 正しいメールアドレスを入力してください。");
     }
@@ -65,13 +52,12 @@ export default function SignUp({ navigation }) {
     if (password.length < 8) {
       errors.push("* 8文字以上のパスワードを入力してください。");
     }
-
     return errors;
   };
 
   async function signUp() {
     try {
-      const { user } = await Auth.signUp({
+      await Auth.signUp({
         username: email,
         password,
         email: email,
@@ -280,14 +266,3 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
-
-const birthdateAuthentication = (year, month, date) => {
-  const birthdate = year + "-" + month + "-" + date;
-  const age = moment().diff(birthdate, "years");
-  // console.log({ age });
-
-  if (age < 50) return false;
-  else {
-    return true;
-  }
-};
