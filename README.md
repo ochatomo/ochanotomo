@@ -46,14 +46,16 @@ Ochanotomo uses Google's AdMob to show ads and Stripe API to handle payment for 
 * Stripe
 * AdMob
 <div align="center">
-<img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/techstack.png"/>
+<img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/techstack.png" width="100%"/>
 </div>
 
 
 # Installation
 
 ```
-git clone 
+git clone https://github.com/ochatomo/ochanotomo.git
 ```
+
+Requires AWS & Stripe account
 
 
