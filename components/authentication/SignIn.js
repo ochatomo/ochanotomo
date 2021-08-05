@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 import { globalStyles } from "../../styles/globalStyle";
 import { Colors } from "../../styles/color";
+import { createAlert } from "../../utils/helper";
 
 import {
   View,
@@ -22,10 +23,9 @@ export default function SignIn({ navigation, setSignedIn }) {
     e.preventDefault();
 
     if (password === "" || email === "") {
-      Alert.alert(
+      createAlert(
         "入力エラー",
-        "メールアドレスまたはパスワードが空欄です。再入力をお願いします。",
-        [{ text: "OK", onPress: () => console.log("alert closed") }]
+        "メールアドレスまたはパスワードが空欄です。再入力をお願いします。"
       );
       return;
     }
@@ -35,14 +35,12 @@ export default function SignIn({ navigation, setSignedIn }) {
 
   async function signIn() {
     try {
-      const user = await Auth.signIn(email, password);
+      await Auth.signIn(email, password);
       setSignedIn(true);
     } catch (error) {
-      console.log("SignIn error", error);
-      Alert.alert(
+      createAlert(
         "入力エラー",
-        "メールアドレスまたはパスワードが間違っています。もう一度お試しください。",
-        [{ text: "OK", onPress: () => console.log("alert closed") }]
+        "メールアドレスまたはパスワードが間違っています。もう一度お試しください。"
       );
     }
   }

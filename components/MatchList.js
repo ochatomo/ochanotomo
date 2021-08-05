@@ -12,20 +12,17 @@ import { API, graphqlOperation } from "aws-amplify";
 import { createChatRoom } from "../src/graphql/mutations";
 import { getFullChatRoomInfo } from "../src/graphql/customQueries";
 import { globalStyles } from "../styles/globalStyle";
-import { AntDesign } from "@expo/vector-icons";
 import { UserContext } from "../contexts/UserContext";
 import BannerAd from "./ads/Banner";
 
-export default function MatchList({ route, navigation }) {
+export default function MatchList({ navigation }) {
   const { userIdInfo, userDataInfo, matchesData, premiumData } = useContext(UserContext);
   const [userId] = userIdInfo;
-  const [userData] = userDataInfo;
   const [matches, setMatches] = matchesData;
   const [message, setMessage] = useState("");
   const [isPremium] = premiumData;
 
   useEffect(() => {
-    // console.log("MATCHES----", matches)
     if (matches.length === 0) {
       setMessage(
         `まだお茶トモがいません。\n「探す」メニューでお茶トモを見つけましょう！`
@@ -46,11 +43,9 @@ export default function MatchList({ route, navigation }) {
 
     try {
       // 1. check if the chatroom already exists
-      // console.log({ chatRoomId });
       const res = await API.graphql(
         graphqlOperation(getFullChatRoomInfo, { id: chatRoomId, sortDirection: "DESC" })
       );
-      // console.log("Here is chatroomData", res);
       let chatRoomData = res.data.getChatRoom;
       // 2. if it doesn't exist, create a new Chatroom by the chatRoomId
       if (!chatRoomData) {
@@ -114,8 +109,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 100,
     width: "100%",
-    // borderWidth: 2,
-    // borderColor: "pink"
   },
   header: {
     textAlign: "center",
