@@ -44,7 +44,6 @@ export function UserProvider(props) {
       const userData = res.data.getCustomer;
       if (userData) {
         setUserData(userData);
-        console.log({ userData });
         if (userData.subscriptionID) {
           // check premium until date
           setIsPremium(true);
