@@ -46,11 +46,6 @@
     }
   },
   "function": {
-    "ochatomoPayment": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "ochatomoLambda": {
       "build": true,
       "providerPlugin": "awscloudformation",
