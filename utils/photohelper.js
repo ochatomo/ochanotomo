@@ -7,21 +7,6 @@ import Amplify, { Storage } from "aws-amplify";
 import { decode } from "base64-arraybuffer";
 import config from "../src/aws-exports";
 
-// const S3_BUCKET = config.aws_user_files_s3_bucket;
-// const REGION = config.aws_user_files_s3_bucket_region;
-
-// Amplify.configure({
-//   ...config,
-//   Analytics: {
-//     disabled: true,
-//   },
-// });
-
-// const myBucket = new AWS.S3({
-//   params: { Bucket: S3_BUCKET },
-//   region: REGION,
-// });
-
 export const handleChoosePhoto = async (userId) => {
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: "Images",
@@ -62,14 +47,11 @@ const resizePhoto = async (uri) => {
 export const uploadFile = async (uri, filename) => {
   const resizedUri = await resizePhoto(uri);
   let base64;
-
   try {
     base64 = await FileSystem.readAsStringAsync(resizedUri, {
       encoding: FileSystem.EncodingType.Base64,
     });
-
     const arrayBuffer = await decode(base64);
-
     const res = Storage.put(filename, arrayBuffer, { ACL: "public-read" });
     return res;
   } catch (error) {
