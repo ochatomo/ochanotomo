@@ -1,12 +1,10 @@
 import { Auth } from "aws-amplify";
 import React, { useState } from "react";
 
-import moment from "moment";
-
 import { globalStyles } from "../../styles/globalStyle";
 import { Colors } from "../../styles/color";
 
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { createAlert } from "../../utils/helper";
 
 export default function PasswordComfirmation({ route, navigation }) {
@@ -35,12 +33,7 @@ export default function PasswordComfirmation({ route, navigation }) {
     }
   }
   return (
-    <View
-      style={[
-        globalStyles.flexColumn,
-        { width: "100%", height: "100%", marginVertical: 20 },
-      ]}
-    >
+    <View style={[globalStyles.flexColumn, styles.container]}>
       <View style={styles.inputContainer}>
         <Text style={globalStyles.inputLabel}>
           登録済みのメールアドレスに認証コードを送付しました。
@@ -92,4 +85,5 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: 280,
   },
+  container: { width: "100%", height: "100%", marginVertical: 20 },
 });
