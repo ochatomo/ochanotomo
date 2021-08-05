@@ -20,7 +20,6 @@ import React, { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Colors } from "../styles/color";
 
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +49,6 @@ const Home = () => (
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="cup" size={size} color={color} />
         ),
-        // tabBarBadge: "",
       }}
     />
     <Tab.Screen
@@ -59,13 +57,12 @@ const Home = () => (
       options={{
         tabBarLabel: "チャット",
         tabBarIcon: ({ color, size }) => <Entypo name="chat" size={size} color={color} />,
-        // tabBarBadge: 1,
       }}
     />
   </Tab.Navigator>
 );
 
-export const AppNavigator = () => {
+const AppNavigator = () => {
   const { isNewUserInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
 
@@ -115,3 +112,5 @@ export const AppNavigator = () => {
     </NavigationContainer>
   );
 };
+
+export default AppNavigator;
