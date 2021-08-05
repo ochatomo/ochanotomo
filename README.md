@@ -45,7 +45,9 @@ Ochanotomo uses Google's AdMob to show ads and Stripe API to handle payment for 
 * Python, Word2Vec
 * Stripe
 * AdMob
-
+<div align="center">
+<img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/techstack.png"/>
+</div>
 
 
 # Installation
