@@ -1,8 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import { Auth } from "aws-amplify";
-
 import { listCustomers } from "../src/graphql/queries";
-
 import {
   getCustomerWithMatches,
   onUpdateCustomerWithMatches,
@@ -95,8 +93,6 @@ export function UserProvider(props) {
       graphqlOperation(onUpdateCustomerWithMatches)
     ).subscribe({
       next: (data) => {
-        // console.log("updateCustomer", data.value.data.onUpdateCustomer);
-
         const newUserData = data.value.data.onUpdateCustomer;
         if (newUserData.id === userId) {
           // update everything except the matches
@@ -112,7 +108,6 @@ export function UserProvider(props) {
             matches: userData.matches,
             subscriptionID: newUserData.subscriptionID,
           };
-
           setUserData(update);
         }
       },

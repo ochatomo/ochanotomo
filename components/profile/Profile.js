@@ -1,19 +1,11 @@
-// Profile1 : NAME & PROFILETEXT
-
-// TODO
-// *  editしたプロフィールなどがリアルタイムで見れるようにする。
-// * only update the modified field in updateCustomer
-
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   TextInput,
-  SafeAreaView,
   TouchableOpacity,
   Alert,
   Image,
   View,
-  ScrollView,
   StyleSheet,
 } from "react-native";
 
@@ -28,7 +20,6 @@ export default function Profile({ navigation }) {
   const { isNewUserInfo, userDataInfo } = useContext(UserContext);
   const [isNewUser] = isNewUserInfo;
   const [userData] = userDataInfo;
-
   const [name, setName] = useState(userData.name);
   const [profileText, setProfileText] = useState(userData.profileText);
 

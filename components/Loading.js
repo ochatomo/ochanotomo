@@ -2,7 +2,7 @@
 // * improve styling
 
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Image } from "react-native";
 import { globalStyles } from "../styles/globalStyle";
 
 export default function Loading() {
@@ -12,7 +12,6 @@ export default function Loading() {
         style={globalStyles.extraLargeLogo}
         source={require("../assets/ochatomo-logo.png")}
       />
-      {/* <Text style={globalStyles.header}>Ochatomo</Text> */}
     </View>
   );
 }

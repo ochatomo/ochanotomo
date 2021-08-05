@@ -1,25 +1,7 @@
-// TODO
-// PROFILE 2 : LOCATION & GENDER
-// *  editしたプロフィールなどがリアルタイムで見れるようにする。
-// * only update the modified field in updateCustomer
-
 import React, { useState, useContext } from "react";
-import {
-  Text,
-  StyleSheet,
-  TextInput,
-  Button,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  View,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { Text, StyleSheet, TouchableOpacity, Image, View, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-
 import { AntDesign } from "@expo/vector-icons";
-
 import { UserContext } from "../../contexts/UserContext";
 import { globalStyles } from "../../styles/globalStyle";
 import { Colors } from "../../styles/color";
@@ -29,10 +11,8 @@ export default function Profile2({ route, navigation }) {
   const [userData] = userDataInfo;
   const [isNewUser] = isNewUserInfo;
   const { name, profileText } = route.params;
-
   const [location, setLocation] = useState(userData.location);
   const [gender, setGender] = useState(userData.gender);
-  // console.log({ location, gender });
 
   const validateInput = () => {
     const errors = [];
