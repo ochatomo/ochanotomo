@@ -17,7 +17,7 @@ import { generateInterestLabel, prefectureList } from "../../utils/helper";
 import { UserContext } from "../../contexts/UserContext";
 import { createCustomer, updateCustomer } from "../../src/graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
-import { uploadFile } from "../../utils/photoHelper";
+import { uploadFile } from "../../utils/photoFunctions";
 
 export default function ProfilePreview({ route, navigation }) {
   const { name, profileText, location, gender, category, hobby, photo, uri, filename } =
