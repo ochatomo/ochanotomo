@@ -5,7 +5,6 @@ import * as ImageManipulator from "expo-image-manipulator";
 import Amplify, { Storage } from "aws-amplify";
 
 import { decode } from "base64-arraybuffer";
-import config from "../src/aws-exports";
 
 export const handleChoosePhoto = async (userId) => {
   let result = await ImagePicker.launchImageLibraryAsync({
