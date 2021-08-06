@@ -9,7 +9,6 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-
 import { AntDesign } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/globalStyle";
 import { Colors } from "../../styles/color";
