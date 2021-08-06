@@ -13,7 +13,7 @@ import {
   handleChoosePhoto,
   getExtension,
   handleTakePhoto,
-} from "../../utils/photoHelper";
+} from "../../utils/photoFunctions";
 
 import { UserContext } from "../../contexts/UserContext";
 import { globalStyles } from "../../styles/globalStyle.js";
