@@ -43,10 +43,6 @@
         "ochatomopro84df2325": {}
       },
       "function": {
-        "ochatomoPayment": {
-          "deploymentBucketName": "amplify-ochatomopro-production-101957-deployment",
-          "s3Key": "amplify-builds/ochatomoPayment-4f6373594e545143304e-build.zip"
-        },
         "ochatomoLambda": {
           "stripePublishableKey": "pk_live_51JDipHEb3m5UkCpeFYrqktrHjokvMgZUPsoS6mQgsQpApVftIoVgNpkcoaNvfzceaP2cXEH6dDyZSuKRR0UWPzao00uNsvVRkN",
           "deploymentBucketName": "amplify-ochatomopro-production-101957-deployment",
