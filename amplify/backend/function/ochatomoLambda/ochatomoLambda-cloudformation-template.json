@@ -79,14 +79,14 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
+            "PRICE_ID": {
+              "Ref": "priceId"
+            },
             "STRIPE_SECRET_KEY": {
               "Ref": "stripeSecretKey"
             },
             "STRIPE_PUBLISHABLE_KEY": {
               "Ref": "stripePublishableKey"
-            },
-            "PRICE_ID": {
-              "Ref": "priceId"
             }
           }
         },
