@@ -2,16 +2,16 @@
   "lambdaLayers": [],
   "environmentVariableList": [
     {
-      "cloudFormationParameterName": "priceId",
-      "environmentVariableName": "PRICE_ID"
-    },
-    {
       "cloudFormationParameterName": "stripeSecretKey",
       "environmentVariableName": "STRIPE_SECRET_KEY"
     },
     {
       "cloudFormationParameterName": "stripePublishableKey",
       "environmentVariableName": "STRIPE_PUBLISHABLE_KEY"
+    },
+    {
+      "cloudFormationParameterName": "priceId",
+      "environmentVariableName": "PRICE_ID"
     }
   ]
 }
