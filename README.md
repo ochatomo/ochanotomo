@@ -2,7 +2,7 @@
 
 # Ochanotomo <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/assets/ochanotomo-icon.png" alt="icon" width="100">
 
-A matching app for making friends targetted at people over the age of 50. 
+A matching app for making friends targetted at people over the age of 50.
 Built with React Native, Expo and AWS.
 
 # Matching App for people over 50
@@ -18,8 +18,9 @@ Once the other person clicks "お茶したい" with you, it's a match! You can c
 </div>
 
 # Ways to help users
-Not sure what to talk about with your new ochatomo? Ochanotomo provides "挨拶" (Greeting) and "何話そうかな"(What should I talk about?) buttons which will provide you with prompts for conversation. 
-Similarly, when you want to end the conversation, press "そろそろ..." button. It will give you useful phrases like "そろそろ良い時間ですね。今日は楽しかったです。またお話しましょう" (Thank you for the fun chat, talk to you later) which will help you end the conversation in a pleasant way. 
+
+Not sure what to talk about with your new ochatomo? Ochanotomo provides "挨拶" (Greeting) and "何話そうかな"(What should I talk about?) buttons which will provide you with prompts for conversation.
+Similarly, when you want to end the conversation, press "そろそろ..." button. It will give you useful phrases like "そろそろ良い時間ですね。今日は楽しかったです。またお話しましょう" (Thank you for the fun chat, talk to you later) which will help you end the conversation in a pleasant way.
 
 <div align="center">
 <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/chat.png" width=200/>
@@ -27,7 +28,9 @@ Similarly, when you want to end the conversation, press "そろそろ..." button
 </div>
 
 # Premium Version
+
 Ochanotomo uses Google's AdMob to show ads and Stripe API to handle payment for premium version subscription.
+
 <div align="center">
 <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/premium.png" width=200/>
 <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/premiumbadge.png" width=200/>
@@ -35,20 +38,19 @@ Ochanotomo uses Google's AdMob to show ads and Stripe API to handle payment for 
 
 # Technologies Used
 
-* React Native
-* Expo 
-* AWS Amplify
-  * Amazon Cognito - authentication
-  * Amazon S3 - photo storage
-  * AWS AppSync & Amazon DynamoDB - user database
-  * AWS Lambda & Amazon API Gateway - API integration
-* Python, Word2Vec
-* Stripe
-* AdMob
+- React Native
+- Expo
+- AWS Amplify
+  - Amazon Cognito - authentication
+  - Amazon S3 - photo storage
+  - AWS AppSync & Amazon DynamoDB - user database
+  - AWS Lambda & Amazon API Gateway - API integration
+- Python, Word2Vec
+- Stripe
+- AdMob
 <div align="center">
 <img src="https://github.com/ochatomo/ochatomo-pro/blob/main/screenshots/techstack.png" width="100%"/>
 </div>
-
 
 # Installation
 
@@ -57,5 +59,3 @@ git clone https://github.com/ochatomo/ochanotomo.git
 ```
 
 Requires AWS & Stripe account
-
-
